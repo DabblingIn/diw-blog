@@ -1,33 +1,33 @@
-//console.log('BLOG-UTIL');
-
-var _DAY_IN_MS = 1000*60*60*24;
+const _DAY_IN_MS = 1000*60*60*24;
 
 /*
     USE THIS OBJECT:
 */
 
-export default util = {
+const util = {
+    getWeekdayString,
     minDateString,
-    getWeekdayString
+    postLinkFromId
 };
 
+export default util;
 
 
-export function minDateString(rawDateString) {
-    var d = new Date(rawDateString);
-    //var weekdayString = _getWeekdayString(d);
-    var dateStringParts = [d.toLocaleDateString()];
-    /*if (weekdayString !== "") {
+function minDateString(rawDateString:Date) {
+    const d = new Date(rawDateString);
+    // const weekdayString = _getWeekdayString(d);
+    const dateStringParts = [d.toLocaleDateString()];
+    /* if (weekdayString !== "") {
         dateStringParts.push(weekdayString);
     }*/
     dateStringParts.push(d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }));
     return dateStringParts.join(" ");
-    //return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    // return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 }
 
-export function getWeekdayString(comparedDate) {
-    var date = new Date(comparedDate.getTime());
-    var now = new Date();
+function getWeekdayString(comparedDate:Date) {
+    const date = new Date(comparedDate.getTime());
+    const now = new Date();
     if (now.toLocaleDateString() === date.toLocaleDateString()) {
         return "Today";
     }
@@ -35,7 +35,7 @@ export function getWeekdayString(comparedDate) {
     // zeroing out hours before comparison
     date.setHours(0,0,0,0);
     now.setHours(0,0,0,0);
-    var diffDays = (now.getTime() - date.getTime())/_DAY_IN_MS;
+    const diffDays = (now.getTime() - date.getTime())/_DAY_IN_MS;
 
     if (diffDays >= 7) {
         return "";
@@ -44,6 +44,6 @@ export function getWeekdayString(comparedDate) {
     }
 }
 
-export function postLinkFromId(postId) {
+function postLinkFromId(postId:string) {
     return "/p/" + postId + ".html";
 }

@@ -3,44 +3,44 @@ import * as React from 'react';
 
 import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
 
-import { ArticleListItemProps } from '../parts/ArticleListItem/ArticleListItem';
+import { IArticleListItemProps } from '../parts/ArticleListItem/ArticleListItem';
 
 import ArticleListing from '../parts/ArticleListing/ArticleListing';
 
 // TODO: Ajax for articlesData
 
-export interface DefaultPageState {
-    articlesData: Array<ArticleListItemProps>
+interface IDefaultPageState {
+    articlesData: IArticleListItemProps[]
 };
 
-export interface DefaultPageProps {
+interface IDefaultPageProps {
     siteName: string;
 };
 
 
-const MOCK_ARTICLES_DATA: Array<ArticleListItemProps> = [
+const MOCK_ARTICLES_DATA: IArticleListItemProps[] = [
     {
-        articleName: "Article ABC",
-        articleDescription: "This is article ABC",
         articleDate: new Date(),
+        articleDescription: "This is article ABC",
+        articleName: "Article ABC",
         articleUrl: "/p/abc.html",
 
         authorName: "Tom Smith",
         authorUrl: "tomsmith.com"
     },
     {
-        articleName: "Article DEF",
-        articleDescription: "This is article DEF",
         articleDate: new Date(),
+        articleDescription: "This is article DEF",
+        articleName: "Article DEF",
         articleUrl: "/p/abc.html",
 
         authorName: "Alfred Buxley",
         authorUrl: "alfredbuxley.com"
     },
     {
-        articleName: "Article XYZ",
-        articleDescription: "This is article XYZ",
         articleDate: new Date(),
+        articleDescription: "This is article XYZ",
+        articleName: "Article XYZ",
         articleUrl: "/p/abc.html",
 
         authorName: "Marty Mfcly",
@@ -49,8 +49,8 @@ const MOCK_ARTICLES_DATA: Array<ArticleListItemProps> = [
     
 ];
 
-export default class DefaultPage extends React.Component<DefaultPageProps, DefaultPageState> {
-    constructor(props: DefaultPageProps) {
+export default class DefaultPage extends React.Component<IDefaultPageProps, IDefaultPageState> {
+    constructor(props: IDefaultPageProps) {
         super(props);
 
         this.state = {
@@ -58,7 +58,7 @@ export default class DefaultPage extends React.Component<DefaultPageProps, Defau
         };
     }
 
-    render() {
+    public render() {
         return (
             <div>
                 <DefaultNavbar siteName={this.props.siteName} />
