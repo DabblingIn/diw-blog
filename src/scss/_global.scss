@@ -1,0 +1,41 @@
+/* Body */
+body {
+    background: $blue-gradient;
+    height: 100%;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+
+/* Logo */
+a:hover {
+    text-decoration: none;
+}
+
+.logo-text {
+    font-family: 'Squada One', sans-serif;
+    font-size: 52px;
+    font-weight: 500;
+    color: white;
+    text-shadow: #698 1px 1px 1px;
+}
+
+
+
+
+/* Nav */
+#main-nav {
+    /* NONE */
+}
+
+.navbar {
+    background-color: #20c9bb;
+    box-shadow: 0px 1px 2px #032;
+}
+
+.navbar .nav-link {
+    color: #000035;
+    font-family: 'Alfa Slab One', sans-serif;
+    font-weight: 600;
+    font-size: 17px;
+}
