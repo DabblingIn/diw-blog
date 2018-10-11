@@ -9,6 +9,9 @@ body {
 a:hover {
   text-decoration: none; }
 
+a {
+  text-decoration: none; }
+
 .logo-text {
   font-family: 'Squada One', sans-serif;
   font-size: 52px;
