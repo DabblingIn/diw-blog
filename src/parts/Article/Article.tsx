@@ -4,6 +4,7 @@ import * as React from 'react';
 interface IArticleProps {
     title: string,
     authorName: string,
+    authorUrl: string,
     date: string,
     weekday: string,
     body: string
@@ -12,7 +13,7 @@ interface IArticleProps {
 export default class Article extends React.Component<IArticleProps> {
 
     public render() {
-        const { title, authorName, date, weekday, body } = this.props;
+        const { title, authorName, authorUrl, date, weekday, body } = this.props;
         return (
             <article>
                 <h2 className="article-title">{title}</h2>
