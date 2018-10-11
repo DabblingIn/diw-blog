@@ -32,7 +32,7 @@ const MOCK_ARTICLES_DATA: IArticleListItemProps[] = [
         articleDate: new Date(),
         articleDescription: "This is article DEF",
         articleName: "Article DEF",
-        articleUrl: "/p/abc.html",
+        articleUrl: "/p/def.html",
 
         authorName: "Alfred Buxley",
         authorUrl: "alfredbuxley.com"
@@ -41,9 +41,9 @@ const MOCK_ARTICLES_DATA: IArticleListItemProps[] = [
         articleDate: new Date(),
         articleDescription: "This is article XYZ",
         articleName: "Article XYZ",
-        articleUrl: "/p/abc.html",
+        articleUrl: "/p/xyz.html",
 
-        authorName: "Marty Mfcly",
+        authorName: "Marty McFly",
         authorUrl: "martymcfly.com"
     }
     
