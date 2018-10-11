@@ -16,10 +16,10 @@ export default class ArticleListItem extends React.Component<IArticleListItemPro
     public render() {
         return (
             <div className="al-item">
-                <a className="al-link" href="{this.props.articleUrl}">
+                <a className="al-link" href={this.props.articleUrl}>
                     <h3 className="al-title">{this.props.articleName}</h3>
                 </a>
-                <a className="al-author" href="{this.props.authorUrl}">{this.props.authorName}</a>
+                <a className="al-author" href={this.props.authorUrl}>{this.props.authorName}</a>
                 <p className="al-description">{this.props.articleDescription}</p>
                 <p className="al-date">{utils.minDateString(this.props.articleDate)}</p>
             </div>
