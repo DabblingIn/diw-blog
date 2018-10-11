@@ -1,22 +1,20 @@
-import React from 'react';
+import * as React from 'react';
 
 import ArticleListItem from '../ArticleListItem/ArticleListItem';
-import { ArticleListItemProps } from '../ArticleListItem/ArticleListItem';
+import { IArticleListItemProps } from '../ArticleListItem/ArticleListItem';
 
 
-export default interface ArticleListingProps {
-    articlesData: Array<ArticleListItemProps>;
+interface IArticleListingProps {
+    articlesData: IArticleListItemProps[];
 };
 
-//interface ArticleListingState {};
-
-export default class ArticleListing extends React.Component<ArticleListingProps, {}> {
-    render() {
+export default class ArticleListing extends React.Component<IArticleListingProps, {}> {
+    public render() {
         return (
             <section id="article-listing">
                 {
-                    this.props.articlesData.map(function(articleProps: ArticleListItemProps) {
-                        return (<ArticleListItem {...articleProps}/>);
+                    this.props.articlesData.map((articleProps: IArticleListItemProps) => {
+                        return (<ArticleListItem key={articleProps.articleUrl} {...articleProps}/>);
                     })
                 }
             </section>

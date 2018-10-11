@@ -1,30 +1,31 @@
 
 import * as React from 'react';
 
-interface ArticleState {
-
+interface IArticleProps {
+    title: string,
+    authorName: string,
+    authorUrl: string,
+    date: string,
+    weekday: string,
+    body: string
 };
 
-interface ArticleProps {
-    
-};
+export default class Article extends React.Component<IArticleProps> {
 
-export default class Article extends React.Component<ArticleProps, ArticleState> {
-
-
-    render() {
+    public render() {
+        const { title, authorName, authorUrl, date, weekday, body } = this.props;
         return (
             <article>
-                <h2 className="article-title">{{title}}</h2>
+                <h2 className="article-title">{title}</h2>
                 <div className="name-date-line">
                     <span className="author-date-box">
-                        <a className="article-author" href="{{authorUrl}}">{{authorName}}</a> 
-                        <span className="article-date">{{date}}</span>
-                        <span className="article-weekday"></span>
+                        <a className="article-author" href={authorUrl}>{authorName}</a> 
+                        <span className="article-date">{date}</span>
+                        <span className="article-weekday">{weekday}</span>
                     </span>
                 </div>
-                <div class="article-body">
-                    {{body}}
+                <div className="article-body">
+                    {body}
                 </div>
             </article>
         );
