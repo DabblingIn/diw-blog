@@ -15,7 +15,7 @@ export default class DefaultNavbar extends React.Component<IDefaultNavbarProps, 
     public render() {
         return (
             <nav className="default-navbar">
-                <a href="/"><NavbarLogo siteName={this.props.siteName}/></a>
+                <NavbarLogo siteName={this.props.siteName}/>
             </nav>
         );
     }
