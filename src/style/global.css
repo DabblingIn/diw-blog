@@ -1,0 +1,17 @@
+/* Body */
+/*body {
+    background: $blue-gradient;
+    height: 100%;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}*/
+
+
+
+a:hover {
+    text-decoration: none;
+}
+
+a {
+    text-decoration: none;
+}

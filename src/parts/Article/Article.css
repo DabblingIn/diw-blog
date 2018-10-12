@@ -1,0 +1,54 @@
+/* Article */
+
+/*.article {
+    @include item-box;              // TODO
+}*/
+
+.article__title {
+    color: #222;
+    font-size: 40px;
+    /*font-weight: $article-title-weight;
+    font-family: $article-title-font-family;*/
+}
+
+.article__name-date-line {
+    /* NONE */
+}
+
+.article__author-date-box {
+    margin: 7px 0px;
+    padding: 1px 5px;
+    display: inline-block;
+
+    background-color: #aaffdd;
+
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 3px;
+}
+
+.article__author {
+    color: #003140;
+    font-style: bold;
+    font-family: 'Lato', sans-serif;
+    margin: auto 5px auto auto;
+}
+
+.article__date {
+    color: #777;
+    font-family: 'Lato', sans-serif;
+}
+
+.article__body {
+    color: black;
+    font-family: 'Lato', sans-serif;
+}
+
+.article__body a {
+    color: #666 ;
+    font-style: none;
+}
+
+.article__weekday {
+    font-weight: bold;
+}

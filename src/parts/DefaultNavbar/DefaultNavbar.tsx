@@ -1,6 +1,10 @@
 
 import * as React from 'react';
 
+import NavbarLogo from '../NavbarLogo/NavbarLogo';
+
+import './DefaultNavbar.css';
+
 
 interface IDefaultNavbarProps {
     siteName: string;
@@ -10,8 +14,8 @@ interface IDefaultNavbarProps {
 export default class DefaultNavbar extends React.Component<IDefaultNavbarProps, {}> {
     public render() {
         return (
-            <nav id="main-nav" className="navbar navbar-expand-lg fixed-top">
-                <a href="/"><h1 className="logo-text">{this.props.siteName}</h1></a>
+            <nav className="default-navbar">
+                <a href="/"><NavbarLogo siteName={this.props.siteName}/></a>
             </nav>
         );
     }
