@@ -1,0 +1,24 @@
+/* Article Listing */
+/*.article-list-item {
+    @include item-box;
+}*/
+
+.article-list-item__title {
+    color: #222;
+    font-size: 30px;
+    /*font-weight: $article-title-weight;
+    font-family: $article-title-font-family;*/
+}
+
+.article-list-item__author {
+    font-weight: bold;
+    color: #222;
+}
+
+.article-list-item__description {
+
+}
+
+.article-list-item__date {
+
+}
