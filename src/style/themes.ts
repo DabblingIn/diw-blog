@@ -18,7 +18,8 @@ interface IArticleTitleStyle {
 interface IStyleTheme {
     backgroundColor: string,
     articleTitleStyle: IArticleTitleStyle,
-    itemBoxStyle: IItemBoxStyle
+    itemBoxStyle: IItemBoxStyle,
+    navbarHeight: number
 };
 
 
@@ -37,7 +38,8 @@ export const defaultTheme:IStyleTheme = {
         boxShadow: "2px 2px black",
         padding: "15px 23px",
         margin: "12px 2px"
-    }
+    },
+    navbarHeight: 80
 };
 
 /*
