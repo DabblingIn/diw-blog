@@ -4,7 +4,6 @@ import * as React from 'react';
 import NavbarLogo from '../NavbarLogo/NavbarLogo';
 
 import { defaultTheme as theme } from '../../style/themes';
-
 import './DefaultNavbar.css';
 
 

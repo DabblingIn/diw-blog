@@ -18,6 +18,10 @@ const appStyle = {
   marginBottom: MARGIN_TOPBOTTOM
 };
 
+const backgroundStyle = { 
+  backgroundImage: theme.backgroundColor
+};
+
 class App extends React.Component {
   public render() {
     return (
