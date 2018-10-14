@@ -1,14 +1,8 @@
 /* Article */
 
-/*.article {
-    @include item-box;              // TODO
-}*/
-
 .article__title {
     color: #222;
     font-size: 40px;
-    /*font-weight: $article-title-weight;
-    font-family: $article-title-font-family;*/
 }
 
 .article__name-date-line {
