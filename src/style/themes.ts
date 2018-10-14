@@ -18,7 +18,8 @@ interface IArticleTitleStyle {
 interface IStyleTheme {
     backgroundColor: string,
     articleTitleStyle: IArticleTitleStyle,
-    itemBoxStyle: IItemBoxStyle
+    itemBoxStyle: IItemBoxStyle,
+    navbarHeight: number
 };
 
 
@@ -37,32 +38,6 @@ export const defaultTheme:IStyleTheme = {
         boxShadow: "2px 2px black",
         padding: "15px 23px",
         margin: "12px 2px"
-    }
+    },
+    navbarHeight: 80
 };
-
-/*
-
-@mixin item-box {
-    background-color: white;
-
-    border-style: solid;
-    border-radius: 5px;
-    border-color: #777;
-    border-width: 1px;
-    box-shadow: 2px 2px black;
-    padding: 15px 23px;
-
-    margin: 12px 2px;
-}
-
-*/
-
-
-/*class ItemBox inherits React.Component {
-
-}
-
-
-class ListItem inherits ItemBox {
-
-}*/

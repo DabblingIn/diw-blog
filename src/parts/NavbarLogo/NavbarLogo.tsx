@@ -9,7 +9,7 @@ interface INavbarLogoProps {
 export default class NavbarLogo extends React.Component<INavbarLogoProps, {}> {
     public render() {
         return (
-            <h1 className="navbar-logo">{this.props.siteName}</h1>
+            <a href="/"><h1 className="navbar-logo">{this.props.siteName}</h1></a>
         );
     }
 };

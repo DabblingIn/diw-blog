@@ -5,4 +5,6 @@
     font-weight: 500;
     color: white;
     text-shadow: #698 1px 1px 1px;
+    margin: 0px;
+    display: inline-block;
 }

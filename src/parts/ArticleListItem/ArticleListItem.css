@@ -1,13 +1,8 @@
 /* Article Listing */
-/*.article-list-item {
-    @include item-box;
-}*/
 
 .article-list-item__title {
     color: #222;
     font-size: 30px;
-    /*font-weight: $article-title-weight;
-    font-family: $article-title-font-family;*/
 }
 
 .article-list-item__author {
