@@ -7,8 +7,7 @@ import ApiCaller from '../parts/ApiCaller/ApiCaller';
 import { IArticleData, IGetAllArticlesDataResponse } from '../parts/ApiCaller/ApiCaller.d';
 
 import ArticleListing from '../parts/ArticleListing/ArticleListing';
-
-// TODO: Ajax for articlesData
+import { defaultTheme as theme } from '../style/themes';
 
 interface IDefaultPageState {
     articlesData: IArticleData[]
@@ -17,6 +16,18 @@ interface IDefaultPageState {
 interface IDefaultPageProps {
     siteName: string;
 };
+
+
+const MARGIN_TOPBOTTOM: number = 20;
+const MARGIN_RIGHTLEFT: number = 50;
+
+const defaultPageStyle = {
+  marginTop: theme.navbarHeight + MARGIN_TOPBOTTOM,
+  marginBottom: MARGIN_TOPBOTTOM,
+  marginRight: MARGIN_RIGHTLEFT,
+  marginLeft: MARGIN_RIGHTLEFT
+};
+
 
 export default class DefaultPage extends React.Component<IDefaultPageProps, IDefaultPageState> {
     constructor(props: IDefaultPageProps) {
@@ -38,7 +49,7 @@ export default class DefaultPage extends React.Component<IDefaultPageProps, IDef
 
     public render() {
         return (
-            <div>
+            <div style={defaultPageStyle}>
                 <DefaultNavbar siteName={this.props.siteName} />
 
                 <div className="container">
