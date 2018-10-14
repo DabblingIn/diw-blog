@@ -63,7 +63,7 @@ export default class DefaultPage extends React.Component<IDefaultPageProps, IDef
             <div>
                 <DefaultNavbar siteName={this.props.siteName} />
 
-                <div id="main-body" className="container">
+                <div className="container">
                     <ArticleListing articlesData={this.state.articlesData} />
                 </div>
             </div>

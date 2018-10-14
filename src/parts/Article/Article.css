@@ -1,21 +1,21 @@
 /* Article */
 
-article {
-    @include item-box;
-}
+/*.article {
+    @include item-box;              // TODO
+}*/
 
-article > .article-title {
+.article__title {
     color: #222;
-    font-family: $article-title-font-family;
     font-size: 40px;
-    font-weight: $article-title-weight;
+    /*font-weight: $article-title-weight;
+    font-family: $article-title-font-family;*/
 }
 
-div.name-date-line {
+.article__name-date-line {
     /* NONE */
 }
 
-div.name-date-line span.author-date-box {
+.article__author-date-box {
     margin: 7px 0px;
     padding: 1px 5px;
     display: inline-block;
@@ -27,28 +27,28 @@ div.name-date-line span.author-date-box {
     border-radius: 3px;
 }
 
-a.article-author {
+.article__author {
     color: #003140;
     font-style: bold;
     font-family: 'Lato', sans-serif;
     margin: auto 5px auto auto;
 }
 
-article .article-date {
+.article__date {
     color: #777;
     font-family: 'Lato', sans-serif;
 }
 
-article > .article-body {
+.article__body {
     color: black;
     font-family: 'Lato', sans-serif;
 }
 
-article > .article-body a {
+.article__body a {
     color: #666 ;
     font-style: none;
 }
 
-article .article-weekday {
+.article__weekday {
     font-weight: bold;
 }
