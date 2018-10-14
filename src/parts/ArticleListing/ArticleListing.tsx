@@ -14,8 +14,8 @@ export default class ArticleListing extends React.Component<IArticleListingProps
         return (
             <section className="article-listing">
                 {
-                    this.props.articlesData.map((articleProps: IArticleListItemProps) => {
-                        return (<ArticleListItem key={articleProps.articleUrl} {...articleProps}/>);
+                    this.props.articlesData.map((articleListItemProps: IArticleListItemProps) => {
+                        return (<ArticleListItem key={articleListItemProps.articleUrl} {...articleListItemProps}/>);
                     })
                 }
             </section>

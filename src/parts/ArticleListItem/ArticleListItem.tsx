@@ -1,22 +1,15 @@
 import * as React from 'react';
 
 import utils from '../../util';
+import { IArticleData } from '../ApiCaller/ApiCaller.d';
+import { defaultTheme as theme } from '../../style/themes';
 
 import './ArticleListItem.css';
-import { defaultTheme as theme } from '../../style/themes'; 
-
-export interface IArticleListItemProps {
-    articleName: string;
-    articleDescription: string;
-    articleDate: Date;
-    articleUrl: string;
-
-    authorName: string;
-    authorUrl: string;
-};
 
 const articleListItemStyle = theme.itemBoxStyle;
 const titleStyle = theme.articleTitleStyle;
+
+export interface IArticleListItemProps extends IArticleData {}
 
 export default class ArticleListItem extends React.Component<IArticleListItemProps, {}> {
     public render() {
