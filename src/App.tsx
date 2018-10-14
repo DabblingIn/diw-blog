@@ -1,22 +1,11 @@
 import * as React from 'react';
-
-import DefaultPage from './pages/DefaultPage';
-import { defaultTheme as theme } from './style/themes'; 
-
+//import './css/diw-blog.css';
 import './App.css';
 import './style/global.css';
+import { defaultTheme as theme } from './style/themes'; 
 
 
-const backgroundStyle = { 
-  backgroundImage: theme.backgroundColor
-};
-
-const MARGIN_TOPBOTTOM = 20;
-
-const appStyle = {
-  marginTop: theme.navbarHeight + MARGIN_TOPBOTTOM,
-  marginBottom: MARGIN_TOPBOTTOM
-};
+import DefaultPage from './pages/DefaultPage';
 
 const backgroundStyle = { 
   backgroundImage: theme.backgroundColor
@@ -25,7 +14,7 @@ const backgroundStyle = {
 class App extends React.Component {
   public render() {
     return (
-      <div style={appStyle}>
+      <div>
         <div className="app__background" style={backgroundStyle}/>
         <DefaultPage siteName="Dabbling In Web" />
       </div>
