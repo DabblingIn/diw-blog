@@ -9,6 +9,9 @@ import { IArticleData, IGetAllArticlesDataResponse } from '../parts/ApiCaller/Ap
 import ArticleListing from '../parts/ArticleListing/ArticleListing';
 import { defaultTheme as theme } from '../style/themes';
 
+import './DefaultPage.css';
+
+
 interface IDefaultPageState {
     articlesData: IArticleData[]
 };
@@ -19,13 +22,10 @@ interface IDefaultPageProps {
 
 
 const MARGIN_TOPBOTTOM: number = 20;
-const MARGIN_RIGHTLEFT: number = 50;
 
 const defaultPageStyle = {
   marginTop: theme.navbarHeight + MARGIN_TOPBOTTOM,
-  marginBottom: MARGIN_TOPBOTTOM,
-  marginRight: MARGIN_RIGHTLEFT,
-  marginLeft: MARGIN_RIGHTLEFT
+  marginBottom: MARGIN_TOPBOTTOM
 };
 
 
@@ -49,7 +49,7 @@ export default class DefaultPage extends React.Component<IDefaultPageProps, IDef
 
     public render() {
         return (
-            <div style={defaultPageStyle}>
+            <div className="default-page" style={defaultPageStyle}>
                 <DefaultNavbar siteName={this.props.siteName} />
 
                 <div className="container">

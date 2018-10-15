@@ -1,0 +1,17 @@
+
+/* Small */
+@media (max-width: 992px) { 
+    .default-page {
+        margin-left: 15px;
+        margin-right: 15px;
+    }
+}
+
+/* Larger */
+@media (min-width: 992px) { 
+    .default-page {
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+}
+
