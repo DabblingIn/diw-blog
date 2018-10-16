@@ -2,7 +2,7 @@
 import { AxiosResponse } from 'axios';
 
 // ApiCaller definitions
-export interface IArticleData {
+export interface IArticleListData {
     articleName: string,
     articleDescription: string;
     articleDate: Date;
@@ -22,5 +22,5 @@ export interface IArticleData {
 };*/
 
 export interface IGetAllArticlesDataResponse extends AxiosResponse {
-    data: IArticleData[];
+    data: IArticleListData[];
 }

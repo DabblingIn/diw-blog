@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import utils from '../../util';
-import { IArticleData } from '../ApiCaller/ApiCaller.d';
+import { IArticleListData } from '../ApiCaller/ApiCaller.d';
 import { defaultTheme as theme } from '../../style/themes';
 
 import './ArticleListItem.css';
@@ -9,7 +9,7 @@ import './ArticleListItem.css';
 const articleListItemStyle = theme.itemBoxStyle;
 const titleStyle = theme.articleTitleStyle;
 
-export interface IArticleListItemProps extends IArticleData {}
+export interface IArticleListItemProps extends IArticleListData {}
 
 export default class ArticleListItem extends React.Component<IArticleListItemProps, {}> {
     public render() {

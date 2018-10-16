@@ -4,7 +4,7 @@ import * as React from 'react';
 import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
 
 import ApiCaller from '../parts/ApiCaller/ApiCaller';
-import { IArticleData, IGetAllArticlesDataResponse } from '../parts/ApiCaller/ApiCaller.d';
+import { IArticleListData, IGetAllArticlesDataResponse } from '../parts/ApiCaller/ApiCaller.d';
 
 import ArticleListing from '../parts/ArticleListing/ArticleListing';
 import { defaultTheme as theme } from '../style/themes';
@@ -13,7 +13,7 @@ import './DefaultPage.css';
 
 
 interface IDefaultPageState {
-    articlesData: IArticleData[]
+    articlesListData: IArticleListData[]
 };
 
 interface IDefaultPageProps {
@@ -34,15 +34,15 @@ export default class DefaultPage extends React.Component<IDefaultPageProps, IDef
         super(props);
 
         this.state = {
-            articlesData: []
+            articlesListData: []
         };
     }
 
     public componentDidMount() {
-        ApiCaller.getAllArticlesData((res: IGetAllArticlesDataResponse) => {
-            const articlesData: IArticleData[] = res.data;
+        ApiCaller.getArticlesListing((res: IGetAllArticlesDataResponse) => {
+            const articlesListData: IArticleListData[] = res.data;
             this.setState({
-                articlesData
+                articlesListData
             });
         });
     }
@@ -53,7 +53,7 @@ export default class DefaultPage extends React.Component<IDefaultPageProps, IDef
                 <DefaultNavbar siteName={this.props.siteName} />
 
                 <div className="container">
-                    <ArticleListing articlesData={this.state.articlesData} />
+                    <ArticleListing articlesListData={this.state.articlesListData} />
                 </div>
             </div>
         );

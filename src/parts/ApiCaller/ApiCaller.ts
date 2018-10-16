@@ -1,16 +1,16 @@
 //import axios from 'axios';
 
-import { IArticleData, IGetAllArticlesDataResponse } from './ApiCaller.d';
+import { IArticleListData, IGetAllArticlesDataResponse } from './ApiCaller.d';
 
 const ApiCaller = {
     //functions
-    getAllArticlesData
+    getArticlesListing
 };
 
 export default ApiCaller;
 
 // mock
-const MOCK_ARTICLES_DATA: IArticleData[] = [
+const MOCK_ARTICLES_DATA: IArticleListData[] = [
     {
         articleDate: new Date(),
         articleDescription: "This is article ABC",
@@ -42,7 +42,7 @@ const MOCK_ARTICLES_DATA: IArticleData[] = [
 
 
 // functions
-function getAllArticlesData(callback: (response: IGetAllArticlesDataResponse) => void): void {
+function getArticlesListing(callback: (response: IGetAllArticlesDataResponse) => void): void {
     // TODO: Replace with axios.get() method after backend established
     const response: IGetAllArticlesDataResponse = {
         data: MOCK_ARTICLES_DATA,

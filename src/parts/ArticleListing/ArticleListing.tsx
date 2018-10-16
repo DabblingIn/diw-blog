@@ -3,10 +3,12 @@ import * as React from 'react';
 import ArticleListItem from '../ArticleListItem/ArticleListItem';
 import { IArticleListItemProps } from '../ArticleListItem/ArticleListItem';
 
+import { IArticleListData } from '../ApiCaller/ApiCaller.d';
+
 import './ArticleListing.css';
 
 interface IArticleListingProps {
-    articlesData: IArticleListItemProps[];
+    articlesListData: IArticleListData[];
 };
 
 export default class ArticleListing extends React.Component<IArticleListingProps, {}> {
@@ -14,7 +16,7 @@ export default class ArticleListing extends React.Component<IArticleListingProps
         return (
             <section className="article-listing">
                 {
-                    this.props.articlesData.map((articleListItemProps: IArticleListItemProps) => {
+                    this.props.articlesListData.map((articleListItemProps:  IArticleListItemProps ) => {
                         return (<ArticleListItem key={articleListItemProps.articleUrl} {...articleListItemProps}/>);
                     })
                 }
