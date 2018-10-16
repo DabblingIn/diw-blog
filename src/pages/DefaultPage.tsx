@@ -4,7 +4,7 @@ import * as React from 'react';
 import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
 
 import ApiCaller from '../parts/ApiCaller/ApiCaller';
-import { IArticleListData, IGetAllArticlesDataResponse } from '../parts/ApiCaller/ApiCaller.d';
+import { IArticleListData, IGetArticlesListingResponse } from '../parts/ApiCaller/ApiCaller.d';
 
 import ArticleListing from '../parts/ArticleListing/ArticleListing';
 import { defaultTheme as theme } from '../style/themes';
@@ -39,7 +39,7 @@ export default class DefaultPage extends React.Component<IDefaultPageProps, IDef
     }
 
     public componentDidMount() {
-        ApiCaller.getArticlesListing((res: IGetAllArticlesDataResponse) => {
+        ApiCaller.getArticlesListing((res: IGetArticlesListingResponse) => {
             const articlesListData: IArticleListData[] = res.data;
             this.setState({
                 articlesListData

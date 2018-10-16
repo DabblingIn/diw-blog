@@ -1,15 +1,41 @@
 
 import { AxiosResponse } from 'axios';
 
-// ApiCaller definitions
+/*
+ * articles
+ */
+
 export interface IArticleListData {
     articleName: string,
     articleDescription: string;
     articleDate: Date;
-    articleUrl: string;
+    articleId: string;
 
-    authorName: string;
-    authorUrl: string;
+    authorId: string;
+}
+
+export interface IArticleData extends IArticleListData {
+    articleName: string,
+    articleDescription: string;
+    articleDate: Date;
+    articleId: string;
+}
+
+export interface IGetArticlesListingResponse extends AxiosResponse {
+    data: IArticleListData[];
+}
+
+/*
+ * users
+ */
+
+export interface IUserData {
+    id: string,
+    name: string
+}
+
+export interface IGetUserDataResponse extends AxiosResponse {
+    data: IUserData;
 }
 
 /*export interface IAxiosResponse extends AxiosResponse {}
@@ -20,7 +46,3 @@ export interface IArticleListData {
     headers: Object,
     config: Object
 };*/
-
-export interface IGetAllArticlesDataResponse extends AxiosResponse {
-    data: IArticleListData[];
-}
