@@ -7,13 +7,18 @@ const _DAY_IN_MS = 1000*60*60*24;
 const util = {
     getWeekdayString,
     minDateString,
-    postLinkFromId
+    articleLink,
+    userLink,
+    arrayToMap,
+    arrayToIdMap
 };
 
 export default util;
 
 
-function minDateString(rawDateString:Date) {
+
+// date string
+function minDateString(rawDateString: Date) {
     const d = new Date(rawDateString);
     // const weekdayString = _getWeekdayString(d);
     const dateStringParts = [d.toLocaleDateString()];
@@ -25,7 +30,7 @@ function minDateString(rawDateString:Date) {
     // return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 }
 
-function getWeekdayString(comparedDate:Date) {
+function getWeekdayString(comparedDate: Date) {
     const date = new Date(comparedDate.getTime());
     const now = new Date();
     if (now.toLocaleDateString() === date.toLocaleDateString()) {
@@ -44,6 +49,28 @@ function getWeekdayString(comparedDate:Date) {
     }
 }
 
-function postLinkFromId(postId:string) {
-    return "/p/" + postId + ".html";
+// links
+
+function articleLink(articleId: string) {
+    return "/p/" + articleId;
+}
+
+function userLink(userId: string) {
+    return "/u/" + userId;
+}
+
+function arrayToMap(array: any[], keyField: any): object {
+    const map = {};
+    return array.reduce((obj, item) => {
+        map[item[keyField]] = item;
+        return map
+    }, {});
+}
+
+function arrayToIdMap(array: IObjectWithId[]): object {
+    return arrayToMap(array, "id");
+}
+
+interface IObjectWithId {
+    id: any;
 }
