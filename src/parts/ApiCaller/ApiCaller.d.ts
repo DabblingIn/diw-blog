@@ -34,6 +34,8 @@ export interface IUserData {
     name: string
 }
 
+export interface IUsersDataMap { [id: string]: IUserData; }
+
 export interface IGetUserDataResponse extends AxiosResponse {
     data: IUserData;
 }

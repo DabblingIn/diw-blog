@@ -1,4 +1,4 @@
-import { AxiosResponse } from 'axios';
+import { AxiosResponse, AxiosPromise } from 'axios';
 
 import { IArticleListData, IGetArticlesListingResponse, IUserData, IGetUserDataResponse } from './ApiCaller.d';
 
@@ -79,9 +79,7 @@ const MOCK_USER_DATA: { [id: string]: IUserData; } = {
  * functions
  */
 
-// articles
-
-function getArticlesListing(callback: (response: IGetArticlesListingResponse) => void): void {
+/*function getArticlesListing(callback: (response: IGetArticlesListingResponse) => void): void {
     // TODO: Replace with axios.get() method after backend established
     const response: IGetArticlesListingResponse = mockResponse(MOCK_ARTICLES_DATA);
     callback(response);
@@ -91,4 +89,25 @@ function getArticlesListing(callback: (response: IGetArticlesListingResponse) =>
 function getUserData(userId: string, callback: (response: IGetUserDataResponse) => void): void {
     const response: IGetUserDataResponse = mockResponse(MOCK_USER_DATA[userId]);
     callback(response);
+}*/
+
+
+// articles
+//callback: (response: IGetArticlesListingResponse) => void
+function getArticlesListing(): Promise<IGetArticlesListingResponse> {
+    // mock
+    const response: IGetArticlesListingResponse = mockResponse(MOCK_ARTICLES_DATA);
+    const promise = Promise.resolve(response) as AxiosPromise;// as AxiosPromise<IGetArticlesListingResponse>;
+    return promise;
+    // TODO: Replace with axios.get() method after backend established
+}
+
+// users
+//callback: (response: IGetUserDataResponse) => void
+function getUserData(userId: string): Promise<IGetUserDataResponse> {
+    // mock
+    const response: IGetUserDataResponse = mockResponse(MOCK_USER_DATA[userId]);
+    const promise = Promise.resolve(response) as AxiosPromise;
+    return promise;
+    // TODO: Replace with axios.get() method after backend established
 }

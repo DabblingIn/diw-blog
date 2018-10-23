@@ -4,16 +4,18 @@ import * as React from 'react';
 import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
 
 import ApiCaller from '../parts/ApiCaller/ApiCaller';
-import { IArticleListData, IGetArticlesListingResponse } from '../parts/ApiCaller/ApiCaller.d';
+import { IArticleListData, IGetArticlesListingResponse, IGetUserDataResponse, IUsersDataMap } from '../parts/ApiCaller/ApiCaller.d';
 
 import ArticleListing from '../parts/ArticleListing/ArticleListing';
-import { defaultTheme as theme } from '../style/themes';
 
+import util from '../util';
+
+import { defaultTheme as theme } from '../style/themes';
 import './DefaultPage.css';
 
-
 interface IDefaultPageState {
-    articlesListData: IArticleListData[]
+    articlesListData: IArticleListData[];
+    authorsDataMap: IUsersDataMap;
 };
 
 interface IDefaultPageProps {
@@ -29,22 +31,39 @@ const defaultPageStyle = {
 };
 
 
-export default class DefaultPage extends React.Component<IDefaultPageProps, IDefaultPageState> {
+export default class DefaultPage extends React.PureComponent<IDefaultPageProps, IDefaultPageState> {
     constructor(props: IDefaultPageProps) {
         super(props);
 
         this.state = {
-            articlesListData: []
+            articlesListData: [],
+            authorsDataMap: {}
         };
     }
 
     public componentDidMount() {
-        ApiCaller.getArticlesListing((res: IGetArticlesListingResponse) => {
-            const articlesListData: IArticleListData[] = res.data;
-            this.setState({
-                articlesListData
-            });
-        });
+        ApiCaller
+            .getArticlesListing()
+            .then((res: IGetArticlesListingResponse) => {
+                const articlesListData: IArticleListData[] = res.data;
+                this.setState({
+                    articlesListData
+                });
+
+                const authorIds: string[] = Array.from(new Set(
+                    articlesListData.map((articleListData: IArticleListData) => articleListData.authorId)
+                ));
+                Promise
+                    .all(authorIds.map( (authorId) => ApiCaller.getUserData(authorId) ))
+                    .then((authorsDataResponses: IGetUserDataResponse[]) => {
+                        const authorsDataMap = util.arrayToIdMap(authorsDataResponses.map((authorDataResponse) => authorDataResponse.data)) as IUsersDataMap;
+                        this.setState({
+                            authorsDataMap
+                        });
+                    });
+
+            })
+            //.catch();
     }
 
     public render() {
@@ -53,7 +72,7 @@ export default class DefaultPage extends React.Component<IDefaultPageProps, IDef
                 <DefaultNavbar siteName={this.props.siteName} />
 
                 <div>
-                    <ArticleListing articlesListData={this.state.articlesListData} />
+                    <ArticleListing articlesListData={this.state.articlesListData} authorsDataMap={this.state.authorsDataMap} />
                 </div>
             </div>
         );

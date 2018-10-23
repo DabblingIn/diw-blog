@@ -3,55 +3,30 @@ import * as React from 'react';
 import ArticleListItem from '../ArticleListItem/ArticleListItem';
 import { IArticleListItemProps } from '../ArticleListItem/ArticleListItem';
 
-import ApiCaller from '../ApiCaller/ApiCaller';
-import { IArticleListData, IUserData, IGetUserDataResponse } from '../ApiCaller/ApiCaller.d';
+//import ApiCaller from '../ApiCaller/ApiCaller';
+import { IArticleListData, IUsersDataMap } from '../ApiCaller/ApiCaller.d';
 
 import util from '../../util';
 
 import './ArticleListing.css';
 
-interface IArticleListingProps {
+export interface IArticleListingProps {
     articlesListData: IArticleListData[];
+    authorsDataMap: IUsersDataMap;
 };
 
-interface IArticleListingState {
-    articlesListData: IArticleListData[];
-    authors: { [id: string]: IUserData };
-};
-
-export default class ArticleListing extends React.Component<IArticleListingProps, IArticleListingState> {
-
-    constructor(props: IArticleListingProps) {
-        super(props);
-
-        this.state = {
-            authors: {},
-            articlesListData: this.props.articlesListData
-        };
-    }
-
-    public componentDidMount() {
-        this.state.articlesListData.forEach((articleListData:  IArticleListData ) => {
-            if (!(articleListData.authorId in this.state.authors)) {
-                ApiCaller.getUserData(articleListData.authorId, (response: IGetUserDataResponse) => {
-                    const newAuthors = this.state.authors;
-                    newAuthors[articleListData.authorId] = response.data;
-                    this.setState({
-                        authors: newAuthors
-                    });
-                });
-            }
-        });
-    }
-
+export default class ArticleListing extends React.PureComponent<IArticleListingProps, {}> {
     public render() {
         return (
             <section className="article-listing">
                 {
-                    // TODO: change to merged articleListData + userData
-                    this.state.articlesListData.map((articleListData:  IArticleListData ) => {
+                    this.props.articlesListData.map((articleListData:  IArticleListData ) => {
+                        let authorName = "XXX";
+                        if (this.props.authorsDataMap[articleListData.authorId]) {
+                            authorName = this.props.authorsDataMap[articleListData.authorId].name;
+                        }
                         const articleListItemProps: IArticleListItemProps = { 
-                            authorName: this.state.authors[articleListData.authorId].name,
+                            authorName,
                             ...articleListData
                         };
                         return (<ArticleListItem key={util.articleLink(articleListItemProps.articleId)} {...articleListItemProps}/>);

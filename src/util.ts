@@ -8,12 +8,16 @@ const util = {
     getWeekdayString,
     minDateString,
     articleLink,
-    userLink
+    userLink,
+    arrayToMap,
+    arrayToIdMap
 };
 
 export default util;
 
 
+
+// date string
 function minDateString(rawDateString: Date) {
     const d = new Date(rawDateString);
     // const weekdayString = _getWeekdayString(d);
@@ -45,10 +49,28 @@ function getWeekdayString(comparedDate: Date) {
     }
 }
 
+// links
+
 function articleLink(articleId: string) {
     return "/p/" + articleId;
 }
 
 function userLink(userId: string) {
     return "/u/" + userId;
+}
+
+function arrayToMap(array: any[], keyField: any): object {
+    const map = {};
+    return array.reduce((obj, item) => {
+        map[item[keyField]] = item;
+        return map
+    }, {});
+}
+
+function arrayToIdMap(array: IObjectWithId[]): object {
+    return arrayToMap(array, "id");
+}
+
+interface IObjectWithId {
+    id: any;
 }
