@@ -13,24 +13,30 @@ import {
     MOCK_USER_DATA
 } from './ApiMockData';
 
+import { isMegaSub } from '../../subdomains';
+
 const ApiCaller = {
-    // articles
+    // ARTICLES
     getArticlesListing,
     getArticleData,
 
-    // users
+    // USERS
     getUserData
 };
 
 export default ApiCaller;
 
 
-// articles
+// ARTICLES
 
 //callback: (response: IGetArticlesListingResponse) => void
-function getArticlesListing(): Promise<IGetArticlesListingResponse> {
+function getArticlesListing(articleSub?: string): Promise<IGetArticlesListingResponse> {
     // mock
-    const response: IGetArticlesListingResponse = mockResponse(MOCK_ARTICLES_LISTDATA);
+    let listing = MOCK_ARTICLES_LISTDATA;
+    if (articleSub !== undefined && !isMegaSub(articleSub))  {
+        listing = listing.filter(articleLD => (articleLD.articleSub === articleSub));
+    }
+    const response: IGetArticlesListingResponse = mockResponse(listing);
     const promise = Promise.resolve(response) as AxiosPromise;// as AxiosPromise<IGetArticlesListingResponse>;
     return promise;
 
@@ -46,7 +52,7 @@ function getArticleData(articleId: string): Promise<IGetArticleDataResponse> {
     // TODO: Replace with axios.get() method after backend established
 }
 
-// users
+// USERS
 
 //callback: (response: IGetUserDataResponse) => void
 function getUserData(userId: string): Promise<IGetUserDataResponse> {

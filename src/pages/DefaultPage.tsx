@@ -8,6 +8,7 @@ import { IArticleListData, IGetArticlesListingResponse, IGetUserDataResponse, IU
 
 import ArticleListing from '../parts/ArticleListing/ArticleListing';
 
+import { getSubKey } from '../subdomains';
 import util from '../util';
 
 import { defaultTheme as theme } from '../style/themes';
@@ -40,8 +41,9 @@ export default class DefaultPage extends React.PureComponent<IDefaultPageProps, 
     }
 
     public componentDidMount() {
+        const subKey = getSubKey();
         ApiCaller
-            .getArticlesListing()
+            .getArticlesListing(subKey)    // gets articles based on subdomain
             .then((res: IGetArticlesListingResponse) => {
                 const articlesListData: IArticleListData[] = res.data;
                 this.setState({

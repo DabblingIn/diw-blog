@@ -2,7 +2,7 @@
 import { AxiosResponse } from 'axios';
 
 /*
- * articles
+ * ARTICLES
  */
 
 export interface IArticleListData {
@@ -10,6 +10,7 @@ export interface IArticleListData {
     articleName: string,
     articleDescription: string;
     articleDate: Date;
+    articleSub: string;
 
     authorId: string;
 }
@@ -32,7 +33,7 @@ export interface IGetArticleDataResponse extends AxiosResponse {
 }
 
 /*
- * users
+ * USERS
  */
 
 export interface IUserData {
@@ -48,12 +49,3 @@ export interface IUsersDataMap {
 export interface IGetUserDataResponse extends AxiosResponse {
     data: IUserData;
 }
-
-/*export interface IAxiosResponse extends AxiosResponse {}
-{
-    data: Object,
-    status: number,
-    statusText: string,
-    headers: Object,
-    config: Object
-};*/

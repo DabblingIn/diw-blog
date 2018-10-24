@@ -28,6 +28,7 @@ export const MOCK_ARTICLES_LISTDATA: IArticleListData[] = [
         articleDescription: "This is article ABC",
         articleName: "Article ABC",
         articleId: "abc",
+        articleSub: "web",
 
         authorId: "tsmith",
         //authorName: "Tom Smith"
@@ -37,6 +38,7 @@ export const MOCK_ARTICLES_LISTDATA: IArticleListData[] = [
         articleDescription: "This is article DEF",
         articleName: "Article DEF",
         articleId: "def",
+        articleSub: "web",
 
         authorId: "abux",
         //authorName: "Alfred Buxley"
@@ -46,6 +48,7 @@ export const MOCK_ARTICLES_LISTDATA: IArticleListData[] = [
         articleDescription: "This is article XYZ",
         articleName: "Article XYZ",
         articleId: "xyz",
+        articleSub: "ml",
 
         authorId: "martym",
         //authorName: "Marty McFly"
@@ -79,6 +82,7 @@ export const MOCK_ARTICLES_DATA: IArticlesDataMap = {
         articleDescription: "This is article ABC",
         articleName: "Article ABC",
         articleId: "abc",
+        articleSub: "web",
 
         authorId: "tsmith",
         articleBody: "<h2>This is Article ABC</h2><p>Enjoy.</p>"
@@ -88,6 +92,7 @@ export const MOCK_ARTICLES_DATA: IArticlesDataMap = {
         articleDescription: "This is article DEF",
         articleName: "Article DEF",
         articleId: "def",
+        articleSub: "web",
 
         authorId: "abux",
         articleBody: "<h2>This is Article DEF</h2><p>Like it?</p>"
@@ -97,6 +102,7 @@ export const MOCK_ARTICLES_DATA: IArticlesDataMap = {
         articleDescription: "This is article XYZ",
         articleName: "Article XYZ",
         articleId: "xyz",
+        articleSub: "ml",
 
         authorId: "martym",
         articleBody: "<h2>This is Article XYZ</h2><p>Pretty neat!</p>"
