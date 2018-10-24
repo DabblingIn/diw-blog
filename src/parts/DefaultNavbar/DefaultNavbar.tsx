@@ -3,13 +3,15 @@ import * as React from 'react';
 
 import NavbarLogo from '../NavbarLogo/NavbarLogo';
 
+import { getSubdomainConfig } from '../../subdomains';
+
 import { defaultTheme as theme } from '../../style/themes';
 
 import './DefaultNavbar.css';
 
 
 interface IDefaultNavbarProps {
-    siteName: string;
+    //siteName: string;
 };
 
 const defaultNavbarStyle = {
@@ -17,11 +19,13 @@ const defaultNavbarStyle = {
 };
 
 
+const subdomainConfig = getSubdomainConfig();
+
 export default class DefaultNavbar extends React.Component<IDefaultNavbarProps, {}> {
     public render() {
         return (
             <nav className="default-navbar" style={defaultNavbarStyle}>
-                <NavbarLogo siteName={this.props.siteName}/>
+                <NavbarLogo siteName={subdomainConfig.name}/>
             </nav>
         );
     }

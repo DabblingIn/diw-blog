@@ -6,23 +6,29 @@ import { AxiosResponse } from 'axios';
  */
 
 export interface IArticleListData {
+    articleId: string;
     articleName: string,
     articleDescription: string;
     articleDate: Date;
-    articleId: string;
 
     authorId: string;
 }
 
-export interface IArticleData extends IArticleListData {
-    articleName: string,
-    articleDescription: string;
-    articleDate: Date;
-    articleId: string;
-}
-
 export interface IGetArticlesListingResponse extends AxiosResponse {
     data: IArticleListData[];
+}
+
+
+export interface IArticleData extends IArticleListData {
+    articleBody: string;    // html
+}
+
+export interface IArticlesDataMap {
+    [articleId: string]: IArticleData;
+}
+
+export interface IGetArticleDataResponse extends AxiosResponse {
+    data: IArticleData;
 }
 
 /*
@@ -31,10 +37,13 @@ export interface IGetArticlesListingResponse extends AxiosResponse {
 
 export interface IUserData {
     id: string,
-    name: string
+    name: string,
+    url: string
 }
 
-export interface IUsersDataMap { [id: string]: IUserData; }
+export interface IUsersDataMap { 
+    [userId: string]: IUserData; 
+}
 
 export interface IGetUserDataResponse extends AxiosResponse {
     data: IUserData;

@@ -18,9 +18,7 @@ interface IDefaultPageState {
     authorsDataMap: IUsersDataMap;
 };
 
-interface IDefaultPageProps {
-    siteName: string;
-};
+interface IDefaultPageProps {};
 
 
 const MARGIN_TOPBOTTOM: number = 20;
@@ -69,7 +67,7 @@ export default class DefaultPage extends React.PureComponent<IDefaultPageProps, 
     public render() {
         return (
             <div className="default-page" style={defaultPageStyle}>
-                <DefaultNavbar siteName={this.props.siteName} />
+                <DefaultNavbar />
 
                 <div>
                     <ArticleListing articlesListData={this.state.articlesListData} authorsDataMap={this.state.authorsDataMap} />
