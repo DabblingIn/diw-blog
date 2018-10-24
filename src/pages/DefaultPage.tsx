@@ -22,11 +22,9 @@ interface IDefaultPageState {
 interface IDefaultPageProps {};
 
 
-const MARGIN_TOPBOTTOM: number = 20;
-
 const defaultPageStyle = {
-  marginTop: theme.navbarHeight + MARGIN_TOPBOTTOM,
-  marginBottom: MARGIN_TOPBOTTOM
+  marginTop: theme.navbarHeight + theme.topBottomMargin,
+  marginBottom: theme.topBottomMargin
 };
 
 

@@ -16,10 +16,11 @@ interface IArticleTitleStyle {
 }
 
 interface IStyleTheme {
-    backgroundColor: string,
-    articleTitleStyle: IArticleTitleStyle,
-    itemBoxStyle: IItemBoxStyle,
-    navbarHeight: number
+    backgroundColor: string;
+    articleTitleStyle: IArticleTitleStyle;
+    itemBoxStyle: IItemBoxStyle;
+    navbarHeight: number;
+    topBottomMargin: number;
 };
 
 
@@ -39,5 +40,6 @@ export const defaultTheme:IStyleTheme = {
         padding: "15px 23px",
         margin: "12px 2px"
     },
-    navbarHeight: 80
+    navbarHeight: 80,
+    topBottomMargin: 20
 };

@@ -19,14 +19,10 @@ interface IArticlePageProps extends RouteComponentProps<IArticlePageMatchParams>
 
 interface IArticlePageState extends IArticleProps {};
 
-// { title, authorName, authorUrl, date, weekday, body }
-
-
-const MARGIN_TOPBOTTOM: number = 20;
 
 const articlePageStyle = {
-  marginTop: theme.navbarHeight + MARGIN_TOPBOTTOM,
-  marginBottom: MARGIN_TOPBOTTOM
+  marginTop: theme.navbarHeight + theme.topBottomMargin,
+  marginBottom: theme.topBottomMargin
 };
 
 
