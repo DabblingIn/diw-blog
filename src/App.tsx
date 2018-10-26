@@ -21,7 +21,6 @@ class App extends React.Component {
       <Router>
         <div className="app">
             <div className="app__background" style={backgroundStyle}/>
-            {/*<DefaultPage siteName="Dabbling In Web" />*/}
             <Route exact={true} path="/" component={DefaultPage} />
             <Route path="/p/:articleId" component={ArticlePage} />
         </div>
