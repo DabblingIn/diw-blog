@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import DefaultPage from './pages/DefaultPage';
 import ArticlePage from './pages/ArticlePage';
 import LoginPage from './pages/LoginPage';
+import EditorPage from './pages/EditorPage';
 
 import { getSubdomainConfig } from './subdomains';
 
@@ -30,6 +31,7 @@ class App extends React.Component {
             <Route exact={true} path="/" component={DefaultPage} />
             <Route path="/p/:articleId" component={ArticlePage} />
             <Route path="/login" component={LoginPage} />
+            <Route path="/editor" component={EditorPage} />
         </div>
       </Router>
     );
