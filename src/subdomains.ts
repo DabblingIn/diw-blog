@@ -1,6 +1,7 @@
 
 export interface ISubdomainMetadata {
     name: string;   // site name (e.g. Dabbling In Web)
+    tabName: string;
 }
 
 interface ISubdomainMetadataMap {
@@ -19,14 +20,17 @@ export const MEGA_SUBS = [DEFAULT_SUB, BASE_SUB];
 const SUBDOMAIN_CONFIG: ISubdomainMetadataMap = {
     // fallback/localhost config
     _default: {
-        name: "Dabbling"
+        name: "Dabbling",
+        tabName: "Dabbling"
     },
     // root domain
     _base: {
-        name: "Dabbling: Main"
+        name: "Dabbling: Main",
+        tabName: "D:Main"
     },
     web: {
-        name: "Dabbling In Web"
+        name: "Dabbling In Web",
+        tabName: "DIW"
     }
 };
 

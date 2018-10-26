@@ -36,7 +36,7 @@ export default class Article extends React.Component<IArticleProps> {
                 <h2 className="article__title" style={titleStyle}>{title}</h2>
                 <div className="article__name-date-line">
                     <span className="article__author-date-box">
-                        <a className="article__author" href={authorUrl}>{authorName} ({authorId})</a> 
+                        <a className="article__author" href={authorUrl}>{authorName} (<b>{authorId}</b>)</a>
                         <span className="article__date">{dateString}</span>
                         <span className="article__weekday">{weekday}</span>
                     </span>

@@ -8,7 +8,7 @@ import { IArticleListData, IGetArticlesListingResponse, IGetUserDataResponse, IU
 
 import ArticleListing from '../parts/ArticleListing/ArticleListing';
 
-import { getSubKey } from '../subdomains';
+import { getSubKey, getSubdomainConfig } from '../subdomains';
 import util from '../util';
 
 import { defaultTheme as theme } from '../style/themes';
@@ -21,6 +21,8 @@ interface IDefaultPageState {
 
 interface IDefaultPageProps {};
 
+
+const subdomainConfig = getSubdomainConfig();
 
 const defaultPageStyle = {
   marginTop: theme.navbarHeight + theme.topBottomMargin,
@@ -65,6 +67,8 @@ export default class DefaultPage extends React.PureComponent<IDefaultPageProps, 
     }
 
     public render() {
+        document.title = subdomainConfig.tabName;
+
         return (
             <div className="default-page" style={defaultPageStyle}>
                 <DefaultNavbar />
