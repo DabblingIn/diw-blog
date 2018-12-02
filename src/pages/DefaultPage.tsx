@@ -9,7 +9,7 @@ import { IArticleListData, IGetArticlesListingResponse, IGetUserDataResponse, IU
 import ArticleListing from '../parts/ArticleListing/ArticleListing';
 
 import { getSubKey, getSubdomainConfig } from '../subdomains';
-import util from '../util';
+import * as util from '../util';
 
 import { defaultTheme as theme } from '../style/themes';
 import './DefaultPage.css';

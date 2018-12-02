@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import util from '../../util';
+import * as util from '../../util';
 import { IArticleListData } from '../ApiCaller/ApiCaller.d';
 
 import { defaultTheme as theme } from '../../style/themes';

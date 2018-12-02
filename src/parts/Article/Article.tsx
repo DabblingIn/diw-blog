@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import util from '../../util';
+import * as util from '../../util';
 
 import { defaultTheme as theme } from '../../style/themes';
 import './Article.css';

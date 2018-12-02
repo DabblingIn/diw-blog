@@ -6,7 +6,7 @@ import { IArticleListItemProps } from '../ArticleListItem/ArticleListItem';
 //import ApiCaller from '../ApiCaller/ApiCaller';
 import { IArticleListData, IUsersDataMap } from '../ApiCaller/ApiCaller.d';
 
-import util from '../../util';
+import * as util from '../../util';
 
 import './ArticleListing.css';
 

@@ -1,19 +1,9 @@
-const _DAY_IN_MS = 1000*60*60*24;
-
 /*
-    USE THIS OBJECT:
+    DabblingIn Utilities
 */
 
-const util = {
-    getWeekdayString,
-    minDateString,
-    articleLink,
-    userLink,
-    arrayToMap,
-    arrayToIdMap
-};
 
-export default util;
+const _DAY_IN_MS = 1000*60*60*24;
 
 
 /*
@@ -94,7 +84,7 @@ export function validArticleContent(testContent: string): IArticleFieldValidatio
   Date Strings
 */
 
-function minDateString(rawDateString: Date) {
+export function minDateString(rawDateString: Date) {
     const d = new Date(rawDateString);
     // const weekdayString = _getWeekdayString(d);
     const dateStringParts = [d.toLocaleDateString()];
@@ -106,7 +96,7 @@ function minDateString(rawDateString: Date) {
     // return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 }
 
-function getWeekdayString(comparedDate: Date) {
+export function getWeekdayString(comparedDate: Date) {
     const date = new Date(comparedDate.getTime());
     const now = new Date();
     if (now.toLocaleDateString() === date.toLocaleDateString()) {
@@ -127,15 +117,15 @@ function getWeekdayString(comparedDate: Date) {
 
 // Links
 
-function articleLink(articleId: string) {
+export function articleLink(articleId: string) {
     return "/p/" + articleId;
 }
 
-function userLink(userId: string) {
+export function userLink(userId: string) {
     return "/u/" + userId;
 }
 
-function arrayToMap(array: any[], keyField: any): object {
+export function arrayToMap(array: any[], keyField: any): object {
     const map = {};
     return array.reduce((obj, item) => {
         map[item[keyField]] = item;
@@ -143,7 +133,7 @@ function arrayToMap(array: any[], keyField: any): object {
     }, {});
 }
 
-function arrayToIdMap(array: IObjectWithId[]): object {
+export function arrayToIdMap(array: IObjectWithId[]): object {
     return arrayToMap(array, "id");
 }
 
