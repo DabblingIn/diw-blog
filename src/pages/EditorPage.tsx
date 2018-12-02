@@ -20,6 +20,7 @@ import './EditorPage.css';
 interface IEditorPageProps extends RouteComponentProps {};
 
 interface IEditorPageState {
+    authorId: string;
     selectedArticleUrlId: string;
 };
 
@@ -63,6 +64,8 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
         super(props);
 
         this.state = {
+            // TODO: Get authorId from session info, once session logic established
+            authorId: "lasdkjfh2o478h",
             selectedArticleUrlId: "ASDF"
         }
     }
@@ -75,7 +78,7 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
         return (
                 <div className="editor-page" style={editorPageStyle}>
                     <DefaultNavbar />
-                    <Route exact={true} path={match.url} component={EditorArticleListing} />
+                    <Route exact={true} path={match.url} render={(props) => <EditorArticleListing {...props} authorId={this.state.authorId}/>} />
                     <Route path={`${match.url}/new`} render={(props) => <EditArticlePanel {...props} initialArticleUrlId={null} />} />
                     <Route path={`${match.url}/edit/:articleId`} render={(props) => <EditArticlePanel {...props} initialArticleUrlId={this.state.selectedArticleUrlId} />} />
                 </div>
