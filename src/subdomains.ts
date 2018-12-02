@@ -20,8 +20,8 @@ export const MEGA_SUBS = [DEFAULT_SUB, BASE_SUB];
 const SUBDOMAIN_CONFIG: ISubdomainMetadataMap = {
     // fallback/localhost config
     _default: {
-        name: "Dabbling",
-        tabName: "Dabbling"
+        name: "Dabbling (Dev)",
+        tabName: "Dabbling (Dev)"
     },
     // root domain
     _base: {

@@ -16,8 +16,84 @@ const util = {
 export default util;
 
 
+/*
+  Article Element Formats
+*/
+export interface IArticleFieldValidationResponse {
+    valid: boolean;
+    err: string;
+}
 
-// date string
+const ZERO_LENGTH_ERR_MSG = "Length must be greater than zero.";
+
+export function validArticleUrlId(testId: string): IArticleFieldValidationResponse {
+    let res: IArticleFieldValidationResponse = {
+        valid: true,
+        err: ''
+    };
+
+    if (testId.length === 0) {
+        res.valid = false;
+        res.err = ZERO_LENGTH_ERR_MSG;
+    } else if (testId.indexOf('/') !== -1) {
+        res = {
+            valid: false,
+            err: "Cannot have slashes in URL ID."
+        };
+    }
+
+    return res;
+}
+
+export function validArticleTitle(testTitle: string): IArticleFieldValidationResponse {
+    let res: IArticleFieldValidationResponse = {
+        valid: true,
+        err: ''
+    };
+
+    if (testTitle.length === 0 ) {
+        res = {
+            valid: false,
+            err: ZERO_LENGTH_ERR_MSG
+        }
+    }
+
+    return res;
+}
+
+export function validArticleDescription(testDescription: string): IArticleFieldValidationResponse {
+    let res: IArticleFieldValidationResponse = {
+        valid: true,
+        err: ''
+    };
+
+    if (testDescription.length === 0 ) {
+        res = {
+            valid: false,
+            err: ZERO_LENGTH_ERR_MSG
+        }
+    }
+
+    return res;
+
+}
+
+export function validArticleContent(testContent: string): IArticleFieldValidationResponse {
+    const res: IArticleFieldValidationResponse = {
+        valid: true,
+        err: ''
+    };
+    // TODO: use html validator/cleaner to check for script & style elements
+
+
+    return res;
+}
+
+
+/*
+  Date Strings
+*/
+
 function minDateString(rawDateString: Date) {
     const d = new Date(rawDateString);
     // const weekdayString = _getWeekdayString(d);
@@ -49,7 +125,7 @@ function getWeekdayString(comparedDate: Date) {
     }
 }
 
-// links
+// Links
 
 function articleLink(articleId: string) {
     return "/p/" + articleId;

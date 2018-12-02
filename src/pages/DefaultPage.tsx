@@ -43,7 +43,7 @@ export default class DefaultPage extends React.PureComponent<IDefaultPageProps, 
     public componentDidMount() {
         const subKey = getSubKey();
         ApiCaller
-            .getArticlesListing(subKey)    // gets articles based on subdomain
+            .getArticlesListing({ sub: subKey })    // gets articles based on subdomain
             .then((res: IGetArticlesListingResponse) => {
                 const articlesListData: IArticleListData[] = res.data;
                 this.setState({

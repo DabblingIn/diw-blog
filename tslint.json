@@ -11,6 +11,7 @@
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "comment-format": false,
-    "no-empty-interface": false
+    "no-empty-interface": false,
+    "jsx-no-lambda": false
   }
 }

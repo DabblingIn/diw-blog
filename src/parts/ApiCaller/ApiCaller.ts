@@ -29,12 +29,20 @@ export default ApiCaller;
 
 // ARTICLES
 
-//callback: (response: IGetArticlesListingResponse) => void
-function getArticlesListing(articleSub?: string): Promise<IGetArticlesListingResponse> {
+interface IGetArticlesListingArgs {
+    sub?: string;
+    author?: string;
+}
+
+function getArticlesListing(args: IGetArticlesListingArgs): Promise<IGetArticlesListingResponse> {
     // mock
     let listing = MOCK_ARTICLES_LISTDATA;
-    if (articleSub !== undefined && !isMegaSub(articleSub))  {
-        listing = listing.filter(articleLD => (articleLD.articleSub === articleSub));
+    if (args.sub !== undefined && !isMegaSub(args.sub))  {
+        listing = listing.filter(articleLD => (articleLD.articleSub === args.sub));
+    }
+
+    if (args.author !== undefined) {
+        listing = listing.filter(articleLD => (articleLD.authorId === args.author));
     }
     const response: IGetArticlesListingResponse = mockResponse(listing);
     const promise = Promise.resolve(response) as AxiosPromise;// as AxiosPromise<IGetArticlesListingResponse>;
