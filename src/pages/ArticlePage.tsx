@@ -49,7 +49,7 @@ export default class ArticlePage extends React.Component<IArticlePageProps, IArt
 
                         // TODO: setState for all info
                         this.setState({
-                            title: articleData.articleName,
+                            title: articleData.articleTitle,
                             authorId: authorData.id,
                             authorName: authorData.name,
                             authorUrl: authorData.url,

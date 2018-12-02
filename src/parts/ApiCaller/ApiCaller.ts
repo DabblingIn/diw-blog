@@ -31,7 +31,8 @@ export default ApiCaller;
 
 interface IGetArticlesListingArgs {
     sub?: string;
-    author?: string;
+    authorUsername?: string;
+    authorId?: string;
 }
 
 function getArticlesListing(args: IGetArticlesListingArgs): Promise<IGetArticlesListingResponse> {
@@ -41,8 +42,12 @@ function getArticlesListing(args: IGetArticlesListingArgs): Promise<IGetArticles
         listing = listing.filter(articleLD => (articleLD.articleSub === args.sub));
     }
 
-    if (args.author !== undefined) {
-        listing = listing.filter(articleLD => (articleLD.authorId === args.author));
+    if (args.authorId !== undefined) {
+        listing = listing.filter(articleLD => (articleLD.authorId === args.authorId));
+    }
+
+    if (args.authorUsername !== undefined) {
+        listing = listing.filter(articleLD => (articleLD.authorUsername === args.authorUsername));
     }
     const response: IGetArticlesListingResponse = mockResponse(listing);
     const promise = Promise.resolve(response) as AxiosPromise;// as AxiosPromise<IGetArticlesListingResponse>;
@@ -62,7 +67,6 @@ function getArticleData(articleId: string): Promise<IGetArticleDataResponse> {
 
 // USERS
 
-//callback: (response: IGetUserDataResponse) => void
 function getUserData(userId: string): Promise<IGetUserDataResponse> {
     // mock
     const response: IGetUserDataResponse = mockResponse(MOCK_USER_DATA[userId]);

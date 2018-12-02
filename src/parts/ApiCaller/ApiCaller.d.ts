@@ -7,12 +7,14 @@ import { AxiosResponse } from 'axios';
 
 export interface IArticleListData {
     articleId: string;
-    articleName: string,
+    articleTitle: string,
     articleDescription: string;
     articleDate: Date;
     articleSub: string;
 
     authorId: string;
+    authorUsername: string;
+    authorName: string;
 }
 
 export interface IGetArticlesListingResponse extends AxiosResponse {
@@ -38,6 +40,7 @@ export interface IGetArticleDataResponse extends AxiosResponse {
 
 export interface IUserData {
     id: string,
+    username: string,
     name: string,
     url: string
 }
