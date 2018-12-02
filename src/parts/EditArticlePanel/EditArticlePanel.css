@@ -1,0 +1,65 @@
+.edit-article-panel {
+
+}
+
+
+.edit-article-panel__header {
+
+}
+
+.edit-article-panel__url-id {
+
+}
+
+
+.edit-article-panel__title {
+
+}
+
+
+.edit-article-panel__description {
+    
+}
+
+.edit-article-panel__content {
+
+}
+
+
+.edit-article-panel__content-preview {
+    position: static;
+    margin: 5px 0px;
+    border-width: 1px;
+    border-color: #555;
+    border-style: solid;
+    min-width: 100px;
+    min-height: 25px;
+}
+
+
+/* Generics */
+.edit-article-panel__input {
+    display: block;
+    height: 32px;
+    padding: 2px 5px;
+    margin: 5px 0px;
+    background-color: white;
+    font-size: 15px;
+    border: black solid 1px;
+    border-radius: 1px;
+}
+
+.edit-article-panel__textarea {
+    resize: none;
+}
+
+.edit-article-panel__form-label {
+    
+}
+
+.edit-article-panel__field-error {
+    color: red;
+    font-size: 12px;
+    font-family: Helvetica, Arial, sans-serif;
+    margin: 0px;
+}
