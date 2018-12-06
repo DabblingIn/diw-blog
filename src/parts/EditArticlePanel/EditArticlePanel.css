@@ -4,7 +4,7 @@
 
 
 .edit-article-panel__header {
-
+    font-family: Oswald, Helvetica, Arial, sans-serif;
 }
 
 .edit-article-panel__url-id {
@@ -27,6 +27,7 @@
 
 
 .edit-article-panel__content-preview {
+    font-family: Lato, sans-serif;
     position: static;
     margin: 5px 0px;
     border-width: 1px;
@@ -39,6 +40,7 @@
 
 /* Generics */
 .edit-article-panel__input {
+    font-family: Lato, sans-serif;
     display: block;
     height: 32px;
     padding: 2px 5px;
@@ -50,18 +52,30 @@
 }
 
 .edit-article-panel__textarea {
+    font-family: Lato, sans-serif;
     resize: none;
     width: 100%;
     height: 175px;
 }
 
 .edit-article-panel__form-label {
-    
+    font-family: Lato, sans-serif;
 }
 
 .edit-article-panel__field-error {
+    font-family: Lato, sans-serif;
     color: red;
     font-size: 12px;
     font-family: Helvetica, Arial, sans-serif;
     margin: 0px;
+}
+
+.edit-article-panel__submit-button {
+    font-family: Lato, sans-serif;
+    background: #20c9bb;
+    width: 100px;
+    height: 40px;
+    font-size: 16px;
+    font-family
+    margin: 10px 0px;
 }

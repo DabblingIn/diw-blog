@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { MouseEvent, FormEvent } from 'react';
 
 import * as sanitizeHtml from 'sanitize-html';
 
@@ -33,13 +34,9 @@ interface IEditArticlePanelState {
     titleError: string;
     descriptionError: string;
     contentError: string;
-};
 
-interface IEventDummy {
-    target: {
-        value: string
-    }
-}
+    overallFormError: string;
+};
 
 
 export default class EditArticlePanel extends React.Component<IEditArticlePanelProps, IEditArticlePanelState> {
@@ -59,7 +56,9 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
             urlIdError: '',
             titleError: '',
             descriptionError: '',
-            contentError: ''
+            contentError: '',
+
+            overallFormError: ''
         };
 
         this.changedUrlId = this.changedUrlId.bind(this);
@@ -67,7 +66,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         this.changedDescription = this.changedDescription.bind(this);
         this.changedContent = this.changedContent.bind(this);
         this.setPreviewHTML = this.setPreviewHTML.bind(this);
-
+        this.clickSubmit = this.clickSubmit.bind(this);
     }
 
     public componentDidMount() {
@@ -76,8 +75,8 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         }
     }
 
-    public changedUrlId(e: IEventDummy) {
-        const newUrlId: string = e.target.value;
+    public changedUrlId(e: FormEvent<HTMLInputElement>) {
+        const newUrlId: string = e.currentTarget.value;
         const validation: IArticleFieldValidationResponse = validArticleUrlId(newUrlId)
 
         this.setState({
@@ -95,8 +94,8 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         }
     }
 
-    public changedTitle(e: IEventDummy) {
-        const newTitle: string = e.target.value;
+    public changedTitle(e: FormEvent<HTMLInputElement>) {
+        const newTitle: string = e.currentTarget.value;
         const validation: IArticleFieldValidationResponse = validArticleTitle(newTitle);
 
         this.setState({
@@ -114,8 +113,8 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         }
     }
 
-    public changedDescription(e: IEventDummy) {
-        const newDescription: string = e.target.value;
+    public changedDescription(e: FormEvent<HTMLInputElement>) {
+        const newDescription: string = e.currentTarget.value;
         const validation: IArticleFieldValidationResponse = validArticleDescription(newDescription);
         
         this.setState({
@@ -133,8 +132,8 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         }
     }
 
-    public changedContent(e: IEventDummy) {
-        const newContent: string = e.target.value;
+    public changedContent(e: FormEvent<HTMLTextAreaElement>) {
+        const newContent: string = e.currentTarget.value;
         const validation: IArticleFieldValidationResponse = validArticleContent(newContent);
 
         this.setState({
@@ -156,15 +155,51 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         const title = sanitizeHtml(this.state.articleTitle, { allowedTags: [] });
         const content = sanitizeArticleContent(this.state.articleContent);
 
-        return { __html: `<h1>${title}</h1><div>${content}</div>` }
+        return { __html: `<h1 style="margin: 2px 0px;">${title}</h1><div>${content}</div>` }
+    }
+
+    public clickSubmit(e: MouseEvent<HTMLButtonElement>) {
+        e.preventDefault();
+
+        const urlIdVal = validArticleUrlId(this.state.articleUrlId);
+        const titleVal = validArticleTitle(this.state.articleTitle);
+        const descriptionVal = validArticleDescription(this.state.articleDescription);
+        const contentVal = validArticleContent(this.state.articleContent);
+
+        if (!(
+            urlIdVal.valid &&
+            titleVal.valid &&
+            descriptionVal.valid &&
+            contentVal.valid
+        )) {
+            // Failed submit.  Prompt user to fix fields
+            this.setState({
+                urlIdError: urlIdVal.err,
+                titleError: titleVal.err,
+                descriptionError: descriptionVal.err,
+                contentError: contentVal.err
+            });
+            setTimeout(() => alert('Invalid fields.  Please resolve before submitting again.'), 0);
+            return;
+        } else {
+            // Successful submit
+            // TODO: Trigger API call
+            // TODO: Trigger initialArticleUrlId change and success/fail error message based on AJAX success
+            // TODO: Use sanitizeArticleContent on articleContent before submit.
+            this.setState(state => ({
+                initialArticleUrlId: state.articleUrlId,
+                overallFormError: 'Successful submit!'
+            }));
+        }
     }
 
     public render() {
         return (
             <div className="edit-article-panel" style={editArticlePanelStyle}>
                 <form>
+                    <h2 className="">{this.state.overallFormError}</h2>
                     <div>
-                        <h1 className="edit-article-panel__header">{this.state.articleUrlId ? 'Edit' : 'New'} Article</h1>
+                        <h1 className="edit-article-panel__header">{this.state.initialArticleUrlId ? 'Edit' : 'New'} Article</h1>
                     </div>
                     <div>
                         <h3 className="edit-article-panel__form-label">URL ID (unique, hyphens instead of spaces</h3>
@@ -191,9 +226,12 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                     </div>
                     
                     <div>
-                        <h3 className="edit-article-panel__form-label">Content Preview (Rendered)</h3>
+                        <h3 className="edit-article-panel__form-label">Content Preview (sanitized)</h3>
                         <div className="edit-article-panel__content-preview" dangerouslySetInnerHTML={this.setPreviewHTML()}/>
                     </div>
+                    <button onClick={this.clickSubmit} className="edit-article-panel__submit-button">
+                        {(this.state.initialArticleUrlId !== null) ? 'UPDATE' : 'CREATE' }
+                    </button>
                 </form>
             </div>
         );
