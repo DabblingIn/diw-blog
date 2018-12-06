@@ -35,7 +35,8 @@ interface IEditArticlePanelState {
     descriptionError: string;
     contentError: string;
 
-    overallFormError: string;
+    submitError: string;
+    successfulSubmit: boolean;
 };
 
 
@@ -58,7 +59,8 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
             descriptionError: '',
             contentError: '',
 
-            overallFormError: ''
+            submitError: '',
+            successfulSubmit: false
         };
 
         this.changedUrlId = this.changedUrlId.bind(this);
@@ -177,9 +179,10 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                 urlIdError: urlIdVal.err,
                 titleError: titleVal.err,
                 descriptionError: descriptionVal.err,
-                contentError: contentVal.err
+                contentError: contentVal.err,
+                submitError: 'Cannot submit.  Fix fields.'
             });
-            setTimeout(() => alert('Invalid fields.  Please resolve before submitting again.'), 0);
+            //setTimeout(() => alert('Invalid fields.  Please resolve before submitting again.'), 0);
             return;
         } else {
             // Successful submit
@@ -188,8 +191,21 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
             // TODO: Use sanitizeArticleContent on articleContent before submit.
             this.setState(state => ({
                 initialArticleUrlId: state.articleUrlId,
-                overallFormError: 'Successful submit!'
+                submitError: 'Successful submit!',
+                successfulSubmit: true
             }));
+
+            const DEFAULT_ERROR_RESET_WAIT = 2000;  // waits 2 seconds before resetting error messages
+            setTimeout(() => {
+                this.setState({
+                    successfulSubmit: false,
+                    submitError: '',
+                    urlIdError: '',
+                    titleError: '',
+                    descriptionError: '',
+                    contentError: ''
+                });
+            }, DEFAULT_ERROR_RESET_WAIT);
         }
     }
 
@@ -197,10 +213,10 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         return (
             <div className="edit-article-panel" style={editArticlePanelStyle}>
                 <form>
-                    <h2 className="">{this.state.overallFormError}</h2>
                     <div>
                         <h1 className="edit-article-panel__header">{this.state.initialArticleUrlId ? 'Edit' : 'New'} Article</h1>
                     </div>
+                    <h2 className="" style={{ fontFamily: "Lato, sans-serif", color: this.state.successfulSubmit ? "green": "red" }}>{this.state.submitError}</h2>
                     <div>
                         <h3 className="edit-article-panel__form-label">URL ID (unique, hyphens instead of spaces</h3>
                         <p className="edit-article-panel__field-error">{this.state.urlIdError}</p>
