@@ -1,11 +1,14 @@
 import * as React from 'react';
 
+import * as sanitizeHtml from 'sanitize-html';
+
 import {
     IArticleFieldValidationResponse,
     validArticleUrlId,
     validArticleTitle,
     validArticleDescription,
-    validArticleContent
+    validArticleContent,
+    sanitizeArticleContent
 } from '../../util';
 
 import { defaultTheme as theme } from '../../style/themes';
@@ -150,10 +153,8 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
     }
     
     public setPreviewHTML() {
-        // TODO: html sanitizer: Title
-        const title = this.state.articleTitle;
-        // TODO: html sanitizer: Content
-        const content = this.state.articleContent;
+        const title = sanitizeHtml(this.state.articleTitle, { allowedTags: [] });
+        const content = sanitizeArticleContent(this.state.articleContent);
 
         return { __html: `<h1>${title}</h1><div>${content}</div>` }
     }
