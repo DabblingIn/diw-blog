@@ -59,7 +59,7 @@ export default class EditorArticleListing extends React.Component<IEditorArticle
     public render() {
         return (
             <div>
-                <h1>Editor: Articles</h1>
+                <h1 style={{ fontFamily: "Oswald, sans-serif", margin: 5}}>Editor: Articles</h1>
                 <div>
                     <ArticleListing articlesListData={this.state.articlesListData} authorsDataMap={this.state.authorsDataMap} />
                 </div>
