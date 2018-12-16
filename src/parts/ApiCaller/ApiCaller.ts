@@ -8,14 +8,15 @@ import {
 
 import {
     mockResponse,
-    MOCK_ARTICLES_DATA,
+    MOCK_ARTICLES_DATA_IDMAP,
+    MOCK_ARTICLES_DATA_URLIDMAP,
     MOCK_ARTICLES_LISTDATA,
     MOCK_USER_DATA
 } from './ApiMockData';
 
 import { isMegaSub } from '../../subdomains';
 
-const ApiCaller = {
+/*const ApiCaller = {
     // ARTICLES
     getArticlesListing,
     getArticleData,
@@ -24,17 +25,30 @@ const ApiCaller = {
     getUserData
 };
 
-export default ApiCaller;
+export default ApiCaller;*/
 
 
 // ARTICLES
 
-//callback: (response: IGetArticlesListingResponse) => void
-function getArticlesListing(articleSub?: string): Promise<IGetArticlesListingResponse> {
+interface IGetArticlesListingArgs {
+    sub?: string;
+    authorUsername?: string;
+    authorId?: string;
+}
+
+export function getArticlesListing(args: IGetArticlesListingArgs): Promise<IGetArticlesListingResponse> {
     // mock
     let listing = MOCK_ARTICLES_LISTDATA;
-    if (articleSub !== undefined && !isMegaSub(articleSub))  {
-        listing = listing.filter(articleLD => (articleLD.articleSub === articleSub));
+    if (args.sub !== undefined && !isMegaSub(args.sub))  {
+        listing = listing.filter(articleLD => (articleLD.articleSub === args.sub));
+    }
+
+    if (args.authorId !== undefined) {
+        listing = listing.filter(articleLD => (articleLD.authorId === args.authorId));
+    }
+
+    if (args.authorUsername !== undefined) {
+        listing = listing.filter(articleLD => (articleLD.authorUsername === args.authorUsername));
     }
     const response: IGetArticlesListingResponse = mockResponse(listing);
     const promise = Promise.resolve(response) as AxiosPromise;// as AxiosPromise<IGetArticlesListingResponse>;
@@ -43,19 +57,24 @@ function getArticlesListing(articleSub?: string): Promise<IGetArticlesListingRes
     // TODO: Replace with axios.get() method after backend established
 }
 
-function getArticleData(articleId: string): Promise<IGetArticleDataResponse> {
+export function getArticleDataById(articleId: string): Promise<IGetArticleDataResponse> {
     // mock
-    const response: IGetArticleDataResponse = mockResponse(MOCK_ARTICLES_DATA[articleId]);
+    const response: IGetArticleDataResponse = mockResponse(MOCK_ARTICLES_DATA_IDMAP[articleId]);
     const promise = Promise.resolve(response) as AxiosPromise;
     return promise;
 
     // TODO: Replace with axios.get() method after backend established
 }
 
+export function getArticleDataByUrlId(articleUrlId: string) {
+    const response: IGetArticleDataResponse = mockResponse(MOCK_ARTICLES_DATA_URLIDMAP[articleUrlId]);
+    const promise = Promise.resolve(response) as AxiosPromise;
+    return promise;
+}
+
 // USERS
 
-//callback: (response: IGetUserDataResponse) => void
-function getUserData(userId: string): Promise<IGetUserDataResponse> {
+export function getUserData(userId: string): Promise<IGetUserDataResponse> {
     // mock
     const response: IGetUserDataResponse = mockResponse(MOCK_USER_DATA[userId]);
     const promise = Promise.resolve(response) as AxiosPromise;

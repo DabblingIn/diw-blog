@@ -1,37 +1,26 @@
 
 import * as React from 'react';
 
-import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
+import ArticleListing from '../ArticleListing/ArticleListing';
+import * as ApiCaller from '../ApiCaller/ApiCaller';
+import { IGetArticlesListingResponse, IGetUserDataResponse, IGetArticleListData, IUsersDataMap } from '../ApiCaller/ApiCaller.d';
+import * as util from '../../util';
+import { getSubKey } from '../../subdomains';
 
-import * as ApiCaller from '../parts/ApiCaller/ApiCaller';
-import { IGetArticleListData, IGetArticlesListingResponse, IGetUserDataResponse, IUsersDataMap } from '../parts/ApiCaller/ApiCaller.d';
+export interface IEditorArticleListingProps {
+    authorId: string;
+};
 
-import ArticleListing from '../parts/ArticleListing/ArticleListing';
-
-import { getSubKey, getSubdomainConfig } from '../subdomains';
-import * as util from '../util';
-
-import { defaultTheme as theme } from '../style/themes';
-import './DefaultPage.css';
-
-interface IDefaultPageState {
+export interface IEditorArticleListingState {
     articlesListData: IGetArticleListData[];
     authorsDataMap: IUsersDataMap;
 };
 
-interface IDefaultPageProps {};
 
+// TODO: Add code here or in EditorPage for detecting the current signed in user and gathering only their articles
 
-const subdomainConfig = getSubdomainConfig();
-
-const defaultPageStyle = {
-  marginTop: theme.navbarHeight + theme.topBottomMargin,
-  marginBottom: theme.topBottomMargin
-};
-
-
-export default class DefaultPage extends React.PureComponent<IDefaultPageProps, IDefaultPageState> {
-    constructor(props: IDefaultPageProps) {
+export default class EditorArticleListing extends React.Component<IEditorArticleListingProps, IEditorArticleListingState> {
+    constructor(props: IEditorArticleListingProps) {
         super(props);
 
         this.state = {
@@ -43,7 +32,7 @@ export default class DefaultPage extends React.PureComponent<IDefaultPageProps, 
     public componentDidMount() {
         const subKey = getSubKey();
         ApiCaller
-            .getArticlesListing({ sub: subKey })    // gets articles based on subdomain
+            .getArticlesListing({ sub: subKey, authorId: this.props.authorId })    // gets articles based on subdomain
             .then((res: IGetArticlesListingResponse) => {
                 const articlesListData: IGetArticleListData[] = res.data;
                 this.setState({
@@ -66,13 +55,11 @@ export default class DefaultPage extends React.PureComponent<IDefaultPageProps, 
             //.catch();
     }
 
+
     public render() {
-        document.title = subdomainConfig.tabName;
-
         return (
-            <div className="default-page" style={defaultPageStyle}>
-                <DefaultNavbar />
-
+            <div>
+                <h1 style={{ fontFamily: "Oswald, sans-serif", margin: 5}}>Editor: Articles</h1>
                 <div>
                     <ArticleListing articlesListData={this.state.articlesListData} authorsDataMap={this.state.authorsDataMap} />
                 </div>

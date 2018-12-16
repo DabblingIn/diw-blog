@@ -1,0 +1,35 @@
+.loginform {
+
+}
+
+.loginform__title {
+    margin: 10px 5px;
+}
+
+.loginform__field {
+    margin: 0px 10px 10px 10px;
+}
+
+.loginform__fieldtitle {
+    margin: 5px 0px;
+}
+
+.loginform__textinput {
+    padding: 3px 8px;
+    height: 35px;
+    width: 220px;
+    font-size: 11pt;
+    border-color: black;
+    border-width: 1px;
+    margin: 5px 0px;
+    border-radius: 2px;
+}
+
+.loginform__submitbutton {
+    border-radius: 0px;
+    padding: 10px;
+    background: white;
+    border-style: solid;
+    border-color: black;
+    border-radius: 2px;
+}

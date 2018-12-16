@@ -1,23 +1,26 @@
 import * as React from 'react';
+import { RouteComponentProps } from 'react-router';
 
 import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
 import Article, { IArticleProps } from '../parts/Article/Article';
 
-import ApiCaller from '../parts/ApiCaller/ApiCaller';
-import { IGetArticleDataResponse, IArticleData, IGetUserDataResponse, IUserData } from '../parts/ApiCaller/ApiCaller.d';
+import * as ApiCaller from '../parts/ApiCaller/ApiCaller';
+import { IGetArticleDataResponse, IGetArticleData, IGetUserDataResponse, IGetUserDataReturn } from '../parts/ApiCaller/ApiCaller.d';
 
-import { RouteComponentProps } from 'react-router';
+import { getSubdomainConfig } from '../subdomains';
 
 import { defaultTheme as theme } from '../style/themes';
 //import './ArticlePage.css';
 
 interface IArticlePageMatchParams {
-    articleId: string;
+    articleUrlId: string;
 };
 
 interface IArticlePageProps extends RouteComponentProps<IArticlePageMatchParams>{};
 
 interface IArticlePageState extends IArticleProps {};
+
+const subdomainConfig = getSubdomainConfig();
 
 
 const articlePageStyle = {
@@ -34,30 +37,33 @@ export default class ArticlePage extends React.Component<IArticlePageProps, IArt
     }
 
     public componentDidMount() {
-        const { articleId } = this.props.match.params;
+        const { articleUrlId } = this.props.match.params;
         ApiCaller
-            .getArticleData(articleId)
+            .getArticleDataByUrlId(articleUrlId)
             .then((articleDataResponse: IGetArticleDataResponse) => {
-                const articleData: IArticleData = articleDataResponse.data;
+                const articleData: IGetArticleData = articleDataResponse.data;
+                // TODO: Remove this extra user call and use the user data from the article call
                 ApiCaller
                     .getUserData(articleData.authorId)
                     .then((authorDataResponse: IGetUserDataResponse) => {
-                        const authorData: IUserData = authorDataResponse.data;
+                        const authorData: IGetUserDataReturn = authorDataResponse.data;
 
                         // TODO: setState for all info
                         this.setState({
-                            title: articleData.articleName,
-                            authorId: authorData.id,
-                            authorName: authorData.name,
-                            authorUrl: authorData.url,
-                            date: articleData.articleDate,
-                            body: articleData.articleBody
+                            title: articleData.articleTitle,
+                            authorId: authorData.userId,
+                            authorName: authorData.userDisplayName,
+                            authorUrl: authorData.userWebsite,
+                            date: articleData.articleCreatedAt,
+                            body: articleData.articleContent
                         });
                     });
             });
     }
 
     public render() {
+        document.title = subdomainConfig.tabName + " | " + this.state.title;
+
         return (
             <div className="article-page" style={articlePageStyle}>
                 <DefaultNavbar />

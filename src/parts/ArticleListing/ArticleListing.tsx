@@ -4,14 +4,14 @@ import ArticleListItem from '../ArticleListItem/ArticleListItem';
 import { IArticleListItemProps } from '../ArticleListItem/ArticleListItem';
 
 //import ApiCaller from '../ApiCaller/ApiCaller';
-import { IArticleListData, IUsersDataMap } from '../ApiCaller/ApiCaller.d';
+import { IGetArticleListData, IUsersDataMap } from '../ApiCaller/ApiCaller.d';
 
-import util from '../../util';
+import * as util from '../../util';
 
 import './ArticleListing.css';
 
 export interface IArticleListingProps {
-    articlesListData: IArticleListData[];
+    articlesListData: IGetArticleListData[];
     authorsDataMap: IUsersDataMap;
 };
 
@@ -20,10 +20,10 @@ export default class ArticleListing extends React.PureComponent<IArticleListingP
         return (
             <section className="article-listing">
                 {
-                    this.props.articlesListData.map((articleListData:  IArticleListData ) => {
+                    this.props.articlesListData.map((articleListData:  IGetArticleListData ) => {
                         let authorName = "XXX";
                         if (this.props.authorsDataMap[articleListData.authorId]) {
-                            authorName = this.props.authorsDataMap[articleListData.authorId].name;
+                            authorName = this.props.authorsDataMap[articleListData.authorId].userDisplayName;
                         }
                         const articleListItemProps: IArticleListItemProps = { 
                             authorName,
