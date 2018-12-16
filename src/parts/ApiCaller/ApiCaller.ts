@@ -8,14 +8,15 @@ import {
 
 import {
     mockResponse,
-    MOCK_ARTICLES_DATA,
+    MOCK_ARTICLES_DATA_IDMAP,
+    MOCK_ARTICLES_DATA_URLIDMAP,
     MOCK_ARTICLES_LISTDATA,
     MOCK_USER_DATA
 } from './ApiMockData';
 
 import { isMegaSub } from '../../subdomains';
 
-const ApiCaller = {
+/*const ApiCaller = {
     // ARTICLES
     getArticlesListing,
     getArticleData,
@@ -24,7 +25,7 @@ const ApiCaller = {
     getUserData
 };
 
-export default ApiCaller;
+export default ApiCaller;*/
 
 
 // ARTICLES
@@ -35,7 +36,7 @@ interface IGetArticlesListingArgs {
     authorId?: string;
 }
 
-function getArticlesListing(args: IGetArticlesListingArgs): Promise<IGetArticlesListingResponse> {
+export function getArticlesListing(args: IGetArticlesListingArgs): Promise<IGetArticlesListingResponse> {
     // mock
     let listing = MOCK_ARTICLES_LISTDATA;
     if (args.sub !== undefined && !isMegaSub(args.sub))  {
@@ -56,18 +57,24 @@ function getArticlesListing(args: IGetArticlesListingArgs): Promise<IGetArticles
     // TODO: Replace with axios.get() method after backend established
 }
 
-function getArticleData(articleId: string): Promise<IGetArticleDataResponse> {
+export function getArticleDataById(articleId: string): Promise<IGetArticleDataResponse> {
     // mock
-    const response: IGetArticleDataResponse = mockResponse(MOCK_ARTICLES_DATA[articleId]);
+    const response: IGetArticleDataResponse = mockResponse(MOCK_ARTICLES_DATA_IDMAP[articleId]);
     const promise = Promise.resolve(response) as AxiosPromise;
     return promise;
 
     // TODO: Replace with axios.get() method after backend established
 }
 
+export function getArticleDataByUrlId(articleUrlId: string) {
+    const response: IGetArticleDataResponse = mockResponse(MOCK_ARTICLES_DATA_URLIDMAP[articleUrlId]);
+    const promise = Promise.resolve(response) as AxiosPromise;
+    return promise;
+}
+
 // USERS
 
-function getUserData(userId: string): Promise<IGetUserDataResponse> {
+export function getUserData(userId: string): Promise<IGetUserDataResponse> {
     // mock
     const response: IGetUserDataResponse = mockResponse(MOCK_USER_DATA[userId]);
     const promise = Promise.resolve(response) as AxiosPromise;

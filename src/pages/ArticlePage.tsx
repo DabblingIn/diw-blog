@@ -4,8 +4,8 @@ import { RouteComponentProps } from 'react-router';
 import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
 import Article, { IArticleProps } from '../parts/Article/Article';
 
-import ApiCaller from '../parts/ApiCaller/ApiCaller';
-import { IGetArticleDataResponse, IArticleData, IGetUserDataResponse, IUserData } from '../parts/ApiCaller/ApiCaller.d';
+import * as ApiCaller from '../parts/ApiCaller/ApiCaller';
+import { IGetArticleDataResponse, IGetArticleData, IGetUserDataResponse, IGetUserDataReturn } from '../parts/ApiCaller/ApiCaller.d';
 
 import { getSubdomainConfig } from '../subdomains';
 
@@ -13,7 +13,7 @@ import { defaultTheme as theme } from '../style/themes';
 //import './ArticlePage.css';
 
 interface IArticlePageMatchParams {
-    articleId: string;
+    articleUrlId: string;
 };
 
 interface IArticlePageProps extends RouteComponentProps<IArticlePageMatchParams>{};
@@ -37,24 +37,24 @@ export default class ArticlePage extends React.Component<IArticlePageProps, IArt
     }
 
     public componentDidMount() {
-        const { articleId } = this.props.match.params;
+        const { articleUrlId } = this.props.match.params;
         ApiCaller
-            .getArticleData(articleId)
+            .getArticleDataByUrlId(articleUrlId)
             .then((articleDataResponse: IGetArticleDataResponse) => {
-                const articleData: IArticleData = articleDataResponse.data;
+                const articleData: IGetArticleData = articleDataResponse.data;
                 ApiCaller
                     .getUserData(articleData.authorId)
                     .then((authorDataResponse: IGetUserDataResponse) => {
-                        const authorData: IUserData = authorDataResponse.data;
+                        const authorData: IGetUserDataReturn = authorDataResponse.data;
 
                         // TODO: setState for all info
                         this.setState({
                             title: articleData.articleTitle,
-                            authorId: authorData.id,
-                            authorName: authorData.name,
-                            authorUrl: authorData.url,
-                            date: articleData.articleDate,
-                            body: articleData.articleBody
+                            authorId: authorData.userId,
+                            authorName: authorData.userDisplayName,
+                            authorUrl: authorData.userWebsite,
+                            date: articleData.articleCreatedAt,
+                            body: articleData.articleContent
                         });
                     });
             });

@@ -119,8 +119,8 @@ export function getWeekdayString(comparedDate: Date) {
 
 // Links
 
-export function articleLink(articleId: string) {
-    return "/p/" + articleId;
+export function articleLink(articleUrlId: string) {
+    return "/p/" + articleUrlId;
 }
 
 export function userLink(userId: string) {

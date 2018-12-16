@@ -29,7 +29,7 @@ class App extends React.Component {
         <div className="app">
             <div className="app__background" style={backgroundStyle}/>
             <Route exact={true} path="/" component={DefaultPage} />
-            <Route path="/p/:articleId" component={ArticlePage} />
+            <Route path="/p/:articleUrlId" component={ArticlePage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/editor" component={EditorPage} />
         </div>

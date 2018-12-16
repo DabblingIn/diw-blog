@@ -3,8 +3,8 @@ import * as React from 'react';
 
 import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
 
-import ApiCaller from '../parts/ApiCaller/ApiCaller';
-import { IArticleListData, IGetArticlesListingResponse, IGetUserDataResponse, IUsersDataMap } from '../parts/ApiCaller/ApiCaller.d';
+import * as ApiCaller from '../parts/ApiCaller/ApiCaller';
+import { IGetArticleListData, IGetArticlesListingResponse, IGetUserDataResponse, IUsersDataMap } from '../parts/ApiCaller/ApiCaller.d';
 
 import ArticleListing from '../parts/ArticleListing/ArticleListing';
 
@@ -15,7 +15,7 @@ import { defaultTheme as theme } from '../style/themes';
 import './DefaultPage.css';
 
 interface IDefaultPageState {
-    articlesListData: IArticleListData[];
+    articlesListData: IGetArticleListData[];
     authorsDataMap: IUsersDataMap;
 };
 
@@ -45,18 +45,18 @@ export default class DefaultPage extends React.PureComponent<IDefaultPageProps, 
         ApiCaller
             .getArticlesListing({ sub: subKey })    // gets articles based on subdomain
             .then((res: IGetArticlesListingResponse) => {
-                const articlesListData: IArticleListData[] = res.data;
+                const articlesListData: IGetArticleListData[] = res.data;
                 this.setState({
                     articlesListData
                 });
 
                 const authorIds: string[] = Array.from(new Set(
-                    articlesListData.map((articleListData: IArticleListData) => articleListData.authorId)
+                    articlesListData.map((articleListData: IGetArticleListData) => articleListData.authorId)
                 ));
                 Promise
                     .all(authorIds.map( (authorId) => ApiCaller.getUserData(authorId) ))
                     .then((authorsDataResponses: IGetUserDataResponse[]) => {
-                        const authorsDataMap = util.arrayToIdMap(authorsDataResponses.map((authorDataResponse) => authorDataResponse.data)) as IUsersDataMap;
+                        const authorsDataMap = util.arrayToMap(authorsDataResponses.map(authorDataResponse => authorDataResponse.data), 'userId') as IUsersDataMap;
                         this.setState({
                             authorsDataMap
                         });
