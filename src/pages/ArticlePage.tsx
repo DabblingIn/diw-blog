@@ -42,6 +42,7 @@ export default class ArticlePage extends React.Component<IArticlePageProps, IArt
             .getArticleDataByUrlId(articleUrlId)
             .then((articleDataResponse: IGetArticleDataResponse) => {
                 const articleData: IGetArticleData = articleDataResponse.data;
+                // TODO: Remove this extra user call and use the user data from the article call
                 ApiCaller
                     .getUserData(articleData.authorId)
                     .then((authorDataResponse: IGetUserDataResponse) => {

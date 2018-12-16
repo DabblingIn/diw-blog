@@ -79,8 +79,8 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
                 <div className="editor-page" style={editorPageStyle}>
                     <DefaultNavbar />
                     <Route exact={true} path={match.url} render={(props) => <EditorArticleListing {...props} authorId={this.state.authorId}/>} />
-                    <Route path={`${match.url}/new`} render={(props) => <EditArticlePanel {...props} initialArticleId={null} />} />
-                    <Route path={`${match.url}/edit/:articleId`} render={(props) => <EditArticlePanel {...props} initialArticleId={props.match.params.articleId} />} />
+                    <Route path={`${match.url}/new`} component={EditArticlePanel}/>
+                    <Route path={`${match.url}/edit/:articleId`} component={EditArticlePanel} />
                 </div>
         );
     }

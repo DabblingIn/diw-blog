@@ -12,20 +12,24 @@ import {
     sanitizeArticleContent
 } from '../../util';
 
+import { getArticleDataById } from '../ApiCaller/ApiCaller';
+
 import { defaultTheme as theme } from '../../style/themes';
 import "./EditArticlePanel.css";
 
 const editArticlePanelStyle = theme.itemBoxStyle;
 
 interface IEditArticlePanelProps {
-    initialArticleId: string | null;
+    match: {
+        params: {
+            articleId: string | null;
+        }
+    }
 };
 
 
 interface IEditArticlePanelState {
-    initialArticleId: string | null;
-
-    articleId: string;
+    articleId: string | null;
     articleUrlId: string;
     articleTitle: string;
     articleDescription: string;
@@ -45,12 +49,14 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
     constructor(props: IEditArticlePanelProps) {
         super(props);
 
-        const { initialArticleId } = props;
+        let { articleId } = props.match.params;
+        if (articleId === undefined) {
+            articleId = null;
+        }
 
         this.state = {
-            initialArticleId,
+            articleId,
 
-            articleId: (initialArticleId !== null) ? initialArticleId : '',
             articleUrlId: '',
             articleTitle: '',
             articleDescription: '',
@@ -74,7 +80,27 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
     }
 
     public componentDidMount() {
-        if (this.props.initialArticleId !== null) {
+        if (this.state.articleId !== null) {
+            getArticleDataById(this.state.articleId)
+                //.then((articleDataResponse: IGetArticleDataResponse) => {
+                .then(({ data }) => {
+                    this.setState({
+                        articleUrlId: data.articleUrlId,
+                        articleTitle: data.articleTitle,
+                        articleDescription: data.articleDescription,
+                        articleContent: data.articleContent,
+
+                        urlIdError: '',
+                        titleError: '',
+                        descriptionError: '',
+                        contentError: '',
+
+                        submitError: '',
+                        successfulSubmit: false
+                    });
+
+                });
+
             //TODO: set input box initial values (for exixting article, indicated by non-null initialArticleId)
 
             // TODO: fetch article data based on initialArticleId
@@ -193,7 +219,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         } else {
             // Successful submit
             // TODO: Trigger API call
-            // TODO: Trigger initialArticleId change and success/fail error message *based on AJAX success*
+            // TODO: Trigger articleId change and success/fail error message *based on AJAX success*
             // TODO: Use sanitizeArticleContent on articleContent before submit.
             this.setState(state => ({
                 submitError: 'Successful submit!',
@@ -219,7 +245,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
             <div className="edit-article-panel" style={editArticlePanelStyle}>
                 <form>
                     <div>
-                        <h1 className="edit-article-panel__header">{this.state.initialArticleId ? 'Edit' : 'New'} Article</h1>
+                        <h1 className="edit-article-panel__header">{this.state.articleId ? 'Edit' : 'New'} Article</h1>
                     </div>
                     <h2 className="" style={{ fontFamily: "Lato, sans-serif", color: this.state.successfulSubmit ? "green": "red" }}>{this.state.submitError}</h2>
                     <div>
@@ -251,7 +277,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                         <div className="edit-article-panel__content-preview" dangerouslySetInnerHTML={this.setPreviewHTML()}/>
                     </div>
                     <button onClick={this.clickSubmit} className="edit-article-panel__submit-button">
-                        {(this.state.initialArticleId !== null) ? 'UPDATE' : 'CREATE' }
+                        {(this.state.articleId !== null) ? 'UPDATE' : 'CREATE' }
                     </button>
                 </form>
             </div>
