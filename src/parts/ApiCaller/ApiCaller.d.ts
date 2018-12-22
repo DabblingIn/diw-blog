@@ -1,6 +1,16 @@
 
 import { AxiosResponse } from 'axios';
 
+
+/*
+ * DEFAULT API RESPONSE FORMAT
+ */
+
+export interface IDefaultJsonResponse<T> {
+    err: string;
+    data: T;
+}
+
 /*
  * ARTICLES
  */
@@ -54,7 +64,7 @@ export interface IGetArticleListData {
 
 
 
-export interface IGetArticlesListingResponse extends AxiosResponse<IGetArticleListData[]> {}
+export interface IGetArticlesListingResponse extends AxiosResponse<IDefaultJsonResponse<IGetArticleListData[]>> {}
 
 
 /*export interface IArticleData extends IArticleListData {
@@ -69,7 +79,7 @@ export interface IArticlesDataUrlIdMap {
     [articleUrlId: string]: IGetArticleData;
 }
 
-export interface IGetArticleDataResponse extends AxiosResponse<IGetArticleData> {}
+export interface IGetArticleDataResponse extends AxiosResponse<IDefaultJsonResponse<IGetArticleData>> {}
 
 /*
  * USERS

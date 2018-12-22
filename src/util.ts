@@ -4,9 +4,12 @@ import * as sanitizeHtml from 'sanitize-html';
     DabblingIn Utilities
 */
 
-
+const LOCALHOST = "localhost";
 const _DAY_IN_MS = 1000*60*60*24;
 
+export function isLocalhost() {
+    return (location.hostname === LOCALHOST);
+}
 
 /*
   Article Element Formats

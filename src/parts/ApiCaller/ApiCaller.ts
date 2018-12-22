@@ -1,4 +1,4 @@
-import { AxiosPromise } from 'axios';
+import axios, { AxiosPromise } from 'axios';
 
 import { 
     IGetArticlesListingResponse,
@@ -15,17 +15,27 @@ import {
 } from './ApiMockData';
 
 import { isMegaSub } from '../../subdomains';
+import { isLocalhost } from '../../util';
+import apiConfig from './apiConfig';
 
-/*const ApiCaller = {
-    // ARTICLES
-    getArticlesListing,
-    getArticleData,
 
-    // USERS
-    getUserData
-};
+let API_BASE: string;
+if (isLocalhost()) {
+    API_BASE = apiConfig.base.dev;
+} else {
+    API_BASE = apiConfig.base.prod;
+}
 
-export default ApiCaller;*/
+const API_PATH = {
+    articlesListing: apiPath('/article/listing'),
+    articleData: apiPath('/article/data'),
+    userData: apiPath('/user/data')
+}
+
+
+function apiPath(subPath: string): string {
+    return API_BASE + subPath;
+}
 
 
 // ARTICLES
@@ -37,48 +47,71 @@ interface IGetArticlesListingArgs {
 }
 
 export function getArticlesListing(args: IGetArticlesListingArgs): Promise<IGetArticlesListingResponse> {
-    // mock
-    let listing = MOCK_ARTICLES_LISTDATA;
-    if (args.sub !== undefined && !isMegaSub(args.sub))  {
-        listing = listing.filter(articleLD => (articleLD.articleSub === args.sub));
-    }
+    if (apiConfig.MOCK) {
+        // mock
+        let listing = MOCK_ARTICLES_LISTDATA;
+        if (args.sub !== undefined && !isMegaSub(args.sub))  {
+            listing = listing.filter(articleLD => (articleLD.articleSub === args.sub));
+        }
 
-    if (args.authorId !== undefined) {
-        listing = listing.filter(articleLD => (articleLD.authorId === args.authorId));
-    }
+        if (args.authorId !== undefined) {
+            listing = listing.filter(articleLD => (articleLD.authorId === args.authorId));
+        }
 
-    if (args.authorUsername !== undefined) {
-        listing = listing.filter(articleLD => (articleLD.authorUsername === args.authorUsername));
+        if (args.authorUsername !== undefined) {
+            listing = listing.filter(articleLD => (articleLD.authorUsername === args.authorUsername));
+        }
+        const response: IGetArticlesListingResponse = mockResponse(listing);
+        const promise = Promise.resolve(response) as AxiosPromise;// as AxiosPromise<IGetArticlesListingResponse>;
+        return promise;
+    } else {
+        // api
+        // TODO: Replace with axios.get() method after backend established
+        return axios.get(API_PATH.articlesListing);
     }
-    const response: IGetArticlesListingResponse = mockResponse(listing);
-    const promise = Promise.resolve(response) as AxiosPromise;// as AxiosPromise<IGetArticlesListingResponse>;
-    return promise;
-
-    // TODO: Replace with axios.get() method after backend established
 }
 
 export function getArticleDataById(articleId: string): Promise<IGetArticleDataResponse> {
-    // mock
-    const response: IGetArticleDataResponse = mockResponse(MOCK_ARTICLES_DATA_IDMAP[articleId]);
-    const promise = Promise.resolve(response) as AxiosPromise;
-    return promise;
-
-    // TODO: Replace with axios.get() method after backend established
+    if (apiConfig.MOCK) {
+        // mock
+        const response: IGetArticleDataResponse = mockResponse(MOCK_ARTICLES_DATA_IDMAP[articleId]);
+        const promise = Promise.resolve(response) as AxiosPromise;
+        return promise;
+    } else {
+        // api
+        // TODO: Replace with axios.get() method after backend established
+        // ARTICLE_DATA_PATH/:articleId
+        const url = API_PATH.articleData + '/' + articleId;
+        return axios.get(url);
+    }
 }
 
 export function getArticleDataByUrlId(articleUrlId: string) {
-    const response: IGetArticleDataResponse = mockResponse(MOCK_ARTICLES_DATA_URLIDMAP[articleUrlId]);
-    const promise = Promise.resolve(response) as AxiosPromise;
-    return promise;
+    if (apiConfig.MOCK) {
+        // mock
+        const response: IGetArticleDataResponse = mockResponse(MOCK_ARTICLES_DATA_URLIDMAP[articleUrlId]);
+        const promise = Promise.resolve(response) as AxiosPromise;
+        return promise;
+    } else {
+        // api
+        // ARTICLE_DATA_PATH?urlId=some-url-id
+        return axios.get(API_PATH.articleData, { params: { urlId: articleUrlId } });
+    }
 }
 
 // USERS
 
 export function getUserData(userId: string): Promise<IGetUserDataResponse> {
-    // mock
-    const response: IGetUserDataResponse = mockResponse(MOCK_USER_DATA[userId]);
-    const promise = Promise.resolve(response) as AxiosPromise;
-    return promise;
-
-    // TODO: Replace with axios.get() method after backend established
+    if (apiConfig.MOCK) {
+        // mock
+        const response: IGetUserDataResponse = mockResponse(MOCK_USER_DATA[userId]);
+        const promise = Promise.resolve(response) as AxiosPromise;
+        return promise;
+    } else {
+        // api
+        // TODO: Replace with axios.get() method after backend established
+        // USER_DATA_PATH/:userId
+        const url = API_PATH.userData + '/' + userId;
+        return axios.get(url);
+    }
 }
