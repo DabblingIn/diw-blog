@@ -85,6 +85,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                 //.then((articleDataResponse: IGetArticleDataResponse) => {
                 .then(({ data: resData }) => {
                     const data = resData.data;
+                    // TODO: const { err } = resData;  // Use this backend err message if not null
                     this.setState({
                         articleUrlId: data.articleUrlId,
                         articleTitle: data.articleTitle,
