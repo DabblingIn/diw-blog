@@ -1,4 +1,6 @@
 
+import { isLocalhost } from './util';
+
 export interface ISubdomainMetadata {
     name: string;   // site name (e.g. Dabbling In Web)
     tabName: string;
@@ -7,8 +9,6 @@ export interface ISubdomainMetadata {
 interface ISubdomainMetadataMap {
     [subName: string]: ISubdomainMetadata;
 }
-
-const LOCALHOST = "localhost";
 
 // sub special keys
 export const DEFAULT_SUB: string = "_default";
@@ -44,7 +44,7 @@ function parseSubdomain(hostname: string): string {
 }
 
 export function getSubKey() {
-    if (location.hostname === LOCALHOST) {
+    if (isLocalhost()) {
         return DEFAULT_SUB;
     } else {
         return parseSubdomain(location.hostname);
