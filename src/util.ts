@@ -91,14 +91,9 @@ export function validArticleContent(testContent: string): IArticleFieldValidatio
 
 export function minDateString(rawDateString: Date) {
     const d = new Date(rawDateString);
-    // const weekdayString = _getWeekdayString(d);
     const dateStringParts = [d.toLocaleDateString()];
-    /* if (weekdayString !== "") {
-        dateStringParts.push(weekdayString);
-    }*/
     dateStringParts.push(d.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }));
     return dateStringParts.join(" ");
-    // return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
 }
 
 export function getWeekdayString(comparedDate: Date) {
