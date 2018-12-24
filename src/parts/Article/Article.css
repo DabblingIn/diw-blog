@@ -3,6 +3,7 @@
 .article__title {
     color: #222;
     font-size: 40px;
+    margin: 10px auto;
 }
 
 .article__name-date-line {
@@ -25,24 +26,27 @@
     color: #003140;
     font-style: bold;
     font-family: 'Lato', sans-serif;
-    margin: auto 5px auto auto;
+    margin: auto 3px auto auto;
 }
 
-.article__date {
+.article__created_date {
     color: #777;
     font-family: 'Lato', sans-serif;
-}
-
-.article__body {
-    color: black;
-    font-family: 'Lato', sans-serif;
-}
-
-.article__body a {
-    color: #666 ;
-    font-style: none;
+    margin: auto 3px;
 }
 
 .article__weekday {
     font-weight: bold;
+    margin: auto 3px;
+}
+
+.article__content {
+    color: black;
+    font-family: 'Lato', sans-serif;
+    margin: 10px auto;
+}
+
+.article__content a {
+    color: #666 ;
+    font-style: none;
 }
