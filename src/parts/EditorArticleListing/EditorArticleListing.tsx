@@ -1,7 +1,7 @@
 
 import * as React from 'react';
 
-import ArticleListing from '../ArticleListing/ArticleListing';
+import EditorArticleListItem, { IEditorArticleListItemProps } from './EditorArticleListItem';
 import * as ApiCaller from '../ApiCaller/ApiCaller';
 import { IGetArticlesListingResponse, IGetUserDataResponse, IGetArticleListData, IUsersDataMap } from '../ApiCaller/ApiCaller.d';
 import * as util from '../../util';
@@ -56,14 +56,25 @@ export default class EditorArticleListing extends React.Component<IEditorArticle
             //.catch();
     }
 
-
     public render() {
         return (
             <div>
                 <h1 style={{ fontFamily: "Oswald, sans-serif", margin: 5}}>Editor: Articles</h1>
-                <div>
-                    <ArticleListing articlesListData={this.state.articlesListData} authorsDataMap={this.state.authorsDataMap} />
-                </div>
+                <section className="editor-article-listing">
+                {
+                    this.state.articlesListData.map((articleListData:  IGetArticleListData ) => {
+                        let authorName = "XXX";
+                        if (this.state.authorsDataMap[articleListData.authorId]) {
+                            authorName = this.state.authorsDataMap[articleListData.authorId].userDisplayName;
+                        }
+                        const articleListItemProps: IEditorArticleListItemProps = { 
+                            authorName,
+                            ...articleListData
+                        };
+                        return (<EditorArticleListItem key={util.articleLink(articleListItemProps.articleId)} {...articleListItemProps}/>);
+                    })
+                }
+                </section>
             </div>
         );
     }

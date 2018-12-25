@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import ArticleListItem from '../ArticleListItem/ArticleListItem';
-import { IArticleListItemProps } from '../ArticleListItem/ArticleListItem';
+import ArticleListItem from './ArticleListItem';
+import { IArticleListItemProps } from './ArticleListItem';
 
 //import ApiCaller from '../ApiCaller/ApiCaller';
 import { IGetArticleListData, IUsersDataMap } from '../ApiCaller/ApiCaller.d';
