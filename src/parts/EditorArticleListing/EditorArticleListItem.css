@@ -1,0 +1,19 @@
+/* Article Listing */
+
+.editor-article-list-item__title {
+    color: #222;
+    font-size: 30px;
+}
+
+.editor-article-list-item__author {
+    font-weight: bold;
+    color: #222;
+}
+
+.editor-article-list-item__description {
+
+}
+
+.editor-article-list-item__date {
+
+}
