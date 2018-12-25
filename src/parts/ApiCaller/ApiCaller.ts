@@ -1,9 +1,10 @@
 import axios, { AxiosPromise } from 'axios';
 
-import { 
+import {
+    IGetArticleDataResponse,
     IGetArticlesListingResponse,
-    IGetUserDataResponse,
-    IGetArticleDataResponse
+    ISuccessErrJsonResponse,
+    IGetUserDataResponse
 } from './ApiCaller.d';
 
 import {
@@ -29,7 +30,9 @@ if (isLocalhost()) {
 const API_PATH = {
     articlesListing: apiPath('/article/listing'),
     articleData: apiPath('/article/data'),
-    userData: apiPath('/user/data')
+    userData: apiPath('/user/data'),
+    editorLogin: apiPath('/editor/login'),
+    editorLogout: apiPath('/editor/logout')
 }
 
 
@@ -97,6 +100,25 @@ export function getArticleDataByUrlId(articleUrlId: string) {
         // ARTICLE_DATA_PATH?urlId=some-url-id
         return axios.get(API_PATH.articleData, { params: { urlId: articleUrlId } });
     }
+}
+
+// LOGIN
+interface IEditorLoginConfig {
+    username: string;
+    password: string;
+}
+export function postEditorLogin(loginConfig: IEditorLoginConfig): Promise<ISuccessErrJsonResponse> {
+    if (apiConfig.MOCK) {
+        const response: ISuccessErrJsonResponse = mockResponse({ success: true, err: null });
+        const promise = Promise.resolve(response) as AxiosPromise;
+        return promise;
+    } else {
+        return axios.post(API_PATH.editorLogin, { username: loginConfig.username, password: loginConfig.password });
+    }
+}
+
+export function postEditorLogout(username: string): Promise<ISuccessErrJsonResponse> {
+    return axios.post(API_PATH.editorLogout, { username });
 }
 
 // USERS

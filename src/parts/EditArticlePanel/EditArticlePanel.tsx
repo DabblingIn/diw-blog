@@ -4,7 +4,6 @@ import { MouseEvent, FormEvent } from 'react';
 import * as sanitizeHtml from 'sanitize-html';
 
 import {
-    IArticleFieldValidationResponse,
     validArticleUrlId,
     validArticleTitle,
     validArticleDescription,
@@ -114,7 +113,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
 
     public changedUrlId(e: FormEvent<HTMLInputElement>) {
         const newUrlId: string = e.currentTarget.value;
-        const validation: IArticleFieldValidationResponse = validArticleUrlId(newUrlId)
+        const validation = validArticleUrlId(newUrlId)
 
         this.setState({
             articleUrlId: newUrlId
@@ -133,7 +132,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
 
     public changedTitle(e: FormEvent<HTMLInputElement>) {
         const newTitle: string = e.currentTarget.value;
-        const validation: IArticleFieldValidationResponse = validArticleTitle(newTitle);
+        const validation = validArticleTitle(newTitle);
 
         this.setState({
             articleTitle: newTitle
@@ -152,7 +151,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
 
     public changedDescription(e: FormEvent<HTMLInputElement>) {
         const newDescription: string = e.currentTarget.value;
-        const validation: IArticleFieldValidationResponse = validArticleDescription(newDescription);
+        const validation = validArticleDescription(newDescription);
         
         this.setState({
             articleDescription: newDescription
@@ -171,7 +170,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
 
     public changedContent(e: FormEvent<HTMLTextAreaElement>) {
         const newContent: string = e.currentTarget.value;
-        const validation: IArticleFieldValidationResponse = validArticleContent(newContent);
+        const validation = validArticleContent(newContent);
 
         this.setState({
             articleContent: newContent
