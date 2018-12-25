@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 
 import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
+import EditorLoginForm from '../parts/EditorLoginForm/EditorLoginForm';
 import EditArticlePanel from '../parts/EditArticlePanel/EditArticlePanel';
 import EditorArticleListing from '../parts/EditorArticleListing/EditorArticleListing';
 
@@ -78,7 +79,8 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
         return (
                 <div className="editor-page" style={editorPageStyle}>
                     <DefaultNavbar />
-                    <Route exact={true} path={match.url} render={(props) => <EditorArticleListing {...props} authorId={this.state.authorId}/>} />
+                    <Route path={match.url} exact={true} render={(props) => <EditorArticleListing {...props} authorId={this.state.authorId}/>} />
+                    <Route path={`${match.url}/login`} component={EditorLoginForm}/>
                     <Route path={`${match.url}/new`} component={EditArticlePanel}/>
                     <Route path={`${match.url}/edit/:articleId`} component={EditArticlePanel} />
                 </div>
