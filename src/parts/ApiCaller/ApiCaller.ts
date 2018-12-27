@@ -41,6 +41,15 @@ function apiPath(subPath: string): string {
     return API_BASE + subPath;
 }
 
+// WITH CREDENTIALS
+//axios.defaults.withCredentials = true;    // TODO: Keep?
+
+const WITH_CRED = { withCredentials: true }; // set withCredentials to true (shorthand)
+function wCred(config?: object) {
+    // combines given axios config with withCredentials: true
+    return Object.assign({}, WITH_CRED, config);
+}
+
 
 // ARTICLES
 
@@ -71,7 +80,7 @@ export function getArticlesListing(args: IGetArticlesListingArgs): Promise<IGetA
     } else {
         // api
         // TODO: Replace with axios.get() method after backend established
-        return axios.get(API_PATH.articlesListing);
+        return axios.get(API_PATH.articlesListing, wCred());
     }
 }
 
@@ -86,7 +95,7 @@ export function getArticleDataById(articleId: string): Promise<IGetArticleDataRe
         // TODO: Replace with axios.get() method after backend established
         // ARTICLE_DATA_PATH/:articleId
         const url = API_PATH.articleData + '/' + articleId;
-        return axios.get(url);
+        return axios.get(url, wCred());
     }
 }
 
@@ -99,7 +108,7 @@ export function getArticleDataByUrlId(articleUrlId: string) {
     } else {
         // api
         // ARTICLE_DATA_PATH?urlId=some-url-id
-        return axios.get(API_PATH.articleData, { params: { urlId: articleUrlId } });
+        return axios.get(API_PATH.articleData, wCred({ params: { urlId: articleUrlId } }));
     }
 }
 
@@ -121,12 +130,12 @@ export function postEditorLogin(loginConfig: IEditorLoginConfig): Promise<ISucce
         const promise = Promise.resolve(response) as AxiosPromise;
         return promise;
     } else {
-        return axios.post(API_PATH.editorLogin, { username: loginConfig.username, password: loginConfig.password });
+        return axios.post(API_PATH.editorLogin, { username: loginConfig.username, password: loginConfig.password }, wCred());
     }
 }
 
-export function postEditorLogout(username: string): Promise<ISuccessErrJsonResponse> {
-    return axios.post(API_PATH.editorLogout, { username });
+export function postEditorLogout(): Promise<ISuccessErrJsonResponse> {
+    return axios.post(API_PATH.editorLogout, {}, wCred());
 }
 
 // USERS
@@ -142,6 +151,6 @@ export function getUserData(userId: string): Promise<IGetUserDataResponse> {
         // TODO: Replace with axios.get() method after backend established
         // USER_DATA_PATH/:userId
         const url = API_PATH.userData + '/' + userId;
-        return axios.get(url);
+        return axios.get(url, wCred());
     }
 }
