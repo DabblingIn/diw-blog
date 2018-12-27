@@ -117,12 +117,16 @@ export default class EditorLoginForm extends React.Component<IEditorLoginFormPro
         const passwordValidation = validPassword(this.state.password);
         if (usernameValidation.valid && passwordValidation.valid) {
             postEditorLogin({ username: this.state.username, password: this.state.password })
-                .then(({ data }) => {
-                    const { success, err } = data;
+                .then(({ data: resData }) => {
+                    const { success, err, data } = resData;
                     if (success) {
+                        let userId = "NO USERID";
+                        if (data !== undefined) {
+                            userId = data.userId;
+                        }
                         this.setState({
                             password: '',
-                            loginSubmitErr: "Logged In!",
+                            loginSubmitErr: "Logged In!: " + userId,
                             loginSubmitErrColor: GREEN
                         })
 

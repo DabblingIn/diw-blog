@@ -16,7 +16,14 @@ export interface ISuccessErrJsonReturn {
     err: string | null;    // error message (if any)
 }
 
+export interface ISuccessErrDataJsonReturn<T> {
+    success: boolean;      // whether attempt was successful
+    err: string | null;    // error message (if any)
+    data?: T;              // accompanying relevant response data
+}
+
 export interface ISuccessErrJsonResponse extends AxiosResponse<ISuccessErrJsonReturn> {}
+export interface ISuccessErrDataJsonResponse<T> extends AxiosResponse<ISuccessErrDataJsonReturn<T>> {}
 
 /*
  * ARTICLES

@@ -4,6 +4,7 @@ import {
     IGetArticleDataResponse,
     IGetArticlesListingResponse,
     ISuccessErrJsonResponse,
+    ISuccessErrDataJsonResponse,
     IGetUserDataResponse
 } from './ApiCaller.d';
 
@@ -107,9 +108,16 @@ interface IEditorLoginConfig {
     username: string;
     password: string;
 }
-export function postEditorLogin(loginConfig: IEditorLoginConfig): Promise<ISuccessErrJsonResponse> {
+interface IEditorLoginDataReturn {
+    userId: string;
+}
+export function postEditorLogin(loginConfig: IEditorLoginConfig): Promise<ISuccessErrDataJsonResponse<IEditorLoginDataReturn>> {
     if (apiConfig.MOCK) {
-        const response: ISuccessErrJsonResponse = mockResponse({ success: true, err: null });
+        const response: ISuccessErrDataJsonResponse<IEditorLoginDataReturn> = mockResponse({
+             success: true,
+             err: null,
+             data: { userId: "258c1fe9-3d24-46d4-a874-597a6e5bb284" } // user0
+         });
         const promise = Promise.resolve(response) as AxiosPromise;
         return promise;
     } else {
