@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 
 import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
@@ -10,7 +10,7 @@ import EditorArticleListing from '../parts/EditorArticleListing/EditorArticleLis
 
 import { getSubdomainConfig } from '../subdomains';
 
-//import ApiCaller from '../parts/ApiCaller/ApiCaller';
+import { postEditorLogout } from '../parts/ApiCaller/ApiCaller';
 //import { IGetArticleDataResponse, IArticleData, IGetUserDataResponse, IUserData } from '../parts/ApiCaller/ApiCaller.d';
 
 import { defaultTheme as theme } from '../style/themes';
@@ -53,6 +53,12 @@ const editorPageStyle = {
                 >> Create a NEW article
                 >> Verifies session
                 >> At submit, checks for URL ID?
+            /editor/login
+                >> editor login: POST
+                >> logs in, initiates user session
+            /editor/logout
+                >> editor logout: POST
+                >> Sends an editor logout POST request, then redirects to the login page
         NEXT BIG QUESTIONS: 
             subroutes for editor panel? (all start /editor)
             put these subroutes under EditorPage, or split it up into multiple page tsx files?
@@ -81,6 +87,10 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
                     <DefaultNavbar />
                     <Route path={match.url} exact={true} render={(props) => <EditorArticleListing {...props} authorId={this.state.authorId}/>} />
                     <Route path={`${match.url}/login`} component={EditorLoginForm}/>
+                    <Route path={`${match.url}/logout`} render={() => {
+                        postEditorLogout();
+                        return (<Redirect to={`${match.url}/login`} />);
+                    }}/>
                     <Route path={`${match.url}/new`} component={EditArticlePanel}/>
                     <Route path={`${match.url}/edit/:articleId`} component={EditArticlePanel} />
                 </div>
