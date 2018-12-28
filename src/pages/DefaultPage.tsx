@@ -4,12 +4,11 @@ import * as React from 'react';
 import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
 
 import * as ApiCaller from '../parts/ApiCaller/ApiCaller';
-import { IGetArticleListData, IGetArticlesListingResponse, IGetUserDataResponse, IUsersDataMap } from '../parts/ApiCaller/ApiCaller.d';
+import { IGetArticleListData, IGetArticlesListingResponse, IUsersDataMap } from '../parts/ApiCaller/ApiCaller.d';
 
 import ArticleListing from '../parts/ArticleListing/ArticleListing';
 
 import { getSubKey, getSubdomainConfig } from '../subdomains';
-import * as util from '../util';
 
 import { defaultTheme as theme } from '../style/themes';
 import './DefaultPage.css';
@@ -50,19 +49,6 @@ export default class DefaultPage extends React.PureComponent<IDefaultPageProps, 
                 this.setState({
                     articlesListData
                 });
-
-                const authorIds: string[] = Array.from(new Set(
-                    articlesListData.map((articleListData: IGetArticleListData) => articleListData.authorId)
-                ));
-                Promise
-                    .all(authorIds.map( (authorId) => ApiCaller.getUserData(authorId) ))
-                    .then((authorsDataResponses: IGetUserDataResponse[]) => {
-                        const authorsDataMap = util.arrayToMap(authorsDataResponses.map(authorDataResponse => authorDataResponse.data), 'userId') as IUsersDataMap;
-                        this.setState({
-                            authorsDataMap
-                        });
-                    });
-
             })
             //.catch();
     }
@@ -75,7 +61,7 @@ export default class DefaultPage extends React.PureComponent<IDefaultPageProps, 
                 <DefaultNavbar />
 
                 <div>
-                    <ArticleListing articlesListData={this.state.articlesListData} authorsDataMap={this.state.authorsDataMap} />
+                    <ArticleListing articlesListData={this.state.articlesListData} />
                 </div>
             </div>
         );
