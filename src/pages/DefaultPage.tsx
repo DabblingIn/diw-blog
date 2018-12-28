@@ -4,7 +4,7 @@ import * as React from 'react';
 import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
 
 import * as ApiCaller from '../parts/ApiCaller/ApiCaller';
-import { IGetArticleListData, IGetArticlesListingResponse, IUsersDataMap } from '../parts/ApiCaller/ApiCaller.d';
+import { IGetArticleListData, IGetArticlesListingResponse } from '../parts/ApiCaller/ApiCaller.d';
 
 import ArticleListing from '../parts/ArticleListing/ArticleListing';
 
@@ -15,7 +15,6 @@ import './DefaultPage.css';
 
 interface IDefaultPageState {
     articlesListData: IGetArticleListData[];
-    authorsDataMap: IUsersDataMap;
 };
 
 interface IDefaultPageProps {};
@@ -34,8 +33,7 @@ export default class DefaultPage extends React.PureComponent<IDefaultPageProps, 
         super(props);
 
         this.state = {
-            articlesListData: [],
-            authorsDataMap: {}
+            articlesListData: []
         };
     }
 
