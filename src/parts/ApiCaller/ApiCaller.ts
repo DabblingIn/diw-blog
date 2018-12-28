@@ -1,9 +1,11 @@
 import axios, { AxiosPromise } from 'axios';
 
-import { 
+import {
+    IGetArticleDataResponse,
     IGetArticlesListingResponse,
-    IGetUserDataResponse,
-    IGetArticleDataResponse
+    ISuccessErrJsonResponse,
+    ISuccessErrDataJsonResponse,
+    IGetUserDataResponse
 } from './ApiCaller.d';
 
 import {
@@ -29,12 +31,23 @@ if (isLocalhost()) {
 const API_PATH = {
     articlesListing: apiPath('/article/listing'),
     articleData: apiPath('/article/data'),
-    userData: apiPath('/user/data')
+    userData: apiPath('/user/data'),
+    editorLogin: apiPath('/editor/login'),
+    editorLogout: apiPath('/editor/logout')
 }
 
 
 function apiPath(subPath: string): string {
     return API_BASE + subPath;
+}
+
+// WITH CREDENTIALS
+//axios.defaults.withCredentials = true;    // TODO: Keep?
+
+const WITH_CRED = { withCredentials: true }; // set withCredentials to true (shorthand)
+function wCred(config?: object) {
+    // combines given axios config with withCredentials: true
+    return Object.assign({}, WITH_CRED, config);
 }
 
 
@@ -67,7 +80,7 @@ export function getArticlesListing(args: IGetArticlesListingArgs): Promise<IGetA
     } else {
         // api
         // TODO: Replace with axios.get() method after backend established
-        return axios.get(API_PATH.articlesListing);
+        return axios.get(API_PATH.articlesListing, wCred());
     }
 }
 
@@ -82,7 +95,7 @@ export function getArticleDataById(articleId: string): Promise<IGetArticleDataRe
         // TODO: Replace with axios.get() method after backend established
         // ARTICLE_DATA_PATH/:articleId
         const url = API_PATH.articleData + '/' + articleId;
-        return axios.get(url);
+        return axios.get(url, wCred());
     }
 }
 
@@ -95,8 +108,34 @@ export function getArticleDataByUrlId(articleUrlId: string) {
     } else {
         // api
         // ARTICLE_DATA_PATH?urlId=some-url-id
-        return axios.get(API_PATH.articleData, { params: { urlId: articleUrlId } });
+        return axios.get(API_PATH.articleData, wCred({ params: { urlId: articleUrlId } }));
     }
+}
+
+// LOGIN
+interface IEditorLoginConfig {
+    username: string;
+    password: string;
+}
+interface IEditorLoginDataReturn {
+    userId: string;
+}
+export function postEditorLogin(loginConfig: IEditorLoginConfig): Promise<ISuccessErrDataJsonResponse<IEditorLoginDataReturn>> {
+    if (apiConfig.MOCK) {
+        const response: ISuccessErrDataJsonResponse<IEditorLoginDataReturn> = mockResponse({
+             success: true,
+             err: null,
+             data: { userId: "258c1fe9-3d24-46d4-a874-597a6e5bb284" } // user0
+         });
+        const promise = Promise.resolve(response) as AxiosPromise;
+        return promise;
+    } else {
+        return axios.post(API_PATH.editorLogin, { username: loginConfig.username, password: loginConfig.password }, wCred());
+    }
+}
+
+export function postEditorLogout(): Promise<ISuccessErrJsonResponse> {
+    return axios.post(API_PATH.editorLogout, {}, wCred());
 }
 
 // USERS
@@ -112,6 +151,6 @@ export function getUserData(userId: string): Promise<IGetUserDataResponse> {
         // TODO: Replace with axios.get() method after backend established
         // USER_DATA_PATH/:userId
         const url = API_PATH.userData + '/' + userId;
-        return axios.get(url);
+        return axios.get(url, wCred());
     }
 }

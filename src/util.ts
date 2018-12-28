@@ -14,17 +14,17 @@ export function isLocalhost() {
 /*
   Article Element Formats
 */
-export interface IArticleFieldValidationResponse {
+export interface IInputFieldValidationResponse {
     valid: boolean;
     err: string;
 }
 
 const ZERO_LENGTH_ERR_MSG = "Length must be greater than zero.";
 
-export function validArticleUrlId(testId: string): IArticleFieldValidationResponse {
-    let res: IArticleFieldValidationResponse = {
+export function validArticleUrlId(testId: string): IInputFieldValidationResponse {
+    let res: IInputFieldValidationResponse = {
         valid: true,
-        err: ''
+        err: ""
     };
 
     if (testId.length === 0) {
@@ -40,10 +40,10 @@ export function validArticleUrlId(testId: string): IArticleFieldValidationRespon
     return res;
 }
 
-export function validArticleTitle(testTitle: string): IArticleFieldValidationResponse {
-    let res: IArticleFieldValidationResponse = {
+export function validArticleTitle(testTitle: string): IInputFieldValidationResponse {
+    let res: IInputFieldValidationResponse = {
         valid: true,
-        err: ''
+        err: ""
     };
 
     if (testTitle.length === 0 ) {
@@ -56,10 +56,10 @@ export function validArticleTitle(testTitle: string): IArticleFieldValidationRes
     return res;
 }
 
-export function validArticleDescription(testDescription: string): IArticleFieldValidationResponse {
-    let res: IArticleFieldValidationResponse = {
+export function validArticleDescription(testDescription: string): IInputFieldValidationResponse {
+    let res: IInputFieldValidationResponse = {
         valid: true,
-        err: ''
+        err: ""
     };
 
     if (testDescription.length === 0 ) {
@@ -73,14 +73,58 @@ export function validArticleDescription(testDescription: string): IArticleFieldV
 
 }
 
-export function validArticleContent(testContent: string): IArticleFieldValidationResponse {
-    const res: IArticleFieldValidationResponse = {
+export function validArticleContent(testContent: string): IInputFieldValidationResponse {
+    const res: IInputFieldValidationResponse = {
         valid: true,
-        err: ''
+        err: ""
     };
     // TODO: use sanitize-html to check for script & style elements
 
 
+    return res;
+}
+
+/*
+    Login Element Formats
+ */
+export function validUsername(username: string): IInputFieldValidationResponse {
+    let res: IInputFieldValidationResponse = {
+        valid: true,
+        err: ""
+    };
+
+    if (username.length === 0) {
+        res = {
+            valid: false,
+            err: "You need a username"
+        }
+    } else if (username.length > 50) {
+        res = {
+            valid: false,
+            err: "Username cannot be longer than 20 characters."
+        }
+    }
+
+    return res;
+}
+
+export function validPassword(password: string ): IInputFieldValidationResponse {
+    let res: IInputFieldValidationResponse = {
+        valid: true,
+        err: ""
+    }
+
+    if (password.length === 0) {
+        res = {
+            valid: false,
+            err: "You need a password"
+        }
+    } else if (password.length > 50) {
+        res = {
+            valid: false,
+            err: "Password cannot be longer than 50 characters."
+        }
+    } 
     return res;
 }
 

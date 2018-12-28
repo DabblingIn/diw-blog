@@ -6,10 +6,24 @@ import { AxiosResponse } from 'axios';
  * DEFAULT API RESPONSE FORMAT
  */
 
-export interface IDefaultJsonResponse<T> {
+export interface IDefaultJsonReturn<T> {
     err: string;
     data: T;
 }
+
+export interface ISuccessErrJsonReturn {
+    success: boolean;      // whether attempt was successful
+    err: string | null;    // error message (if any)
+}
+
+export interface ISuccessErrDataJsonReturn<T> {
+    success: boolean;      // whether attempt was successful
+    err: string | null;    // error message (if any)
+    data?: T;              // accompanying relevant response data
+}
+
+export interface ISuccessErrJsonResponse extends AxiosResponse<ISuccessErrJsonReturn> {}
+export interface ISuccessErrDataJsonResponse<T> extends AxiosResponse<ISuccessErrDataJsonReturn<T>> {}
 
 /*
  * ARTICLES
@@ -64,7 +78,7 @@ export interface IGetArticleListData {
 
 
 
-export interface IGetArticlesListingResponse extends AxiosResponse<IDefaultJsonResponse<IGetArticleListData[]>> {}
+export interface IGetArticlesListingResponse extends AxiosResponse<IDefaultJsonReturn<IGetArticleListData[]>> {}
 
 
 /*export interface IArticleData extends IArticleListData {
@@ -79,7 +93,8 @@ export interface IArticlesDataUrlIdMap {
     [articleUrlId: string]: IGetArticleData;
 }
 
-export interface IGetArticleDataResponse extends AxiosResponse<IDefaultJsonResponse<IGetArticleData>> {}
+export interface IGetArticleDataResponse extends AxiosResponse<IDefaultJsonReturn<IGetArticleData>> {}
+
 
 /*
  * USERS
