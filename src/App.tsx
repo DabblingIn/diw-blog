@@ -72,11 +72,6 @@ class App extends React.Component<IAppProps, IAppState> {
         this.props.startSessionDataFetch();
         getEditorSessionData()
           .then(({ data: resData }) => {
-              this.props.failSessionDataFetch();
-              this.setState({
-                loadingPageErrorMessage: JSON.stringify(resData)
-              })
-              return;
               if (resData.err !== null) {
                 if (resData.data === null) {
                   // data retrieved, NO current session
