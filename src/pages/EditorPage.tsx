@@ -1,12 +1,16 @@
 import * as React from 'react';
 
 import { Route, Redirect } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from 'react-router'; //IEditorPageProps
+import { connect } from 'react-redux';
 
 import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
-import EditorLoginForm from '../parts/EditorLoginForm/EditorLoginForm';
+import EditorLoginFormContainer from '../parts/EditorLoginForm/EditorLoginFormContainer';
 import EditArticlePanel from '../parts/EditArticlePanel/EditArticlePanel';
-import EditorArticleListing from '../parts/EditorArticleListing/EditorArticleListing';
+//import EditorArticleListing from '../parts/EditorArticleListing/EditorArticleListing';
+
+import { IReduxStoreState } from '../reducers';
+import { logout as authLogout } from '../parts/Auth/AuthActions';
 
 import { getSubdomainConfig } from '../subdomains';
 
@@ -17,13 +21,17 @@ import { defaultTheme as theme } from '../style/themes';
 
 import './EditorPage.css';
 
+export interface IEditorPageReduxMapProps {
+    authorId?: string | null;
+    isAuthenticated?: boolean;
+} 
 
-interface IEditorPageProps extends RouteComponentProps {};
-
-interface IEditorPageState {
-    authorId: string;
-    selectedArticleUrlId: string;
+export interface IEditorPageProps extends RouteComponentProps {
+    authorId?: string;
+    isAuthenticated?: boolean;
 };
+
+interface IEditorPageState {};
 
 const subdomainConfig = getSubdomainConfig();
 
@@ -66,15 +74,14 @@ const editorPageStyle = {
 */
 
 
-export default class EditorPage extends React.Component<IEditorPageProps, IEditorPageState> {
+class EditorPage extends React.Component<IEditorPageProps, IEditorPageState> {
     constructor(props: IEditorPageProps) {
         super(props);
 
-        this.state = {
+        /*this.state = {
             // TODO: Get authorId from session info, once session logic established
-            authorId: "lasdkjfh2o478h",
-            selectedArticleUrlId: ""
-        }
+            authorId: "lasdkjfh2o478h"
+        }*/
     }
 
     public render() {
@@ -83,17 +90,49 @@ export default class EditorPage extends React.Component<IEditorPageProps, IEdito
         const { match } = this.props;
 
         return (
-                <div className="editor-page" style={editorPageStyle}>
-                    <DefaultNavbar />
-                    <Route path={match.url} exact={true} render={(props) => <EditorArticleListing {...props} authorId={this.state.authorId}/>} />
-                    <Route path={`${match.url}/login`} component={EditorLoginForm}/>
-                    <Route path={`${match.url}/logout`} render={() => {
-                        postEditorLogout();
+            <div className="editor-page" style={editorPageStyle}>
+                <DefaultNavbar />
+                <Route path={match.url} exact={true} render={(props) => {
+                    // TODO: Fix once this check is done
+                    return (<p>
+                        <b>isAuth</b>: {
+                            String(this.props.isAuthenticated)
+                        } 
+                        &nbsp;
+                        <b>authorId</b>: {
+                            String(this.props.authorId)
+                        }
+                        </p>)
+                    /*if (this.props.isAuthenticated && this.props.authorId !== undefined) {
+                        // Show author's articles
+                        return (<EditorArticleListing {...props} authorId={this.props.authorId}/>);
+                    } else {
+                        // Redirect to login
                         return (<Redirect to={`${match.url}/login`} />);
-                    }}/>
-                    <Route path={`${match.url}/new`} component={EditArticlePanel}/>
-                    <Route path={`${match.url}/edit/:articleId`} component={EditArticlePanel} />
-                </div>
+                    }*/
+                }}/>
+                <Route path={`${match.url}/login`} component={EditorLoginFormContainer}/>
+                <Route path={`${match.url}/logout`} render={(props) => {
+                    postEditorLogout();
+                    authLogout();
+                    return (<Redirect to={`${match.url}/login`} />);
+                }}/>
+                <Route path={`${match.url}/new`} component={EditArticlePanel}/>
+                <Route path={`${match.url}/edit/:articleId`} component={EditArticlePanel} />
+            </div>
         );
     }
 }
+
+function mapStateToProps(state: IReduxStoreState): IEditorPageReduxMapProps {
+    const { isAuthenticated, user } = state.auth;
+    return {
+        isAuthenticated,
+        authorId: user ? user.id : null
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    null
+)(EditorPage);

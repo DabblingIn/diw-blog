@@ -22,8 +22,14 @@ export interface ISuccessErrDataJsonReturn<T> {
     data?: T;              // accompanying relevant response data
 }
 
+export interface IDataErrJsonReturn<T> {
+    data?: T;
+    err: string | null;
+}
+
 export interface ISuccessErrJsonResponse extends AxiosResponse<ISuccessErrJsonReturn> {}
 export interface ISuccessErrDataJsonResponse<T> extends AxiosResponse<ISuccessErrDataJsonReturn<T>> {}
+export interface IDataErrJsonResponse<T> extends AxiosResponse<IDataErrJsonReturn<T>> {}
 
 /*
  * ARTICLES
@@ -79,11 +85,6 @@ export interface IGetArticleListData {
 
 
 export interface IGetArticlesListingResponse extends AxiosResponse<IDefaultJsonReturn<IGetArticleListData[]>> {}
-
-
-/*export interface IArticleData extends IArticleListData {
-    articleBody: string;    // html
-}*/
 
 export interface IArticlesDataIdMap {
     [articleId: string]: IGetArticleData;
@@ -152,6 +153,26 @@ export interface IGetUserListDataReturn {
     userPictureUrl: string;   // user_profile:picture
     userWebsite: string;      // user_profile:website
 }
+
+// Editor: Session / Login
+interface IEditorLoginDataReturn {
+    userId: string;
+}
+
+interface IEditorLoginDataResponse extends ISuccessErrDataJsonResponse<IEditorLoginDataReturn> {}
+
+
+export interface IEditorSessionUser {
+    id: string; 
+}
+
+export interface IGetEditorSessionData {
+    user: IEditorSessionUser;    // same, but without an optional user
+}
+
+interface IGetEditorSessionDataResponse extends IDataErrJsonResponse<IGetEditorSessionData> {}
+
+
 
 /*export interface IUserData {
     id: string,
