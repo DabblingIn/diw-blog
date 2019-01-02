@@ -7,12 +7,14 @@ import { connect } from 'react-redux';
 import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
 import EditorLoginFormContainer from '../parts/EditorLoginForm/EditorLoginFormContainer';
 import EditArticlePanel from '../parts/EditArticlePanel/EditArticlePanel';
-//import EditorArticleListing from '../parts/EditorArticleListing/EditorArticleListing';
+import EditorArticleListing from '../parts/EditorArticleListing/EditorArticleListing';
 
 import { IReduxStoreState } from '../reducers';
 import { logout as authLogout } from '../parts/Auth/AuthActions';
 
 import { getSubdomainConfig } from '../subdomains';
+
+import { removeTrailingSlash } from '../util';
 
 import { postEditorLogout } from '../parts/ApiCaller/ApiCaller';
 //import { IGetArticleDataResponse, IArticleData, IGetUserDataResponse, IUserData } from '../parts/ApiCaller/ApiCaller.d';
@@ -22,14 +24,13 @@ import { defaultTheme as theme } from '../style/themes';
 import './EditorPage.css';
 
 export interface IEditorPageReduxMapProps {
+    sessionDataRetrieved: boolean;
+    fetchingSessionData: boolean;
     authorId?: string | null;
     isAuthenticated?: boolean;
 } 
 
-export interface IEditorPageProps extends RouteComponentProps {
-    authorId?: string;
-    isAuthenticated?: boolean;
-};
+export interface IEditorPageProps extends RouteComponentProps, IEditorPageReduxMapProps {};
 
 interface IEditorPageState {};
 
@@ -77,56 +78,46 @@ const editorPageStyle = {
 class EditorPage extends React.Component<IEditorPageProps, IEditorPageState> {
     constructor(props: IEditorPageProps) {
         super(props);
-
-        /*this.state = {
-            // TODO: Get authorId from session info, once session logic established
-            authorId: "lasdkjfh2o478h"
-        }*/
     }
 
     public render() {
         document.title = subdomainConfig.tabName + " | " + "Editor";
 
-        const { match } = this.props;
+        const matchUrl = removeTrailingSlash(this.props.match.url);
 
         return (
             <div className="editor-page" style={editorPageStyle}>
                 <DefaultNavbar />
-                <Route path={match.url} exact={true} render={(props) => {
-                    // TODO: Fix once this check is done
-                    return (<p>
-                        <b>isAuth</b>: {
-                            String(this.props.isAuthenticated)
-                        } 
-                        &nbsp;
-                        <b>authorId</b>: {
-                            String(this.props.authorId)
-                        }
-                        </p>)
-                    /*if (this.props.isAuthenticated && this.props.authorId !== undefined) {
+                <Route path={matchUrl} exact={true} render={(props) => {
+                    // TODO: fix so that it doesn't redirect to login and then back to editor listing (from delayed realization of redux state update)
+                    const { isAuthenticated, authorId } = this.props; 
+                    if (isAuthenticated && authorId !== undefined) {
                         // Show author's articles
-                        return (<EditorArticleListing {...props} authorId={this.props.authorId}/>);
+                        return (<EditorArticleListing {...props} authorId={authorId!}/>);
                     } else {
                         // Redirect to login
-                        return (<Redirect to={`${match.url}/login`} />);
-                    }*/
+                        return <Redirect to={`${matchUrl}/login`} />;
+                    }
                 }}/>
-                <Route path={`${match.url}/login`} component={EditorLoginFormContainer}/>
-                <Route path={`${match.url}/logout`} render={(props) => {
+                <Route path={`${matchUrl}/login`} component={EditorLoginFormContainer}/>
+                <Route path={`${matchUrl}/logout`} render={(props) => {
                     postEditorLogout();
                     authLogout();
-                    return (<Redirect to={`${match.url}/login`} />);
+                    // TODO: max sure that EditorPage realizes the update of session data in redux and doesn't redirect to the editor listing
+                    return <Redirect to={`${matchUrl}/login`} />;
                 }}/>
-                <Route path={`${match.url}/new`} component={EditArticlePanel}/>
-                <Route path={`${match.url}/edit/:articleId`} component={EditArticlePanel} />
+                <Route path={`${matchUrl}/new`} component={EditArticlePanel}/>
+                <Route path={`${matchUrl}/edit/:articleId`} component={EditArticlePanel} />
             </div>
         );
     }
 }
 
 function mapStateToProps(state: IReduxStoreState): IEditorPageReduxMapProps {
-    const { isAuthenticated, user } = state.auth;
+    const { isAuthenticated, user, sessionDataRetrieved, fetchingSessionData } = state.auth;
     return {
+        sessionDataRetrieved,
+        fetchingSessionData,
         isAuthenticated,
         authorId: user ? user.id : null
     }

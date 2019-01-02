@@ -17,8 +17,6 @@ export interface IEditorLoginFormState {
     username: string;
     password: string;
 
-    loggedIn: boolean;
-
     usernameErr: string | null;
     usernameErrColor: string;
     passwordErr: string | null;
@@ -41,8 +39,6 @@ export default class EditorLoginForm extends React.Component<IEditorLoginFormPro
         this.state = {
             username: "",
             password: "",
-
-            loggedIn: props.sessionUser ? true : false,
 
             usernameErr: "",
             usernameErrColor: BLACK,
@@ -136,14 +132,11 @@ export default class EditorLoginForm extends React.Component<IEditorLoginFormPro
                         this.setState({
                             password: '',
                             loginSubmitErr: "Logged In!: " + userId,
-                            loginSubmitErrColor: GREEN,
-                            loggedIn: true
+                            loginSubmitErrColor: GREEN
                         })
 
                         // set in redux store
                         this.props.succeedSessionDataFetch({ id: userId });
-
-                        // TODO: redirect and/or set state to logged in
                     } else {
                         // disable login button post-fail
                         this.setState({
@@ -165,7 +158,7 @@ export default class EditorLoginForm extends React.Component<IEditorLoginFormPro
     }
 
     public render() {
-        if (this.state.loggedIn) {
+        if (this.props.isAuthenticated) {
             return (<Redirect to={'/editor'} />)
         }
 

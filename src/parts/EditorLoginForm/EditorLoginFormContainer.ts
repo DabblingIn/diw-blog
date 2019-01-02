@@ -10,12 +10,15 @@ import { IEditorSessionUser } from '../ApiCaller/ApiCaller.d';
 
 export interface IEditorLoginFormReduxMapProps {
     sessionUser: IAuthReducerState['user'];
+    isAuthenticated: boolean;
     succeedSessionDataFetch: (user: IEditorSessionUser) => any;
 }
 
 function mapStateToProps(state: IReduxStoreState, ownProps: IEditorLoginFormProps) {
+    const { user, isAuthenticated } = state.auth;
     return {
-        sessionUser: state.auth.user
+        sessionUser: user,
+        isAuthenticated
     }
 }
 

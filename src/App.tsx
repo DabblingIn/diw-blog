@@ -72,7 +72,7 @@ class App extends React.Component<IAppProps, IAppState> {
         this.props.startSessionDataFetch();
         getEditorSessionData()
           .then(({ data: resData }) => {
-              if (resData.err !== null) {
+              if (resData.err === null) {
                 if (resData.data === null) {
                   // data retrieved, NO current session
                   this.props.succeedSessionDataFetch();
@@ -108,8 +108,13 @@ class App extends React.Component<IAppProps, IAppState> {
   public render() {
     document.title = subdomainConfig.tabName;
 
-    if (!this.state.sessionDataRetrieved) {
-      return <LoadingPage errorMessage={this.state.loadingPageErrorMessage} />;
+    if (this.props.fetchingSessionData && !this.props.sessionDataRetrieved) {
+      return (
+        <div className="app">
+            <div className="app__background" style={backgroundStyle}/>
+            <LoadingPage errorMessage={this.state.loadingPageErrorMessage} />
+        </div>
+      );
     }
 
     return (

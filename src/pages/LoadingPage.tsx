@@ -22,7 +22,7 @@ export default class LoadingPage extends React.Component<ILoadingPageProps, {}> 
     public render() {
         document.title = subdomainConfig.tabName;
 
-        let message = "Just a tick!  Still loading.";
+        let message = "Just a tick!  Loading.";
         if (this.props.errorMessage) {
             message = this.props.errorMessage
         }

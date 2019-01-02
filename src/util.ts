@@ -11,6 +11,10 @@ export function isLocalhost() {
     return (location.hostname === LOCALHOST);
 }
 
+export function removeTrailingSlash(url: string): string {
+    return url.replace(/\/$/, "");
+}
+
 /*
   Article Element Formats
 */
