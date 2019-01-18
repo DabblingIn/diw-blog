@@ -20,7 +20,7 @@ export default class ArticleListing extends React.PureComponent<IArticleListingP
                 {
                     this.props.articlesListData.map((articleListData:  IGetArticleListData ) => {
                         const articleListItemProps: IArticleListItemProps = articleListData;
-                        return (<ArticleListItem key={util.articleLink(articleListData.articleId)} {...articleListItemProps}/>);
+                        return (<ArticleListItem key={util.articleLink(articleListData.articleUrlId)} {...articleListItemProps}/>);
                     })
                 }
             </section>
