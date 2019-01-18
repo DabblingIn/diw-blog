@@ -92,9 +92,8 @@ export function getArticleDataById(articleId: string): Promise<IGetArticleDataRe
         return promise;
     } else {
         // api
-        // TODO: Replace with axios.get() method after backend established
-        // ARTICLE_DATA_PATH/:articleId
-        const url = API_PATH.articleData + '/' + articleId;
+        // ARTICLE_DATA_PATH/id/:articleId
+        const url = API_PATH.articleData + '/id/' + articleId;
         return axios.get(url, wCred());
     }
 }
@@ -107,8 +106,8 @@ export function getArticleDataByUrlId(articleUrlId: string) {
         return promise;
     } else {
         // api
-        // ARTICLE_DATA_PATH?urlId=some-url-id
-        return axios.get(API_PATH.articleData, wCred({ params: { urlId: articleUrlId } }));
+        // ARTICLE_DATA_PATH/urlId/some-url-id
+        return axios.get(API_PATH.articleData + "/urlId/" + articleUrlId);
     }
 }
 
