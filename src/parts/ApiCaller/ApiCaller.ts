@@ -79,8 +79,23 @@ export function getArticlesListing(args: IGetArticlesListingArgs): Promise<IGetA
         return promise;
     } else {
         // api
-        // TODO: Replace with axios.get() method after backend established
-        return axios.get(API_PATH.articlesListing, wCred());
+        let urlPath = API_PATH.articlesListing;
+        let urlQuery = {};
+        const nonMegaSub = args.sub && !isMegaSub(args.sub);
+        if (args.authorId || args.authorUsername) {
+            if (nonMegaSub) {
+                urlQuery = { sub: args.sub };
+            }
+
+            if (args.authorId) {
+                urlPath += "/author/id/" + args.authorId;
+            } else {
+                urlPath += "/author/username/" + args.authorUsername;
+            }
+        } else if (nonMegaSub) {
+            urlPath += "/sub/" + args.sub;
+        }
+        return axios.get(urlPath, wCred({ params: urlQuery }));
     }
 }
 
