@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter, RouteComponentProps } from 'react-router';
 
 import { IReduxStoreState } from '../../reducers';
 
@@ -8,7 +9,7 @@ import { succeedSessionDataFetch } from '../Auth/AuthActions';
 import { IAuthReducerState } from '../Auth/AuthReducer';
 import { IEditorSessionUser } from '../ApiCaller/ApiCaller.d';
 
-export interface IEditorLoginFormReduxMapProps {
+export type IEditorLoginFormReduxMapProps = RouteComponentProps & {
     sessionUser: IAuthReducerState['user'];
     isAuthenticated: boolean;
     succeedSessionDataFetch: (user: IEditorSessionUser) => any;
@@ -31,4 +32,4 @@ function mapDispatchToProps(dispatch: Dispatch, ownProps: IEditorLoginFormProps)
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(EditorLoginForm);
+)(withRouter(EditorLoginForm));

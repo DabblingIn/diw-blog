@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import { Route, Redirect } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router'; //IEditorPageProps
+import { withRouter, RouteComponentProps } from 'react-router'; //IEditorPageProps
 import { connect } from 'react-redux';
 
 import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
@@ -126,4 +126,4 @@ function mapStateToProps(state: IReduxStoreState): IEditorPageReduxMapProps {
 export default connect(
     mapStateToProps,
     null
-)(EditorPage);
+)(withRouter(EditorPage));
