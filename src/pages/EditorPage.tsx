@@ -1,14 +1,20 @@
 import * as React from 'react';
 
 import { Route, Redirect } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router';
+import { withRouter, RouteComponentProps } from 'react-router'; //IEditorPageProps
+import { connect } from 'react-redux';
 
 import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
-import EditorLoginForm from '../parts/EditorLoginForm/EditorLoginForm';
+import EditorLoginFormContainer from '../parts/EditorLoginForm/EditorLoginFormContainer';
 import EditArticlePanel from '../parts/EditArticlePanel/EditArticlePanel';
 import EditorArticleListing from '../parts/EditorArticleListing/EditorArticleListing';
 
+import { IReduxStoreState } from '../reducers';
+import { logout as authLogout } from '../parts/Auth/AuthActions';
+
 import { getSubdomainConfig } from '../subdomains';
+
+import { removeTrailingSlash } from '../util';
 
 import { postEditorLogout } from '../parts/ApiCaller/ApiCaller';
 //import { IGetArticleDataResponse, IArticleData, IGetUserDataResponse, IUserData } from '../parts/ApiCaller/ApiCaller.d';
@@ -17,13 +23,16 @@ import { defaultTheme as theme } from '../style/themes';
 
 import './EditorPage.css';
 
+export interface IEditorPageReduxMapProps {
+    sessionDataRetrieved: boolean;
+    fetchingSessionData: boolean;
+    authorId?: string | null;
+    isAuthenticated?: boolean;
+} 
 
-interface IEditorPageProps extends RouteComponentProps {};
+export interface IEditorPageProps extends RouteComponentProps, IEditorPageReduxMapProps {};
 
-interface IEditorPageState {
-    authorId: string;
-    selectedArticleUrlId: string;
-};
+interface IEditorPageState {};
 
 const subdomainConfig = getSubdomainConfig();
 
@@ -66,34 +75,55 @@ const editorPageStyle = {
 */
 
 
-export default class EditorPage extends React.Component<IEditorPageProps, IEditorPageState> {
+class EditorPage extends React.Component<IEditorPageProps, IEditorPageState> {
     constructor(props: IEditorPageProps) {
         super(props);
-
-        this.state = {
-            // TODO: Get authorId from session info, once session logic established
-            authorId: "lasdkjfh2o478h",
-            selectedArticleUrlId: ""
-        }
     }
 
     public render() {
         document.title = subdomainConfig.tabName + " | " + "Editor";
 
-        const { match } = this.props;
+        const matchUrl = removeTrailingSlash(this.props.match.url);
 
         return (
-                <div className="editor-page" style={editorPageStyle}>
-                    <DefaultNavbar />
-                    <Route path={match.url} exact={true} render={(props) => <EditorArticleListing {...props} authorId={this.state.authorId}/>} />
-                    <Route path={`${match.url}/login`} component={EditorLoginForm}/>
-                    <Route path={`${match.url}/logout`} render={() => {
-                        postEditorLogout();
-                        return (<Redirect to={`${match.url}/login`} />);
-                    }}/>
-                    <Route path={`${match.url}/new`} component={EditArticlePanel}/>
-                    <Route path={`${match.url}/edit/:articleId`} component={EditArticlePanel} />
-                </div>
+            <div className="editor-page" style={editorPageStyle}>
+                <DefaultNavbar />
+                <Route path={matchUrl} exact={true} render={(props) => {
+                    // TODO: fix so that it doesn't redirect to login and then back to editor listing (from delayed realization of redux state update)
+                    const { isAuthenticated, authorId } = this.props; 
+                    if (isAuthenticated && authorId !== undefined) {
+                        // Show author's articles
+                        return (<EditorArticleListing {...props} authorId={authorId!}/>);
+                    } else {
+                        // Redirect to login
+                        return <Redirect to={`${matchUrl}/login`} />;
+                    }
+                }}/>
+                <Route path={`${matchUrl}/login`} component={EditorLoginFormContainer}/>
+                <Route path={`${matchUrl}/logout`} render={(props) => {
+                    postEditorLogout();
+                    authLogout();
+                    // TODO: max sure that EditorPage realizes the update of session data in redux and doesn't redirect to the editor listing
+                    return <Redirect to={`${matchUrl}/login`} />;
+                }}/>
+                <Route path={`${matchUrl}/new`} component={EditArticlePanel}/>
+                <Route path={`${matchUrl}/edit/:articleId`} component={EditArticlePanel} />
+            </div>
         );
     }
 }
+
+function mapStateToProps(state: IReduxStoreState): IEditorPageReduxMapProps {
+    const { isAuthenticated, user, sessionDataRetrieved, fetchingSessionData } = state.auth;
+    return {
+        sessionDataRetrieved,
+        fetchingSessionData,
+        isAuthenticated,
+        authorId: user ? user.id : null
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    null
+)(withRouter(EditorPage));

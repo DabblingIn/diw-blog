@@ -4,7 +4,10 @@ import {
     IGetArticleDataResponse,
     IGetArticlesListingResponse,
     ISuccessErrJsonResponse,
-    ISuccessErrDataJsonResponse,
+
+    IEditorLoginDataResponse,
+    IGetEditorSessionDataResponse,
+
     IGetUserDataResponse
 } from './ApiCaller.d';
 
@@ -33,7 +36,8 @@ const API_PATH = {
     articleData: apiPath('/article/data'),
     userData: apiPath('/user/data'),
     editorLogin: apiPath('/editor/login'),
-    editorLogout: apiPath('/editor/logout')
+    editorLogout: apiPath('/editor/logout'),
+    editorSessionData: apiPath('/editor/session'),
 }
 
 
@@ -126,17 +130,15 @@ export function getArticleDataByUrlId(articleUrlId: string) {
     }
 }
 
-// LOGIN
+// Editor: SESSION / LOGIN
 interface IEditorLoginConfig {
     username: string;
     password: string;
 }
-interface IEditorLoginDataReturn {
-    userId: string;
-}
-export function postEditorLogin(loginConfig: IEditorLoginConfig): Promise<ISuccessErrDataJsonResponse<IEditorLoginDataReturn>> {
+
+export function postEditorLogin(loginConfig: IEditorLoginConfig): Promise<IEditorLoginDataResponse> {
     if (apiConfig.MOCK) {
-        const response: ISuccessErrDataJsonResponse<IEditorLoginDataReturn> = mockResponse({
+        const response: IEditorLoginDataResponse = mockResponse({
              success: true,
              err: null,
              data: { userId: "258c1fe9-3d24-46d4-a874-597a6e5bb284" } // user0
@@ -151,6 +153,13 @@ export function postEditorLogin(loginConfig: IEditorLoginConfig): Promise<ISucce
 export function postEditorLogout(): Promise<ISuccessErrJsonResponse> {
     return axios.post(API_PATH.editorLogout, {}, wCred());
 }
+
+
+export function getEditorSessionData(): Promise<IGetEditorSessionDataResponse> {
+    return axios.get(API_PATH.editorSessionData, wCred());
+}
+
+
 
 // USERS
 

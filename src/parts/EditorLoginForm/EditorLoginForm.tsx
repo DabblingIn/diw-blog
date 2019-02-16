@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { MouseEvent, FormEvent } from 'react';
+import { Redirect } from 'react-router';
+import { IEditorLoginFormReduxMapProps } from './EditorLoginFormContainer';
 
 import { validUsername, validPassword } from '../../util';
 import { postEditorLogin } from '../ApiCaller/ApiCaller';
@@ -7,7 +9,9 @@ import { postEditorLogin } from '../ApiCaller/ApiCaller';
 import { defaultTheme as theme } from '../../style/themes';
 import './EditorLoginForm.css';
 
-export interface IEditorLoginFormProps {};
+export interface IEditorLoginFormProps extends IEditorLoginFormReduxMapProps {};
+
+//interface IEditorLoginFormProps extends RouteComponentProps<IEditorLoginFormProps> {};
 
 export interface IEditorLoginFormState {
     username: string;
@@ -124,13 +128,15 @@ export default class EditorLoginForm extends React.Component<IEditorLoginFormPro
                         if (data !== undefined) {
                             userId = data.userId;
                         }
+
                         this.setState({
                             password: '',
                             loginSubmitErr: "Logged In!: " + userId,
                             loginSubmitErrColor: GREEN
                         })
 
-                        // TODO: redirect and/or set state to logged in
+                        // set in redux store
+                        this.props.succeedSessionDataFetch({ id: userId });
                     } else {
                         // disable login button post-fail
                         this.setState({
@@ -152,6 +158,10 @@ export default class EditorLoginForm extends React.Component<IEditorLoginFormPro
     }
 
     public render() {
+        if (this.props.isAuthenticated) {
+            return (<Redirect to={'/editor'} />)
+        }
+
         return (
             <form className="editor-loginform" style={theme.itemBoxStyle}>
                 <h2 className="editor-loginform__title">Log In</h2>
