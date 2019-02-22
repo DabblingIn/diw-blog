@@ -31,6 +31,10 @@ const SUBDOMAIN_CONFIG: ISubdomainMetadataMap = {
     web: {
         name: "Dabbling In Web",
         tabName: "DIW"
+    },
+    articleSub00: {
+        name: "Sub00",
+        tabName: "DIW:S0"
     }
 };
 
@@ -45,7 +49,8 @@ function parseSubdomain(hostname: string): string {
 
 export function getSubKey() {
     if (isLocalhost()) {
-        return DEFAULT_SUB;
+        return process.env.REACT_APP_TESTSUB ?
+            process.env.REACT_APP_TESTSUB : DEFAULT_SUB;
     } else {
         return parseSubdomain(location.hostname);
     }
