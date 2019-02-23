@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 
 
 /*
- * DEFAULT API RESPONSE FORMAT
+ * GENERIC API RESPONSE JSON FORMATS
  */
 
 export interface IDefaultJsonReturn<T> {
@@ -35,17 +35,7 @@ export interface IDataErrJsonResponse<T> extends AxiosResponse<IDataErrJsonRetur
  * ARTICLES
  */
 
-/*export interface IArticleListData {
-    articleId: string;
-    articleTitle: string,
-    articleDescription: string;
-    articleDate: Date;
-    articleSub: string;
-
-    authorId: string;
-    authorUsername: string;
-    authorName: string;
-}*/
+// article:DATA
 
 export interface IGetArticleData {
     articleId: string;            // article:id
@@ -65,6 +55,26 @@ export interface IGetArticleData {
     authorPicture: string;        // user_profile:picture
 }
 
+export interface IPostArticleDataQuery {
+    articleUrlId:        string;       // article:url_id
+    articleTitle:        string,       // article:title
+    articleDescription:  string;       // article:description
+    articleSub:          string;       // article:sub
+    articleContent:      string;       // article:content
+}
+
+export interface IPostArticleDataReturn {
+    articleId: string;                  // article:id
+}
+
+export interface IUpdateArticleDataQuery {
+    articleUrlId?:        string;      // article:url_id
+    articleTitle?:        string,      // article:title
+    articleDescription?:  string;      // article:description
+    articleContent?:      string;      // article:content
+}
+
+// article:LISTING
 
 export interface IGetArticleListData {
     articleId: string;            // article:id
@@ -82,10 +92,6 @@ export interface IGetArticleListData {
 }
 
 
-
-
-export interface IGetArticlesListingResponse extends AxiosResponse<IDefaultJsonReturn<IGetArticleListData[]>> {}
-
 export interface IArticlesDataIdMap {
     [articleId: string]: IGetArticleData;
 }
@@ -94,8 +100,12 @@ export interface IArticlesDataUrlIdMap {
     [articleUrlId: string]: IGetArticleData;
 }
 
-export interface IGetArticleDataResponse extends AxiosResponse<IDefaultJsonReturn<IGetArticleData>> {}
+export interface IGetArticlesListingResponse extends AxiosResponse<IDefaultJsonReturn<IGetArticleListData[]>> {}
 
+export interface IGetArticleDataResponse extends AxiosResponse<IDefaultJsonReturn<IGetArticleData>> {}
+export interface IPostArticleDataResponse extends AxiosResponse<IDefaultJsonReturn<IPostArticleDataReturn>> {}
+export interface IPutArticleDataResponse extends AxiosResponse<ISuccessErrJsonReturn> {}
+export interface IDeleteArticleByIdResponse extends AxiosResponse<ISuccessErrJsonReturn> {}
 
 /*
  * USERS
@@ -128,23 +138,6 @@ export interface IUpdateUserDataQuery {
     userWebsite?: string;      // user_profile:website
 }
 
-// POST
-/*export interface IPostUserDataQuery {
-    username?: string;         // user_account:username
-    userEmail?: string;        // user_accout:email
-    userPhone?: string;        // user_account:phone_number
-    userDisplayName?: string;  // user_profile:display_name
-    userPictureUrl?: string;   // user_profile:picture
-    userGender?: string;       // user_profile:gender
-    userLocation?: string;     // user_profile:location
-    userWebsite?: string;      // user_profile:website
-}*/
-
-// DELETE
-/*export interface IDeleteUserDataQuery {
-    user: string;            // user_account:id
-}*/
-
 // listing: GET
 export interface IGetUserListDataReturn {
     userId: string;           // user_account:id
@@ -154,9 +147,27 @@ export interface IGetUserListDataReturn {
     userWebsite: string;      // user_profile:website
 }
 
+export interface IUsersDataMap {
+    [userId: string]: IGetUserListDataReturn;
+}
+
+export interface IGetUserDataResponse extends AxiosResponse<IDefaultJsonReturn<IGetUserDataReturn>> {}
+
+export interface IUsersListDataMap {
+    [userId: string]: IGetUserListDataReturn;
+}
+
+export interface IGetUserListDataResponse extends AxiosResponse<IGetUserListDataReturn> {}
+
+
 // Editor: Session / Login
 interface IEditorLoginDataReturn {
     userId: string;
+}
+
+interface IEditorLoginQuery {
+    username: string;
+    password: string;
 }
 
 interface IEditorLoginDataResponse extends ISuccessErrDataJsonResponse<IEditorLoginDataReturn> {}
@@ -171,24 +182,3 @@ export interface IGetEditorSessionData {
 }
 
 interface IGetEditorSessionDataResponse extends IDataErrJsonResponse<IGetEditorSessionData> {}
-
-
-
-/*export interface IUserData {
-    id: string,
-    username: string,
-    name: string,
-    url: string
-}*/
-
-export interface IUsersDataMap { 
-    [userId: string]: IGetUserListDataReturn; 
-}
-
-export interface IGetUserDataResponse extends AxiosResponse<IGetUserDataReturn> {}
-
-export interface IUsersListDataMap { 
-    [userId: string]: IGetUserListDataReturn; 
-}
-
-export interface IGetUserListDataResponse extends AxiosResponse<IGetUserListDataReturn> {}

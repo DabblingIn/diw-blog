@@ -2,9 +2,15 @@ import axios, { AxiosPromise } from 'axios';
 
 import {
     IGetArticleDataResponse,
+    IPostArticleDataQuery,
+    IPostArticleDataResponse,
+    IUpdateArticleDataQuery,
+    IPutArticleDataResponse,
+    IDeleteArticleByIdResponse,
     IGetArticlesListingResponse,
     ISuccessErrJsonResponse,
 
+    IEditorLoginQuery,
     IEditorLoginDataResponse,
     IGetEditorSessionDataResponse,
 
@@ -33,6 +39,7 @@ if (isLocalhost()) {
 
 const API_PATH = {
     articlesListing: apiPath('/article/listing'),
+    newArticle: apiPath('/article/new'),
     articleData: apiPath('/article/data'),
     userData: apiPath('/user/data'),
     editorLogin: apiPath('/editor/login'),
@@ -117,7 +124,29 @@ export function getArticleDataById(articleId: string): Promise<IGetArticleDataRe
     }
 }
 
-export function getArticleDataByUrlId(articleUrlId: string) {
+export function updateArticleData(articleId: string, updatedArticleData: IUpdateArticleDataQuery): Promise<IPutArticleDataResponse> {
+    // api
+    const url = API_PATH.articleData + '/id/' + articleId;
+    return axios.put(
+        url,
+        updatedArticleData,
+        wCred());
+}
+
+export function postNewArticle(newArticleData: IPostArticleDataQuery): Promise<IPostArticleDataResponse> {
+    // api
+    return axios.post(
+            API_PATH.newArticle,
+            newArticleData,
+            wCred());
+}
+
+export function deleteArticleById(articleId: string): Promise<IDeleteArticleByIdResponse> {
+    // api
+    return axios.delete(API_PATH.articleData + '/id/' + articleId);
+}
+
+export function getArticleDataByUrlId(articleUrlId: string): Promise<IGetArticleDataResponse> {
     if (apiConfig.MOCK) {
         // mock
         const response: IGetArticleDataResponse = mockResponse(MOCK_ARTICLES_DATA_URLIDMAP[articleUrlId]);
@@ -131,12 +160,8 @@ export function getArticleDataByUrlId(articleUrlId: string) {
 }
 
 // Editor: SESSION / LOGIN
-interface IEditorLoginConfig {
-    username: string;
-    password: string;
-}
 
-export function postEditorLogin(loginConfig: IEditorLoginConfig): Promise<IEditorLoginDataResponse> {
+export function postEditorLogin(loginConfig: IEditorLoginQuery): Promise<IEditorLoginDataResponse> {
     if (apiConfig.MOCK) {
         const response: IEditorLoginDataResponse = mockResponse({
              success: true,
@@ -171,8 +196,6 @@ export function getUserData(userId: string): Promise<IGetUserDataResponse> {
         return promise;
     } else {
         // api
-        // TODO: Replace with axios.get() method after backend established
-        // USER_DATA_PATH/:userId
         const url = API_PATH.userData + '/' + userId;
         return axios.get(url, wCred());
     }
