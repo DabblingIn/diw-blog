@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
 
-import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
+import DefaultNavbar from '../parts/Navbar/DefaultNavbar';
 import Article, { IArticleProps } from '../parts/Article/Article';
 
 import * as ApiCaller from '../parts/ApiCaller/ApiCaller';

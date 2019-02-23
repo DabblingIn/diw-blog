@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { withRouter, RouteComponentProps } from 'react-router'; //IEditorPageProps
 import { connect } from 'react-redux';
 
-import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
+import DefaultNavbar from '../parts/Navbar/DefaultNavbar';
 import EditorLoginFormContainer from '../parts/EditorLoginForm/EditorLoginFormContainer';
 import EditArticlePanel from '../parts/EditArticlePanel/EditArticlePanel';
 import EditorArticleListing from '../parts/EditorArticleListing/EditorArticleListing';

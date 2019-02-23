@@ -1,18 +1,13 @@
 
 import * as React from 'react';
 
-import NavbarLogo from '../NavbarLogo/NavbarLogo';
+import DefaultNavbarLogo from './DefaultNavbarLogo';
 
 import { getSubdomainConfig } from '../../subdomains';
 
 import { defaultTheme as theme } from '../../style/themes';
 
 import './DefaultNavbar.css';
-
-
-interface IDefaultNavbarProps {
-    //siteName: string;
-};
 
 const defaultNavbarStyle = {
     height: theme.navbarHeight
@@ -21,11 +16,11 @@ const defaultNavbarStyle = {
 
 const subdomainConfig = getSubdomainConfig();
 
-export default class DefaultNavbar extends React.Component<IDefaultNavbarProps, {}> {
+export default class DefaultNavbar extends React.Component<{}, {}> {
     public render() {
         return (
             <nav className="default-navbar" style={defaultNavbarStyle}>
-                <NavbarLogo siteName={subdomainConfig.name}/>
+                <DefaultNavbarLogo siteName={subdomainConfig.name}/>
             </nav>
         );
     }

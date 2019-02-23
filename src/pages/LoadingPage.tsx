@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import DefaultNavbar from '../parts/DefaultNavbar/DefaultNavbar';
+import DefaultNavbar from '../parts/Navbar/DefaultNavbar';
 
 import { getSubdomainConfig } from '../subdomains';
 

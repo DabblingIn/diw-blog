@@ -93,6 +93,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         this.changedContent = this.changedContent.bind(this);
         this.setPreviewHTML = this.setPreviewHTML.bind(this);
         this.clickSubmit = this.clickSubmit.bind(this);
+        this.resetErrorMessages = this.resetErrorMessages.bind(this);
     }
 
     public componentDidMount() {
