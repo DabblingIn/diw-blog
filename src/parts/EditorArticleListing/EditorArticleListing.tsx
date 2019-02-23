@@ -1,5 +1,6 @@
 
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 import EditorArticleListItem, { IEditorArticleListItemProps } from './EditorArticleListItem';
 import * as ApiCaller from '../ApiCaller/ApiCaller';
@@ -7,12 +8,15 @@ import { IGetArticlesListingResponse, IGetArticleListData } from '../ApiCaller/A
 import * as util from '../../util';
 import { getSubKey } from '../../subdomains';
 
+import './EditorArticleListing.css';
+
 export interface IEditorArticleListingProps {
     authorId: string;
 };
 
 export interface IEditorArticleListingState {
     articlesListData: IGetArticleListData[];
+    username: string;
 };
 
 
@@ -23,7 +27,8 @@ export default class EditorArticleListing extends React.Component<IEditorArticle
         super(props);
 
         this.state = {
-            articlesListData: []
+            articlesListData: [],
+            username: ""
         };
     }
 
@@ -39,12 +44,31 @@ export default class EditorArticleListing extends React.Component<IEditorArticle
                 });
             })
             //.catch();
+        ApiCaller
+            .getUserData(this.props.authorId)
+            .then(({ data: resData }) => {
+                const { err, data } = resData;
+                const { username } = data;
+                if (err) {
+                    // TODO: user fetch err
+                }
+                this.setState({
+                    username
+                })
+            })
+            //.catch()
     }
 
     public render() {
         return (
             <div>
-                <h1 style={{ fontFamily: "Oswald, sans-serif", margin: 5}}>Editor: Articles</h1>
+                <div>
+                    <h1 className="editor-article-listing__header">Editor: Articles</h1>
+                    <h2 className="editor-article-listing__user-header">{this.state.username}</h2>
+                    <Link to="/editor/new">
+                        <button className="editor-article-listing__new-article-button">New Article</button>
+                    </Link>
+                </div>
                 <section className="editor-article-listing">
                 {
                     this.state.articlesListData.map((articleListData:  IGetArticleListData ) => {
