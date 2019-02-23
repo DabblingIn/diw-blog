@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { MouseEvent, FormEvent } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import * as sanitizeHtml from 'sanitize-html';
 
@@ -11,7 +12,18 @@ import {
     sanitizeArticleContent
 } from '../../util';
 
-import { getArticleDataById } from '../ApiCaller/ApiCaller';
+import {
+    getArticleDataById,
+    updateArticleData,
+    postNewArticle
+} from '../ApiCaller/ApiCaller';
+
+import {
+    IPostArticleDataQuery,
+    IUpdateArticleDataQuery
+} from '../ApiCaller/ApiCaller.d';
+
+import { getSubKey, isMegaSub } from '../../subdomains';
 
 import { defaultTheme as theme } from '../../style/themes';
 import "./EditArticlePanel.css";
@@ -41,6 +53,8 @@ interface IEditArticlePanelState {
 
     submitError: string;
     successfulSubmit: boolean;
+
+    newArticleSuccess: boolean;
 };
 
 
@@ -50,6 +64,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
 
         let { articleId } = props.match.params;
         if (articleId === undefined) {
+            // new article
             articleId = null;
         }
 
@@ -67,9 +82,11 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
             contentError: '',
 
             submitError: '',
-            successfulSubmit: false
+            successfulSubmit: false,
+            newArticleSuccess: false
         };
 
+        this.newArticle = this.newArticle.bind(this);
         this.changedUrlId = this.changedUrlId.bind(this);
         this.changedTitle = this.changedTitle.bind(this);
         this.changedDescription = this.changedDescription.bind(this);
@@ -79,12 +96,17 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
     }
 
     public componentDidMount() {
-        if (this.state.articleId !== null) {
-            getArticleDataById(this.state.articleId)
-                //.then((articleDataResponse: IGetArticleDataResponse) => {
+        if (!this.newArticle()) {
+            getArticleDataById(this.state.articleId!)
                 .then(({ data: resData }) => {
                     const data = resData.data;
-                    // TODO: const { err } = resData;  // Use this backend err message if not null
+                    const { err } = resData;
+                    if (err) {
+                        this.setState({
+                            submitError: err
+                        })
+                        return;
+                    }
                     this.setState({
                         articleUrlId: data.articleUrlId,
                         articleTitle: data.articleTitle,
@@ -100,15 +122,19 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                         successfulSubmit: false
                     });
 
+                })
+                .catch((err) => {
+                    this.setState({
+                        // putting FETCH ERROR here
+                        submitError: err.message
+                    })
                 });
-
-            //TODO: set input box initial values (for exixting article, indicated by non-null initialArticleId)
-
-            // TODO: fetch article data based on initialArticleId
-            // TODO: If data is retrieved, populate existing values in all fields:
-            //   
-            // TODO: If the article doesn't exist, display error
         }
+    }
+
+    public newArticle(): boolean {
+        // checks if the article is new (POST) or existing (PUT)
+        return this.state.articleId === null;
     }
 
     public changedUrlId(e: FormEvent<HTMLInputElement>) {
@@ -194,13 +220,33 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         return { __html: `<h1 style="margin: 2px 0px;">${title}</h1><div>${content}</div>` }
     }
 
+    public resetErrorMessages(resetTime=3000) {
+        setTimeout(() => {
+                this.setState({
+                    successfulSubmit: false,
+                    submitError: '',
+                    urlIdError: '',
+                    titleError: '',
+                    descriptionError: '',
+                    contentError: ''
+                });
+            }, resetTime);
+    }
+
     public clickSubmit(e: MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
 
-        const urlIdVal = validArticleUrlId(this.state.articleUrlId);
-        const titleVal = validArticleTitle(this.state.articleTitle);
-        const descriptionVal = validArticleDescription(this.state.articleDescription);
-        const contentVal = validArticleContent(this.state.articleContent);
+        const {
+           articleUrlId,
+           articleTitle,
+           articleDescription
+        } = this.state;
+        const rawArticleContent = this.state.articleContent;
+
+        const urlIdVal = validArticleUrlId(articleUrlId);
+        const titleVal = validArticleTitle(articleTitle);
+        const descriptionVal = validArticleDescription(articleDescription);
+        const contentVal = validArticleContent(rawArticleContent);
 
         if (!(
             urlIdVal.valid &&
@@ -218,35 +264,86 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
             });
             return;
         } else {
-            // Successful submit
-            // TODO: Trigger API call
-            // TODO: Trigger articleId change and success/fail error message *based on AJAX success*
-            // TODO: Use sanitizeArticleContent on articleContent before submit.
-            this.setState(state => ({
-                submitError: 'Successful submit!',
-                successfulSubmit: true
-            }));
+            // Valid fields.  Attempting PUT or POST
+            const articleSub = getSubKey();
+            const sanitizedArticleContent = sanitizeArticleContent(rawArticleContent);
+            if(this.newArticle()) {
+                const newArticleData: IPostArticleDataQuery = {
+                    articleSub,
+                    articleUrlId,
+                    articleTitle,
+                    articleDescription,
+                    articleContent: sanitizedArticleContent
+                }
+                if (isMegaSub(articleSub)) {
+                    // TODO: what to do if mega sub?
+                    this.setState({
+                        successfulSubmit: false,
+                        submitError: "Can't do this in master!"
+                    })
+                }
+                postNewArticle(newArticleData)
+                    .then(({ data: resData }) => {
+                        const { err, data } = resData;
+                        if (err !== null) {
+                            this.setState({
+                                submitError: err
+                            })
+                            return;
+                        } else {
+                            this.setState({
+                                submitError: 'Article created!: ' + JSON.stringify(data),
+                                articleId: data.articleId,
+                                successfulSubmit: true,
+                                newArticleSuccess: true
+                            })
+                        }
+                    })
+                    .catch((err) => {
+                        this.setState({
+                            submitError: err
+                        })
+                    })
+            } else {
+                const updatedArticleData: IUpdateArticleDataQuery = {
+                    articleUrlId,
+                    articleTitle,
+                    articleDescription,
+                    articleContent: sanitizedArticleContent
+                }
+                updateArticleData(this.state.articleId!, updatedArticleData)
+                    .then(({ data: resData }) => {
+                        const { success, err } = resData;
+                        if (!success) {
+                            this.setState({
+                                submitError: err!
+                            })
+                            return;
+                        } else {
+                            this.setState({
+                                submitError: 'Article Updated!',
+                                successfulSubmit: true
+                            })
+                        }
+                    })
+            }
 
-            const DEFAULT_ERROR_RESET_WAIT = 2000;  // waits 2 seconds before resetting error messages
-            setTimeout(() => {
-                this.setState({
-                    successfulSubmit: false,
-                    submitError: '',
-                    urlIdError: '',
-                    titleError: '',
-                    descriptionError: '',
-                    contentError: ''
-                });
-            }, DEFAULT_ERROR_RESET_WAIT);
+            // waits a moment, then resets error messages
+            this.resetErrorMessages();
         }
     }
 
     public render() {
+        if (this.state.newArticleSuccess && this.state.articleId) {
+            // If a new article has been created, it redirects to the Edit URL
+            return <Redirect to={"/editor/edit/" + this.state.articleId} />
+        }
+
         return (
             <div className="edit-article-panel" style={editArticlePanelStyle}>
                 <form>
                     <div>
-                        <h1 className="edit-article-panel__header">{this.state.articleId ? 'Edit' : 'New'} Article</h1>
+                        <h1 className="edit-article-panel__header">{this.newArticle() ? 'New' : 'Edit'} Article</h1>
                     </div>
                     <h2 className="" style={{ fontFamily: "Lato, sans-serif", color: this.state.successfulSubmit ? "green": "red" }}>{this.state.submitError}</h2>
                     <div>
@@ -278,7 +375,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                         <div className="edit-article-panel__content-preview" dangerouslySetInnerHTML={this.setPreviewHTML()}/>
                     </div>
                     <button onClick={this.clickSubmit} className="edit-article-panel__submit-button">
-                        {(this.state.articleId !== null) ? 'UPDATE' : 'CREATE' }
+                        {this.newArticle() ? 'CREATE' : 'UPDATE'}
                     </button>
                 </form>
             </div>
