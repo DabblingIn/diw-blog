@@ -18,7 +18,7 @@ export default class ArticleListing extends React.PureComponent<IArticleListingP
         return (
             <section className="article-listing">
                 {
-                    this.props.articlesListData.sort(util.sortArticlesByUpdatedDate).map((articleListData:  IGetArticleListData ) => {
+                    this.props.articlesListData.reverse().map((articleListData:  IGetArticleListData ) => {
                         const articleListItemProps: IArticleListItemProps = articleListData;
                         return (<ArticleListItem key={util.articleLink(articleListData.articleUrlId)} {...articleListItemProps}/>);
                     })

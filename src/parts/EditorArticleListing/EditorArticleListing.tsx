@@ -71,7 +71,7 @@ export default class EditorArticleListing extends React.Component<IEditorArticle
                 </div>
                 <section className="editor-article-listing">
                 {
-                    this.state.articlesListData.sort(util.sortArticlesByUpdatedDate).map((articleListData:  IGetArticleListData ) => {
+                    this.state.articlesListData.reverse().map((articleListData:  IGetArticleListData ) => {
                         const articleListItemProps: IEditorArticleListItemProps = articleListData;
                         return (<EditorArticleListItem key={util.articleLink(articleListData.articleId)} {...articleListItemProps}/>);
                     })
