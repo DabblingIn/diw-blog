@@ -24,7 +24,7 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
                     {aSub}
                 </a>
                 <p className="editor-article-list-item__description">{this.props.articleDescription}</p>
-                <p className="editor-article-list-item__date">{util.minDateString(this.props.articleUpdatedAt)}</p>
+                <p className="editor-article-list-item__date"><span style={{color:'#555'}}>Updated </span>{util.minDateString(this.props.articleUpdatedAt)}</p>
             </div>
         );
     }

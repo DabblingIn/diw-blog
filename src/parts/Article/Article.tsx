@@ -11,7 +11,15 @@ export interface IArticleProps extends IGetArticleData {};
 const articleStyle = theme.itemBoxStyle;
 const titleStyle = theme.articleTitleStyle;
 
+// Twitter
+declare var twttr: any;
+
 export default class Article extends React.Component<IArticleProps> {
+
+    public componentDidUpdate() {
+        // Twitter
+        twttr.widgets.load();
+    }
 
     public render() {
         const articleCreatedAt = new Date(this.props.articleCreatedAt);

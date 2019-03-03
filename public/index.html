@@ -3,9 +3,43 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/img/diw-logo.png">
+    <meta name="theme-color" content="#20c9bb">
+    <!--link rel="manifest" href="%PUBLIC_URL%/manifest.json"-->
+
+    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png">
+    <link rel="manifest" href="%PUBLIC_URL%/site.webmanifest">
+    <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#20c9bb">
+    <meta name="msapplication-TileColor" content="#20c9bb">
+    <meta name="theme-color" content="#20c9bb">
+
+    <!-- COMMON TAGS -->
+    <title>DabblingIn</title>
+    <!-- Search Engine -->
+    <meta name="description" content="DabblingIn: A tech blog platform written for devs, by devs.">
+    <meta name="image" content="%PUBLIC_URL%/img/diw-logo.png">
+    <!-- Schema.org for Google -->
+    <meta itemprop="name" content="DabblingIn">
+    <meta itemprop="description" content="DabblingIn: A tech blog platform written for devs, by devs.">
+    <meta itemprop="image" content="%PUBLIC_URL%/img/diw-logo.png">
+    <meta property="og:image:width" content="1415">
+    <meta property="og:image:height" content="741">
+    <!-- Twitter -->
+    <meta name="twitter:card" content="DabblingIn: A tech blog platform written for devs, by devs.">
+    <meta name="twitter:title" content="DabblingIn">
+    <meta name="twitter:description" content="DabblingIn: A tech blog platform written for devs, by devs.">
+    <meta name="twitter:site" content="@bitglade">
+    <meta name="twitter:image:src" content="%PUBLIC_URL%/img/diw-logo.png">
+    <!-- Open Graph general (Facebook, Pinterest & Google+) -->
+    <meta name="og:title" content="DabblingIn">
+    <meta name="og:description" content="DabblingIn: A tech blog platform written for devs, by devs.">
+    <meta name="og:image" content="%PUBLIC_URL%/img/diw-logo.png">
+    <meta name="og:url" content="http://dabblingin.com">
+    <meta name="og:site_name" content="DabblingIn">
+    <meta name="og:type" content="website">
+
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Alfa+Slab+One|Lato|Squada+One" rel="stylesheet">
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -16,12 +50,14 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Beta: DI:W</title>
   </head>
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
     <div id="root"></div>
+
+    <!-- third party -->
+    <script id="twitter-wjs" type="text/javascript" async defer src="//platform.twitter.com/widgets.js"></script>
   </body>
 </html>

@@ -1,5 +1,7 @@
 import * as sanitizeHtml from 'sanitize-html';
 
+import { IGetArticleListData } from './parts/ApiCaller/ApiCaller.d';
+
 /*
     DabblingIn Utilities
 */
@@ -18,6 +20,11 @@ export function removeTrailingSlash(url: string): string {
 /*
   Article Element Formats
 */
+export function sortArticlesByUpdatedDate(a1: IGetArticleListData, a2: IGetArticleListData) {
+    return new Date(a2.articleUpdatedAt).getTime()
+                - new Date(a1.articleUpdatedAt).getTime();
+}
+
 export interface IInputFieldValidationResponse {
     valid: boolean;
     err: string;
@@ -197,8 +204,14 @@ const ALLOWED_HTML_ARTICLE_CONTENT_TAGS = [
   // defaults:
   'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol',
   'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div',
-  'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'iframe' ];
+  'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'iframe',
+  'twitter-widget' ];
 
 export function sanitizeArticleContent(rawHtmlString: string): string {
-    return sanitizeHtml(rawHtmlString, { allowedTags: ALLOWED_HTML_ARTICLE_CONTENT_TAGS});
+    return sanitizeHtml(rawHtmlString, {
+        allowedTags: ALLOWED_HTML_ARTICLE_CONTENT_TAGS,
+        allowedClasses: {
+            'blockquote': ['twitter-tweet']
+        }
+    });
 }
