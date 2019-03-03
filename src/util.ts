@@ -1,5 +1,7 @@
 import * as sanitizeHtml from 'sanitize-html';
 
+import { IGetArticleListData } from './parts/ApiCaller/ApiCaller.d';
+
 /*
     DabblingIn Utilities
 */
@@ -18,6 +20,11 @@ export function removeTrailingSlash(url: string): string {
 /*
   Article Element Formats
 */
+export function sortArticlesByUpdatedDate(a1: IGetArticleListData, a2: IGetArticleListData) {
+    return new Date(a2.articleUpdatedAt).getTime()
+                - new Date(a1.articleUpdatedAt).getTime();
+}
+
 export interface IInputFieldValidationResponse {
     valid: boolean;
     err: string;
