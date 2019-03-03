@@ -20,7 +20,7 @@ export default class ArticleListItem extends React.Component<IArticleListItemPro
                 </a>
                 <a className="article-list-item__author" href={util.userLink(this.props.authorId)}>{this.props.authorName}</a>
                 <p className="article-list-item__description">{this.props.articleDescription}</p>
-                <p className="article-list-item__date">{util.minDateString(this.props.articleUpdatedAt)}</p>
+                <p className="article-list-item__date"><span style={{color:'#555'}}>Updated </span>{util.minDateString(this.props.articleUpdatedAt)}</p>
             </div>
         );
     }
