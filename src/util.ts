@@ -202,6 +202,9 @@ const ALLOWED_HTML_ARTICLE_CONTENT_TAGS = [
 
 export function sanitizeArticleContent(rawHtmlString: string): string {
     return sanitizeHtml(rawHtmlString, {
-        allowedTags: ALLOWED_HTML_ARTICLE_CONTENT_TAGS
+        allowedTags: ALLOWED_HTML_ARTICLE_CONTENT_TAGS,
+        allowedClasses: {
+            'blockquote': ['twitter-tweet']
+        }
     });
 }
