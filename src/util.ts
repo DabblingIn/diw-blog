@@ -197,8 +197,11 @@ const ALLOWED_HTML_ARTICLE_CONTENT_TAGS = [
   // defaults:
   'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol',
   'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div',
-  'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'iframe' ];
+  'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'iframe',
+  'twitter-widget' ];
 
 export function sanitizeArticleContent(rawHtmlString: string): string {
-    return sanitizeHtml(rawHtmlString, { allowedTags: ALLOWED_HTML_ARTICLE_CONTENT_TAGS});
+    return sanitizeHtml(rawHtmlString, {
+        allowedTags: ALLOWED_HTML_ARTICLE_CONTENT_TAGS
+    });
 }
