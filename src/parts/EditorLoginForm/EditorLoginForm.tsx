@@ -169,13 +169,13 @@ export default class EditorLoginForm extends React.Component<IEditorLoginFormPro
                 <div className="editor-loginform__field">
                     <h3 className="editor-loginform__fieldheader">Username</h3>
                     <p style={{ color: this.state.usernameErrColor }} className="editor-loginform__username-err">{this.state.usernameErr}</p>
-                    <input onChange={this.changedUsername} value={this.state.username} className="editor-loginform__textinput" autoComplete="off" />
+                    <input onChange={this.changedUsername} onBlur={this.changedUsername} value={this.state.username} className="editor-loginform__textinput" autoComplete="off" />
                 </div>
                 
                 <div className="editor-loginform__field">
                     <h3 className="editor-loginform__fieldheader">Password</h3>
                     <p style={{ color: this.state.passwordErrColor }} className="editor-loginform__password-err">{this.state.passwordErr}</p>
-                    <input onChange={this.changedPassword} value={this.state.password} className="editor-loginform__textinput" type="password"/>
+                    <input onChange={this.changedPassword} onBlur={this.changedPassword} value={this.state.password} className="editor-loginform__textinput" type="password"/>
                 </div>
 
                 <div className="editor-loginform__field">
