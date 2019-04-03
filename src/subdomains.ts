@@ -25,8 +25,8 @@ const SUBDOMAIN_CONFIG: ISubdomainMetadataMap = {
     },
     // root domain
     _base: {
-        name: "Dabbling: Main",
-        tabName: "D:Main"
+        name: "Dabbling In...",
+        tabName: "Dabbling In..."
     },
     web: {
         name: "Dabbling In Web",
