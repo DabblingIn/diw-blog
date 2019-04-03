@@ -9,7 +9,8 @@ import {
     validArticleTitle,
     validArticleDescription,
     validArticleContent,
-    sanitizeArticleContent
+    sanitizeArticleContent,
+    loadTwitterWidgets
 } from '../../util';
 
 import {
@@ -30,8 +31,6 @@ import "./EditArticlePanel.css";
 
 const editArticlePanelStyle = theme.itemBoxStyle;
 
-// Twitter
-declare var twttr: any;
 
 interface IEditArticlePanelProps {
     match: {
@@ -138,7 +137,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
 
     public componentDidUpdate() {
         // Twitter
-        twttr.widgets.load();
+        loadTwitterWidgets();
     }
 
     public newArticle(): boolean {

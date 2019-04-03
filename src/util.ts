@@ -215,3 +215,19 @@ export function sanitizeArticleContent(rawHtmlString: string): string {
         }
     });
 }
+
+// Twitter
+declare var twttr: any;
+export function loadTwitterWidgets() {
+    try {
+        twttr.widgets.load();
+    } catch(e) {
+        if (e instanceof ReferenceError) {
+            // tslint:disable-next-line:no-console
+            console.log("Twitter widget load issue!");
+            setTimeout(loadTwitterWidgets, 1000);
+        } else {
+            throw e;
+        }
+    }
+}
