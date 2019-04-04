@@ -214,10 +214,20 @@ export function sanitizeArticleContent(rawHtmlString: string): string {
             'blockquote': ['twitter-tweet']
         },
         allowedAttributes: {
-            'i': ['class']
-        }
+            'i': ['class'],
+            'iframe': [
+                'src',
+                'width',
+                'height',
+                'frameborder',
+                'allow',
+                'allowfullscreen'
+            ]
+        },
+        allowedIframeHostnames: ['www.youtube.com']
     });
 }
+
 
 // Twitter
 declare var twttr: any;
