@@ -200,12 +200,12 @@ interface IObjectWithId {
 // HTML Sanitize
 const ALLOWED_HTML_ARTICLE_CONTENT_TAGS = [ 
   // ours:
-  'img', 'h2',
+  'img', 'h2', 'twitter-widget',
   // defaults:
   'h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol',
   'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div',
-  'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'iframe',
-  'twitter-widget' ];
+  'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'iframe'
+];
 
 export function sanitizeArticleContent(rawHtmlString: string): string {
     return sanitizeHtml(rawHtmlString, {
@@ -213,18 +213,8 @@ export function sanitizeArticleContent(rawHtmlString: string): string {
         allowedClasses: {
             'blockquote': ['twitter-tweet']
         },
-        allowedAttributes: {
-            'i': ['class'],
-            'iframe': [
-                'src',
-                'width',
-                'height',
-                'frameborder',
-                'allow',
-                'allowfullscreen'
-            ]
-        },
-        allowedIframeHostnames: ['www.youtube.com']
+        allowedAttributes: false,
+        allowedIframeHostnames: ['www.youtube.com', 'twitter.com']
     });
 }
 
