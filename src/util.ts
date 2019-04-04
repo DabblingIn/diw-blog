@@ -212,9 +212,22 @@ export function sanitizeArticleContent(rawHtmlString: string): string {
         allowedTags: ALLOWED_HTML_ARTICLE_CONTENT_TAGS,
         allowedClasses: {
             'blockquote': ['twitter-tweet']
-        }
+        },
+        allowedAttributes: {
+            'i': ['class'],
+            'iframe': [
+                'src',
+                'width',
+                'height',
+                'frameborder',
+                'allow',
+                'allowfullscreen'
+            ]
+        },
+        allowedIframeHostnames: ['www.youtube.com']
     });
 }
+
 
 // Twitter
 declare var twttr: any;
