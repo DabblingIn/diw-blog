@@ -212,6 +212,9 @@ export function sanitizeArticleContent(rawHtmlString: string): string {
         allowedTags: ALLOWED_HTML_ARTICLE_CONTENT_TAGS,
         allowedClasses: {
             'blockquote': ['twitter-tweet']
+        },
+        allowedAttributes: {
+            'i': ['class']
         }
     });
 }
