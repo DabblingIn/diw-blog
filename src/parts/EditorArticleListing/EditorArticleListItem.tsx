@@ -30,11 +30,11 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
                     location.reload();
                 } else {
                     // Failed delete
-                    alert("Backend Message: " + err);
+                    alert(err);
                 }
             })
             .catch((err) => {
-                alert("Frontend Err: " + err);
+                alert("Network Issue.  Try again later.");
             });
     }
 
@@ -54,7 +54,7 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
                 <p className="editor-article-list-item__date"><span style={{color:'#555'}}>Updated </span>{util.minDateString(this.props.articleUpdatedAt)}</p>
 
                 {/*Delete Button*/}
-                <button onClick={this.clickDelete}>Delete</button>
+                <button className="editor-article-list-item__delete-button" onClick={this.clickDelete}>Delete</button>
             </div>
         );
     }
