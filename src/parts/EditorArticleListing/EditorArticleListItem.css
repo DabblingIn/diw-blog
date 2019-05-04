@@ -1,4 +1,7 @@
-/* Article Listing */
+/* Editor Article List Item */
+.editor-article-list-item {
+    position: relative;
+}
 
 .editor-article-list-item__title {
     color: #222;
@@ -21,4 +24,25 @@
 
 .editor-article-list-item__date {
 
+}
+
+.editor-article-list-item__delete-button {
+    background-color: #c11;
+    color: white;
+}
+
+/* Article List Item - Delete Popup */
+.editor-article-list-item_delete-popup-container {
+    margin: 0px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.editor-article-list-item_delete-popup {
+    background-color: ;
+}
+
+.editor-article-list-item_delete-popup__button {
+    margin: 5px;
 }
