@@ -104,12 +104,23 @@ class EditorArticleListItemDeletePopup extends React.Component<IEditorArticleLis
     }
 
     public render() {
+        const { articleTitle, articleUrlId } = this.props;
         return (
             <div className="editor-article-list-item_delete-popup" style={theme.itemBoxStyle}>
-                <h2>Are you sure you want to delete {this.props.articleTitle} ({this.props.articleUrlId})?</h2>
+                <h2>Are you sure you want to delete "{articleTitle}"
+                    (<a href={util.articleLink(articleUrlId)}>{articleUrlId}</a>)?</h2>
                 <div>
-                    <button onClick={this.clickYes}>Yes</button>
-                    <button onClick={this.clickNo}>No</button>
+                    <button
+                        onClick={this.clickYes}
+                        className="editor-article-list-item_delete-popup__button"
+                        style={{ backgroundColor: "#c11", color: "white" }}>
+                        Yes
+                    </button>
+                    <button
+                        onClick={this.clickNo}
+                        className="editor-article-list-item_delete-popup__button">
+                        No
+                    </button>
                 </div>
             </div>
         )
