@@ -1,0 +1,8 @@
+.article-page__error-popup__header {
+    color: #c11;
+}
+
+.article-page__error-popup__text {
+    font-weight: bold;
+    font-size: 20px;
+}
