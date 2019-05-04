@@ -53,7 +53,6 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
                 <p className="editor-article-list-item__description">{this.props.articleDescription}</p>
                 <p className="editor-article-list-item__date"><span style={{color:'#555'}}>Updated </span>{util.minDateString(this.props.articleUpdatedAt)}</p>
 
-                {/*Delete Button*/}
                 <button className="editor-article-list-item__delete-button" onClick={this.clickDelete}>Delete</button>
             </div>
         );
