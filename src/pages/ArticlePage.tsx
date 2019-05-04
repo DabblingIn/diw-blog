@@ -10,7 +10,7 @@ import { IGetArticleDataResponse, IGetArticleData } from '../parts/ApiCaller/Api
 import { getSubdomainConfig } from '../subdomains';
 
 import { defaultTheme as theme } from '../style/themes';
-//import './ArticlePage.css';
+import './ArticlePage.css';
 
 interface IArticlePageMatchParams {
     articleUrlId: string;
@@ -18,7 +18,10 @@ interface IArticlePageMatchParams {
 
 interface IArticlePageProps extends RouteComponentProps<IArticlePageMatchParams>{};
 
-interface IArticlePageState extends IArticleProps {};
+interface IArticlePageState extends IArticleProps {
+    articleReady: boolean;
+    articlePageErr: string | null;
+};
 
 const subdomainConfig = getSubdomainConfig();
 
@@ -33,7 +36,12 @@ export default class ArticlePage extends React.Component<IArticlePageProps, IArt
     constructor(props: IArticlePageProps) {
         super(props);
 
-        this.state = {} as IArticlePageState;
+        this.state = {
+            articleReady: false,
+            articlePageErr: null
+        } as IArticlePageState;
+
+        this.displayArticle = this.displayArticle.bind(this);
     }
 
     public componentDidMount() {
@@ -42,10 +50,26 @@ export default class ArticlePage extends React.Component<IArticlePageProps, IArt
             .getArticleDataByUrlId(articleUrlId)
             .then((articleDataResponse: IGetArticleDataResponse) => {
                 const data: IGetArticleData = articleDataResponse.data.data;
+                const { err } = articleDataResponse.data;
 
-                this.setState({ ...data });
-                // TODO: const articleDataErr: string = res.data.err;  // Use this backend err message if not null
-            });
+                if (err) {
+                    this.setState({
+                        articlePageErr: err
+                    });
+                    document.title = "Article Error";
+                } else {
+                    this.setState({ 
+                        articleReady: true,
+                        ...data 
+                    });
+                }
+            })
+            .catch((err) => {
+                this.setState({
+                    articlePageErr: "Network Error.  Try again later."
+                });
+                document.title = "Network Error";
+            })
     }
 
     public render() {
@@ -54,9 +78,34 @@ export default class ArticlePage extends React.Component<IArticlePageProps, IArt
         return (
             <div className="article-page" style={articlePageStyle}>
                 <DefaultNavbar />
-
-                <Article {...this.state} />
+                {this.displayArticle()}
             </div>
         );
     }
+
+    private displayArticle() {
+        const { articleReady, articlePageErr } = this.state;
+
+        if (articleReady) {
+            return <Article {...this.state} />;
+        } else if (articlePageErr) {
+            return <ArticleErrorPopup message={articlePageErr} />;
+        } else {
+            return "UNEXPECTED ERROR";
+        }
+    }
+}
+
+
+interface IArticleErrorPopupProps {
+    message: string;
+}
+
+function ArticleErrorPopup(props: IArticleErrorPopupProps) {
+    return (
+        <div className="article-page__error-popup" style={theme.itemBoxStyle}>
+            <h1 className="article-page__error-popup__header">Error</h1>
+            <p className="article-page__error-popup__text">{props.message}</p>
+        </div>
+    )
 }
