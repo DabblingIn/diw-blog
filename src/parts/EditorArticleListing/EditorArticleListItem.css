@@ -22,3 +22,8 @@
 .editor-article-list-item__date {
 
 }
+
+.editor-article-list-item__delete-button {
+    background-color: #c11;
+    color: white;
+}
