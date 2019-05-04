@@ -143,7 +143,7 @@ export function postNewArticle(newArticleData: IPostArticleDataQuery): Promise<I
 
 export function deleteArticleById(articleId: string): Promise<IDeleteArticleByIdResponse> {
     // api
-    return axios.delete(API_PATH.articleData + '/id/' + articleId);
+    return axios.delete(API_PATH.articleData + '/id/' + articleId, wCred());
 }
 
 export function getArticleDataByUrlId(articleUrlId: string): Promise<IGetArticleDataResponse> {
