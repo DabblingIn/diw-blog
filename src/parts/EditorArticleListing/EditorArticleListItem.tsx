@@ -11,31 +11,21 @@ import './EditorArticleListItem.css';
 
 export interface IEditorArticleListItemProps extends IGetArticleListData {}
 
-export default class EditorArticleListItem extends React.Component<IEditorArticleListItemProps, {}> {
+export interface IEditorArticleListItemState {
+    showDeletePopup: boolean;
+}
+
+export default class EditorArticleListItem extends React.Component<IEditorArticleListItemProps, IEditorArticleListItemState> {
     public constructor(props: IEditorArticleListItemProps) {
         super(props);
 
+        this.state = {
+            showDeletePopup: false
+        }
+
         this.clickDelete = this.clickDelete.bind(this);
-    }
-
-    public clickDelete(e: React.MouseEvent<HTMLButtonElement>) {
-        e.preventDefault();
-
-        // Without asking
-        deleteArticleById(this.props.articleId)
-            .then(({ data: res }) => {
-                const { success, err } = res;
-                if (success) {
-                    // Successful delete
-                    location.reload();
-                } else {
-                    // Failed delete
-                    alert(err);
-                }
-            })
-            .catch((err) => {
-                alert("Network Issue.  Try again later.");
-            });
+        this.deleteArticle = this.deleteArticle.bind(this);
+        this.toggleDeletePopup = this.toggleDeletePopup.bind(this);
     }
 
     public render() {
@@ -54,8 +44,92 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
                 <p className="editor-article-list-item__date"><span style={{color:'#555'}}>Updated </span>{util.minDateString(this.props.articleUpdatedAt)}</p>
 
                 <button className="editor-article-list-item__delete-button" onClick={this.clickDelete}>Delete</button>
+                <div className="editor-article-list-item_delete-popup-container"
+                    style={this.state.showDeletePopup ? undefined : {display: "none"}}>
+                    <EditorArticleListItemDeletePopup
+                        articleTitle={this.props.articleTitle}
+                        articleUrlId={this.props.articleUrlId}
+                        deleteArticle={this.deleteArticle}
+                        togglePopup={this.toggleDeletePopup}
+                    />
+                </div>
             </div>
         );
+    }
+
+    protected deleteArticle() {
+        deleteArticleById(this.props.articleId)
+            .then(({ data: res }) => {
+                const { success, err } = res;
+                if (success) {
+                    // Successful delete
+                    location.reload();
+                } else {
+                    // Failed delete
+                    alert(err);
+                }
+            })
+            .catch((err) => {
+                alert("Network Issue.  Try again later.");
+            });
+    }
+
+    protected toggleDeletePopup(show: boolean) {
+        this.setState({
+            showDeletePopup: show
+        })
+    }
+
+    private clickDelete(e: React.MouseEvent<HTMLButtonElement>) {
+        e.preventDefault();
+
+        // Asks for confirmation
+        this.toggleDeletePopup(true);
+    }
+}
+
+interface IEditorArticleListItemDeletePopupProps {
+    articleTitle: string;
+    articleUrlId: string;
+    deleteArticle: ()=>void;
+    togglePopup: (show: boolean)=>void;
+}
+
+class EditorArticleListItemDeletePopup extends React.Component<IEditorArticleListItemDeletePopupProps,{}> {
+    public constructor(props: any) {
+        super(props);
+
+        this.clickNo = this.clickNo.bind(this);
+        this.clickYes = this.clickYes.bind(this);
+    }
+
+    public render() {
+        return (
+            <div className="editor-article-list-item_delete-popup" style={theme.itemBoxStyle}>
+                <h2>Are you sure you want to delete {this.props.articleTitle} ({this.props.articleUrlId})?</h2>
+                <div>
+                    <button onClick={this.clickYes}>Yes</button>
+                    <button onClick={this.clickNo}>No</button>
+                </div>
+            </div>
+        )
+    }
+
+    private clickNo(e: React.MouseEvent<HTMLButtonElement>) {
+        e.preventDefault();
+
+        // hides popup
+        this.props.togglePopup(false);
+    }
+
+    private clickYes(e: React.MouseEvent<HTMLButtonElement>) {
+        e.preventDefault();
+
+        // executes delete
+        this.props.deleteArticle();
+
+        // hides popup
+        this.props.togglePopup(false);
     }
 }
 
