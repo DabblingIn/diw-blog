@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import * as util from '../../util';
+import { deleteArticleById } from '../ApiCaller/ApiCaller';
 import { IGetArticleListData } from '../ApiCaller/ApiCaller.d';
 import { isMegaSub } from '../../subdomains';
 
@@ -11,6 +12,32 @@ import './EditorArticleListItem.css';
 export interface IEditorArticleListItemProps extends IGetArticleListData {}
 
 export default class EditorArticleListItem extends React.Component<IEditorArticleListItemProps, {}> {
+    public constructor(props: IEditorArticleListItemProps) {
+        super(props);
+
+        this.clickDelete = this.clickDelete.bind(this);
+    }
+
+    public clickDelete(e: React.MouseEvent<HTMLButtonElement>) {
+        e.preventDefault();
+
+        // Without asking
+        deleteArticleById(this.props.articleId)
+            .then(({ data: res }) => {
+                const { success, err } = res;
+                if (success) {
+                    // Successful delete
+                    location.reload();
+                } else {
+                    // Failed delete
+                    alert("Backend Message: " + err);
+                }
+            })
+            .catch((err) => {
+                alert("Frontend Err: " + err);
+            });
+    }
+
     public render() {
         const aSub = this.props.articleSub;
         const subHref = isMegaSub(aSub) ? 'http://dabblingin.com' : 'http://' + aSub + '.dabblingin.com';
@@ -25,6 +52,9 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
                 </a>
                 <p className="editor-article-list-item__description">{this.props.articleDescription}</p>
                 <p className="editor-article-list-item__date"><span style={{color:'#555'}}>Updated </span>{util.minDateString(this.props.articleUpdatedAt)}</p>
+
+                {/*Delete Button*/}
+                <button onClick={this.clickDelete}>Delete</button>
             </div>
         );
     }
