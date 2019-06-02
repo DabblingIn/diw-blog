@@ -52,7 +52,7 @@ export function getSubKey() {
         return process.env.REACT_APP_TESTSUB ?
             process.env.REACT_APP_TESTSUB : DEFAULT_SUB;
     } else {
-        return parseSubdomain(location.hostname);
+        return parseSubdomain(window.location.hostname);
     }
 }
 
