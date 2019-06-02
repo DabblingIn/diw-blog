@@ -2,7 +2,7 @@ import * as React from 'react';
 import { MouseEvent, FormEvent } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import * as sanitizeHtml from 'sanitize-html';
+import sanitizeHtml from 'sanitize-html';
 
 import {
     validArticleUrlId,

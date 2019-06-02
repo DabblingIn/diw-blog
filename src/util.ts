@@ -1,4 +1,4 @@
-import * as sanitizeHtml from 'sanitize-html';
+import sanitizeHtml from 'sanitize-html';
 
 import { IGetArticleListData } from './parts/ApiCaller/ApiCaller.d';
 
@@ -10,7 +10,7 @@ const LOCALHOST = "localhost";
 const _DAY_IN_MS = 1000*60*60*24;
 
 export function isLocalhost() {
-    return (location.hostname === LOCALHOST);
+    return (window.location.hostname === LOCALHOST);
 }
 
 export function removeTrailingSlash(url: string): string {
