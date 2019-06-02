@@ -63,7 +63,7 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
                 const { success, err } = res;
                 if (success) {
                     // Successful delete
-                    location.reload();
+                    window.location.reload();
                 } else {
                     // Failed delete
                     alert(err);
