@@ -36,7 +36,8 @@ interface IAppState {
   loadingPageErrorMessage: string | null;
 }
 
-type IAppProps = IAppReduxStateMapProps & IAppReduxDispatchMapProps;
+interface IAppOwnProps {}
+type IAppProps = IAppReduxStateMapProps & IAppReduxDispatchMapProps & IAppOwnProps;
 
 interface IAppReduxStateMapProps {
   // state -> props
@@ -132,8 +133,7 @@ class App extends React.Component<IAppProps, IAppState> {
 
 
 // Container functions
-
-function mapStateToProps(state: IReduxStoreState): IAppReduxStateMapProps {
+function mapStateToProps(state: IReduxStoreState, ownProps: IAppOwnProps): IAppReduxStateMapProps {
   const { sessionDataRetrieved, user, fetchingSessionData } = state.auth;
   return {
     sessionDataRetrieved,
@@ -145,13 +145,13 @@ function mapStateToProps(state: IReduxStoreState): IAppReduxStateMapProps {
 
 function mapDispatchToProps(dispatch: Dispatch): IAppReduxDispatchMapProps {
   return {
-    succeedSessionDataFetch: (user: IEditorSessionUser) => dispatch(succeedSessionDataFetch(user)),
+    succeedSessionDataFetch: (user?: IEditorSessionUser) => dispatch(succeedSessionDataFetch(user)),
     startSessionDataFetch: () => dispatch(startSessionDataFetch()),
     failSessionDataFetch: () => dispatch(failSessionDataFetch())
   }
 }
 
-export default connect<IAppReduxStateMapProps, IAppReduxDispatchMapProps, {}>(
+export default connect<IAppReduxStateMapProps, IAppReduxDispatchMapProps, IAppOwnProps, IReduxStoreState>(
   mapStateToProps,
   mapDispatchToProps
 )(App);
