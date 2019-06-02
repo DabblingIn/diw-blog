@@ -76,12 +76,8 @@ const editorPageStyle = {
 
 
 class EditorPage extends React.Component<IEditorPageProps, IEditorPageState> {
-    constructor(props: IEditorPageProps) {
-        super(props);
-    }
-
     public render() {
-        document.title = subdomainConfig.tabName + " | " + "Editor";
+        document.title = subdomainConfig.tabName + " | Editor";
 
         const matchUrl = removeTrailingSlash(this.props.match.url);
 
