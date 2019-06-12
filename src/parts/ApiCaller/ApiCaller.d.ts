@@ -83,6 +83,7 @@ export interface IGetArticleListData {
     articleDescription: string;   // article:description
     articleSub: string;           // article:sub
     articleUpdatedAt: Date;       // article:updated_at
+    articleCreatedAt: Date;       // article:created_at
 
     authorId: string;             // user_account:id
     authorUsername: string;       // user_account:username

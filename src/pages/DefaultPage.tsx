@@ -8,6 +8,7 @@ import { IGetArticleListData, IGetArticlesListingResponse } from '../parts/ApiCa
 
 import ArticleListing from '../parts/ArticleListing/ArticleListing';
 
+import { sortArticleListingByCreated } from '../util';
 import { getSubKey, getSubdomainConfig } from '../subdomains';
 
 import { defaultTheme as theme } from '../style/themes';
@@ -42,7 +43,7 @@ export default class DefaultPage extends React.PureComponent<IDefaultPageProps, 
         ApiCaller
             .getArticlesListing({ sub: subKey })    // gets articles based on subdomain
             .then((res: IGetArticlesListingResponse) => {
-                const articlesListData: IGetArticleListData[] = res.data.data;
+                const articlesListData = sortArticleListingByCreated(res.data.data);
                 // TODO: const articlesListDataErr: string = res.data.err;  // Use this backend err message if not null
                 this.setState({
                     articlesListData

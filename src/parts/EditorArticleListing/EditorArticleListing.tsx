@@ -37,7 +37,7 @@ export default class EditorArticleListing extends React.Component<IEditorArticle
         ApiCaller
             .getArticlesListing({ sub: subKey, authorId: this.props.authorId })    // gets articles based on subdomain
             .then((res: IGetArticlesListingResponse) => {
-                const articlesListData: IGetArticleListData[] = res.data.data;
+                const articlesListData = util.sortArticleListingByCreated(res.data.data);
                 // TODO: const articlesListErr: string = res.data.err;
                 this.setState({
                     articlesListData
