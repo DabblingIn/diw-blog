@@ -23,7 +23,8 @@
 }
 
 .editor-article-list-item__date {
-
+    min-width: 190px;
+    display: inline-block;
 }
 
 .editor-article-list-item__delete-button {

@@ -41,7 +41,11 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
                     {aSub}
                 </a>
                 <p className="editor-article-list-item__description">{this.props.articleDescription}</p>
-                <p className="editor-article-list-item__date"><span style={{color:'#555'}}>Updated </span>{util.minDateString(this.props.articleUpdatedAt)}</p>
+                <div>
+                    <div className="editor-article-list-item__date"><span style={{color:'#555'}}>Updated </span>{util.minDateString(this.props.articleUpdatedAt)}</div>
+                    &nbsp;&nbsp;
+                    <div className="editor-article-list-item__date"><span style={{color:'#555'}}>Created </span>{util.minDateString(this.props.articleCreatedAt)}</div>
+                </div>
 
                 <button className="editor-article-list-item__delete-button" onClick={this.clickDelete}>Delete</button>
                 <div className="editor-article-list-item_delete-popup-container"
@@ -87,6 +91,8 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
         this.toggleDeletePopup(true);
     }
 }
+
+/* List Item Delete Popup */
 
 interface IEditorArticleListItemDeletePopupProps {
     articleTitle: string;
