@@ -56,6 +56,7 @@ const ARTICLE_ABC_LISTDATA: IGetArticleListData = {
     articleUrlId: "abc",
     articleSub: "web",
     articleUpdatedAt: ARTICLE1_DATE,
+    articleCreatedAt: ARTICLE1_DATE,
 
     authorId: AUTHOR1_ID,
     authorUsername: AUTHOR1_USERNAME,
@@ -71,6 +72,7 @@ const ARTICLE_DEF_LISTDATA: IGetArticleListData = {
     articleUrlId: "def",
     articleSub: "web",
     articleUpdatedAt: ARTICLE2_DATE,
+    articleCreatedAt: ARTICLE2_DATE,
 
     authorId: AUTHOR2_ID,
     authorUsername: AUTHOR2_USERNAME,
@@ -86,6 +88,7 @@ const ARTICLE_XYZ_LISTDATA: IGetArticleListData = {
     articleUrlId: "xyz",
     articleSub: "ml",
     articleUpdatedAt: ARTICLE3_DATE,
+    articleCreatedAt: ARTICLE3_DATE,
 
     authorId: AUTHOR3_ID,
     authorUsername: AUTHOR3_USERNAME,

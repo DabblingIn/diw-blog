@@ -14,7 +14,9 @@ import {
     IEditorLoginDataResponse,
     IGetEditorSessionDataResponse,
 
-    IGetUserDataResponse
+    IGetUserDataResponse,
+
+    IGetArticleListData
 } from './ApiCaller.d';
 
 import {
@@ -106,8 +108,23 @@ export function getArticlesListing(args: IGetArticlesListingArgs): Promise<IGetA
         } else if (nonMegaSub) {
             urlPath += "/sub/" + args.sub;
         }
-        return axios.get(urlPath, wCred({ params: urlQuery }));
+        return new Promise((resolve, reject) => {
+            axios.get(urlPath, wCred({ params: urlQuery }))
+                .then((res) => {
+                    if (res.data.data) {
+                        res.data.data = res.data.data.map(decodeArticleListData)
+                    }
+                    return resolve(res);
+                })
+                .catch(err => reject(err))
+        })
     }
+}
+
+export function decodeArticleListData(ald: IGetArticleListData) {
+    ald.articleUpdatedAt = new Date(ald.articleUpdatedAt);
+    ald.articleCreatedAt = new Date(ald.articleCreatedAt);
+    return ald;
 }
 
 export function getArticleDataById(articleId: string): Promise<IGetArticleDataResponse> {

@@ -21,8 +21,8 @@ export function removeTrailingSlash(url: string): string {
   Article Element Formats
 */
 export function sortArticlesByUpdatedDate(a1: IGetArticleListData, a2: IGetArticleListData) {
-    return new Date(a2.articleUpdatedAt).getTime()
-                - new Date(a1.articleUpdatedAt).getTime();
+    return new Date(a2.articleCreatedAt).getTime()
+                - new Date(a1.articleCreatedAt).getTime();
 }
 
 export interface IInputFieldValidationResponse {
@@ -93,6 +93,17 @@ export function validArticleContent(testContent: string): IInputFieldValidationR
 
 
     return res;
+}
+
+/*
+ Article Listing - operations
+ */
+
+export function sortArticleListingByCreated(articleListing: IGetArticleListData[]) {
+    return articleListing.concat().sort((a, b) => {
+        // TODO: update for createdAt
+        return a.articleUpdatedAt.getTime() - b.articleUpdatedAt.getTime();
+    })
 }
 
 /*
