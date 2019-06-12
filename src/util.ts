@@ -17,13 +17,19 @@ export function removeTrailingSlash(url: string): string {
     return url.replace(/\/$/, "");
 }
 
+
+/*
+ * Article Listing - operations
+ */
+export function sortArticleListingByCreated(articleListing: IGetArticleListData[]) {
+    return articleListing.concat().sort((a, b) => {
+        return a.articleCreatedAt.getTime() - b.articleCreatedAt.getTime();
+    })
+}
+
 /*
   Article Element Formats
 */
-export function sortArticlesByUpdatedDate(a1: IGetArticleListData, a2: IGetArticleListData) {
-    return new Date(a2.articleCreatedAt).getTime()
-                - new Date(a1.articleCreatedAt).getTime();
-}
 
 export interface IInputFieldValidationResponse {
     valid: boolean;
@@ -93,17 +99,6 @@ export function validArticleContent(testContent: string): IInputFieldValidationR
 
 
     return res;
-}
-
-/*
- Article Listing - operations
- */
-
-export function sortArticleListingByCreated(articleListing: IGetArticleListData[]) {
-    return articleListing.concat().sort((a, b) => {
-        // TODO: update for createdAt
-        return a.articleUpdatedAt.getTime() - b.articleUpdatedAt.getTime();
-    })
 }
 
 /*
