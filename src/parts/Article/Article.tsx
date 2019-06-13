@@ -14,14 +14,13 @@ const titleStyle = theme.articleTitleStyle;
 
 export default class Article extends React.Component<IArticleProps> {
 
-    public componentDidUpdate() {
+    public componentDidMount() {
         // Twitter
         util.loadTwitterWidgets();
     }
 
     public render() {
         const articleCreatedAt = new Date(this.props.articleCreatedAt);
-        //const articleUpdatedAt = new Date(this.props.articleUpdatedAt);
         return (
             <article className="article" style={articleStyle}>
                 <h2 className="article__title" style={titleStyle}>{this.props.articleTitle}</h2>
