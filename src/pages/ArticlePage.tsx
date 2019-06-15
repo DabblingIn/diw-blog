@@ -91,7 +91,7 @@ export default class ArticlePage extends React.Component<IArticlePageProps, IArt
         } else if (articlePageErr) {
             return <ArticleErrorPopup message={articlePageErr} />;
         } else {
-            return "UNEXPECTED ERROR";
+            return "LOADING...";
         }
     }
 }
