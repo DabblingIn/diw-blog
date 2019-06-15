@@ -12,28 +12,25 @@ const articleStyle = theme.itemBoxStyle;
 const titleStyle = theme.articleTitleStyle;
 
 
-export default class Article extends React.Component<IArticleProps> {
-
-    public componentDidMount() {
+export default function Article(props: IArticleProps) {
+    React.useEffect(() => {
         // Twitter
         util.loadTwitterWidgets();
-    }
+    })
 
-    public render() {
-        const articleCreatedAt = new Date(this.props.articleCreatedAt);
-        return (
-            <article className="article" style={articleStyle}>
-                <h2 className="article__title" style={titleStyle}>{this.props.articleTitle}</h2>
-                <div className="article__name-date-line">
-                    <span className="article__author-date-box">
-                        <a className="article__author" href={this.props.authorSite}>{this.props.authorName} (<b>{this.props.authorUsername}</b>)</a>
-                        <span className="article__created_date">{util.minDateString(articleCreatedAt)}</span>
-                        <span className="article__weekday">{util.getWeekdayString(articleCreatedAt)}</span>
-                    </span>
-                </div>
-                <div className="article__content" 
-                    dangerouslySetInnerHTML={{ __html: this.props.articleContent }} />
-            </article>
-        );
-    }
+    const articleCreatedAt = new Date(props.articleCreatedAt);
+    return (
+        <article className="article" style={articleStyle}>
+            <h2 className="article__title" style={titleStyle}>{props.articleTitle}</h2>
+            <div className="article__name-date-line">
+                <span className="article__author-date-box">
+                    <a className="article__author" href={props.authorSite}>{props.authorName} (<b>{props.authorUsername}</b>)</a>
+                    <span className="article__created_date">{util.minDateString(articleCreatedAt)}</span>
+                    <span className="article__weekday">{util.getWeekdayString(articleCreatedAt)}</span>
+                </span>
+            </div>
+            <div className="article__content" 
+                dangerouslySetInnerHTML={{ __html: props.articleContent }} />
+        </article>
+    );
 }
