@@ -1,4 +1,6 @@
 import * as React from 'react';
+import Helmet from 'react-helmet';
+import * as mu from '../../metaUtils';
 
 import * as util from '../../util';
 import { IGetArticleData } from '../ApiCaller/ApiCaller.d';
@@ -20,6 +22,13 @@ export default function Article(props: IArticleProps) {
 
     const articleCreatedAt = new Date(props.articleCreatedAt);
     return (
+        <div>
+        <ArticleHelmet
+            title={props.articleTitle}
+            author={props.authorName}
+            description={props.articleDescription}
+        />
+
         <article className="article" style={articleStyle}>
             <h2 className="article__title" style={titleStyle}>{props.articleTitle}</h2>
             <div className="article__name-date-line">
@@ -32,5 +41,27 @@ export default function Article(props: IArticleProps) {
             <div className="article__content" 
                 dangerouslySetInnerHTML={{ __html: props.articleContent }} />
         </article>
+        </div>
     );
+}
+
+/**
+ * Helmet for Article - dynamically generated head tags
+ */
+
+interface IArticleHelmetProps {
+    title: string;
+    author: string;
+    description: string;
+}
+
+function ArticleHelmet(props: IArticleHelmetProps) {
+    const { title, author, description } = props;
+    return (
+        <Helmet>
+            {mu.metaTitleTags(title)}
+            {mu.metaAuthorTag(author)}
+            {mu.metaDescriptionTags(description)}
+        </Helmet>
+    )
 }
