@@ -31,8 +31,6 @@ export interface IEditorPageReduxMapProps {
 
 export interface IEditorPageProps extends RouteComponentProps, IEditorPageReduxMapProps {};
 
-interface IEditorPageState {};
-
 const subdomainConfig = getSubdomainConfig();
 
 const editorPageStyle = {
@@ -74,39 +72,42 @@ const editorPageStyle = {
 */
 
 
-class EditorPage extends React.Component<IEditorPageProps, IEditorPageState> {
-    public render() {
-        const matchUrl = removeTrailingSlash(this.props.match.url);
+function EditorPage(props: IEditorPageProps) {
+    const matchUrl = removeTrailingSlash(props.match.url);
 
-        return (
-            <div className="editor-page" style={editorPageStyle}>
-                <EditorPageHelmet
-                    title={subdomainConfig.tabName + " | Editor"}
-                />
+    const { isAuthenticated, authorId } = props;
 
-                <DefaultNavbar />
-                <Route path={matchUrl} exact={true} render={(props) => {
-                    const { isAuthenticated, authorId } = this.props; 
-                    if (isAuthenticated && authorId !== undefined) {
-                        // Show author's articles
-                        return (<EditorArticleListing {...props} authorId={authorId!}/>);
-                    } else {
-                        // Redirect to login
-                        return <Redirect to={`${matchUrl}/login`} />;
-                    }
-                }}/>
-                <Route path={`${matchUrl}/login`} component={EditorLoginFormContainer}/>
-                <Route path={`${matchUrl}/logout`} render={(props) => {
-                    postEditorLogout();
-                    authLogout();
+    return (
+        <div className="editor-page" style={editorPageStyle}>
+            <EditorPageHelmet
+                title={subdomainConfig.tabName + " | Editor"}
+            />
+
+            <DefaultNavbar />
+            <Route path={matchUrl} exact={true} render={(routeProps) => {
+                if (isAuthenticated && authorId !== undefined) {
+                    // Show author's articles
+                    return (<EditorArticleListing {...routeProps} authorId={authorId!}/>);
+                } else {
+                    // Redirect to login
                     return <Redirect to={`${matchUrl}/login`} />;
-                }}/>
-                <Route path={`${matchUrl}/new`} component={EditArticlePanel}/>
-                <Route path={`${matchUrl}/edit/:articleId`} component={EditArticlePanel} />
-            </div>
-        );
-    }
+                }
+            }}/>
+            <Route path={`${matchUrl}/login`} component={EditorLoginFormContainer}/>
+            <Route path={`${matchUrl}/logout`} render={(props) => {
+                postEditorLogout();
+                authLogout();
+                return <Redirect to={`${matchUrl}/login`} />;
+            }}/>
+            <Route path={`${matchUrl}/new`} component={EditArticlePanel}/>
+            <Route path={`${matchUrl}/edit/:articleId`} component={EditArticlePanel} />
+        </div>
+    );
 }
+
+/**
+ * Helmet: EditorPage
+ */
 
 interface IEditorPageHelmetProps {
     title: string;
