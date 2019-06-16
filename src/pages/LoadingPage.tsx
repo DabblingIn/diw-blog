@@ -2,12 +2,7 @@ import * as React from 'react';
 
 import DefaultNavbar from '../parts/Navbar/DefaultNavbar';
 
-import { getSubdomainConfig } from '../subdomains';
-
 import { defaultTheme as theme } from '../style/themes';
-
-
-const subdomainConfig = getSubdomainConfig();
 
 const defaultPageStyle = {
   marginTop: theme.navbarHeight + theme.topBottomMargin,
@@ -20,8 +15,6 @@ interface ILoadingPageProps {
 
 export default class LoadingPage extends React.Component<ILoadingPageProps, {}> {
     public render() {
-        document.title = subdomainConfig.tabName;
-
         let message = "Just a tick!  Loading.";
         if (this.props.errorMessage) {
             message = this.props.errorMessage

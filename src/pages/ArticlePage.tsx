@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { RouteComponentProps } from 'react-router';
+import Helmet from 'react-helmet';
 
 import DefaultNavbar from '../parts/Navbar/DefaultNavbar';
 import Article, { IArticleProps } from '../parts/Article/Article';
 
 import * as ApiCaller from '../parts/ApiCaller/ApiCaller';
 import { IGetArticleDataResponse, IGetArticleData } from '../parts/ApiCaller/ApiCaller.d';
-
-import { getSubdomainConfig } from '../subdomains';
 
 import { defaultTheme as theme } from '../style/themes';
 import './ArticlePage.css';
@@ -22,8 +21,6 @@ interface IArticlePageState extends IArticleProps {
     articleReady: boolean;
     articlePageErr: string | null;
 };
-
-const subdomainConfig = getSubdomainConfig();
 
 
 const articlePageStyle = {
@@ -56,7 +53,6 @@ export default class ArticlePage extends React.Component<IArticlePageProps, IArt
                     this.setState({
                         articlePageErr: err
                     });
-                    document.title = "Article Error";
                 } else {
                     this.setState({ 
                         articleReady: true,
@@ -68,13 +64,10 @@ export default class ArticlePage extends React.Component<IArticlePageProps, IArt
                 this.setState({
                     articlePageErr: "Network Error.  Try again later."
                 });
-                document.title = "Network Error";
             })
     }
 
     public render() {
-        document.title = subdomainConfig.tabName + " | " + this.state.articleTitle;
-
         return (
             <div className="article-page" style={articlePageStyle}>
                 <DefaultNavbar />
@@ -103,9 +96,14 @@ interface IArticleErrorPopupProps {
 
 function ArticleErrorPopup(props: IArticleErrorPopupProps) {
     return (
-        <div className="article-page__error-popup" style={theme.itemBoxStyle}>
-            <h1 className="article-page__error-popup__header">Error</h1>
-            <p className="article-page__error-popup__text">{props.message}</p>
+        <div>
+            <Helmet>
+                <title>Error</title>
+            </Helmet>
+            <div className="article-page__error-popup" style={theme.itemBoxStyle}>
+                <h1 className="article-page__error-popup__header">Error</h1>
+                <p className="article-page__error-popup__text">{props.message}</p>
+            </div>
         </div>
     )
 }

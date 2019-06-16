@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Helmet from 'react-helmet';
 
 import { Route, Redirect } from 'react-router-dom';
 import { withRouter, RouteComponentProps } from 'react-router'; //IEditorPageProps
@@ -11,13 +12,11 @@ import EditorArticleListing from '../parts/EditorArticleListing/EditorArticleLis
 
 import { IReduxStoreState } from '../reducers';
 import { logout as authLogout } from '../parts/Auth/AuthActions';
+import { postEditorLogout } from '../parts/ApiCaller/ApiCaller';
 
 import { getSubdomainConfig } from '../subdomains';
-
 import { removeTrailingSlash } from '../util';
-
-import { postEditorLogout } from '../parts/ApiCaller/ApiCaller';
-//import { IGetArticleDataResponse, IArticleData, IGetUserDataResponse, IUserData } from '../parts/ApiCaller/ApiCaller.d';
+import * as mu from '../metaUtils';
 
 import { defaultTheme as theme } from '../style/themes';
 
@@ -77,12 +76,14 @@ const editorPageStyle = {
 
 class EditorPage extends React.Component<IEditorPageProps, IEditorPageState> {
     public render() {
-        document.title = subdomainConfig.tabName + " | Editor";
-
         const matchUrl = removeTrailingSlash(this.props.match.url);
 
         return (
             <div className="editor-page" style={editorPageStyle}>
+                <EditorPageHelmet
+                    title={subdomainConfig.tabName + " | Editor"}
+                />
+
                 <DefaultNavbar />
                 <Route path={matchUrl} exact={true} render={(props) => {
                     const { isAuthenticated, authorId } = this.props; 
@@ -106,6 +107,19 @@ class EditorPage extends React.Component<IEditorPageProps, IEditorPageState> {
         );
     }
 }
+
+interface IEditorPageHelmetProps {
+    title: string;
+}
+
+function EditorPageHelmet(props: IEditorPageHelmetProps) {
+    return (
+        <Helmet>
+            {mu.metaTitleTags(props.title)}
+        </Helmet>
+    )
+}
+
 
 function mapStateToProps(state: IReduxStoreState): IEditorPageReduxMapProps {
     const { isAuthenticated, user, sessionDataRetrieved, fetchingSessionData } = state.auth;

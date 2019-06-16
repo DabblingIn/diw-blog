@@ -2,6 +2,7 @@ import * as React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
 
 import DefaultPage from './pages/DefaultPage';
 import ArticlePage from './pages/ArticlePage';
@@ -18,13 +19,13 @@ import { IAuthReducerState } from './parts/Auth/AuthReducer';
 import { getEditorSessionData } from './parts/ApiCaller/ApiCaller';
 import { IEditorSessionUser } from './parts/ApiCaller/ApiCaller.d';
 import { getSubdomainConfig } from './subdomains';
+import * as mu from './metaUtils';
 
 import { defaultTheme as theme } from './style/themes';
 import './App.css';
 import './style/global.css';
 
 const subdomainConfig = getSubdomainConfig();
-document.title = subdomainConfig.tabName;
 
 const backgroundStyle = { 
   backgroundImage: theme.backgroundColor
@@ -107,8 +108,6 @@ class App extends React.Component<IAppProps, IAppState> {
   }
 
   public render() {
-    document.title = subdomainConfig.tabName;
-
     if (this.props.fetchingSessionData && !this.props.sessionDataRetrieved) {
       return (
         <div className="app">
@@ -120,6 +119,9 @@ class App extends React.Component<IAppProps, IAppState> {
 
     return (
       <Router>
+        <AppHelmet
+          title={subdomainConfig.name}
+        />
         <div className="app">
             <div className="app__background" style={backgroundStyle}/>
             <Route exact={true} path="/" component={DefaultPage} />
@@ -129,6 +131,22 @@ class App extends React.Component<IAppProps, IAppState> {
       </Router>
     );
   }
+}
+
+/**
+ * Helmet for the App - Dynamically generated head tags
+ */
+
+interface IAppHelmetProps {
+  title: string;
+}
+
+function AppHelmet(props: IAppHelmetProps) {
+  return (
+    <Helmet>
+      {mu.metaTitleTags(props.title)}
+    </Helmet>
+  )
 }
 
 
