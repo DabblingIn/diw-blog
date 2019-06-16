@@ -9,7 +9,7 @@ import { IGetArticleListData, IGetArticlesListingResponse } from '../parts/ApiCa
 import ArticleListing from '../parts/ArticleListing/ArticleListing';
 
 import { sortArticleListingByCreated } from '../util';
-import { getSubKey, getSubdomainConfig } from '../subdomains';
+import { getSubKey } from '../subdomains';
 
 import { defaultTheme as theme } from '../style/themes';
 import './DefaultPage.css';
@@ -20,8 +20,6 @@ interface IDefaultPageState {
 
 interface IDefaultPageProps {};
 
-
-const subdomainConfig = getSubdomainConfig();
 
 const defaultPageStyle = {
   marginTop: theme.navbarHeight + theme.topBottomMargin,
@@ -53,8 +51,6 @@ export default class DefaultPage extends React.PureComponent<IDefaultPageProps, 
     }
 
     public render() {
-        document.title = subdomainConfig.tabName;
-
         return (
             <div className="default-page" style={defaultPageStyle}>
                 <DefaultNavbar />

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Helmet from 'react-helmet';
 
 import { Route, Redirect } from 'react-router-dom';
 import { withRouter, RouteComponentProps } from 'react-router'; //IEditorPageProps
@@ -11,13 +12,11 @@ import EditorArticleListing from '../parts/EditorArticleListing/EditorArticleLis
 
 import { IReduxStoreState } from '../reducers';
 import { logout as authLogout } from '../parts/Auth/AuthActions';
+import { postEditorLogout } from '../parts/ApiCaller/ApiCaller';
 
 import { getSubdomainConfig } from '../subdomains';
-
 import { removeTrailingSlash } from '../util';
-
-import { postEditorLogout } from '../parts/ApiCaller/ApiCaller';
-//import { IGetArticleDataResponse, IArticleData, IGetUserDataResponse, IUserData } from '../parts/ApiCaller/ApiCaller.d';
+import * as mu from '../metaUtils';
 
 import { defaultTheme as theme } from '../style/themes';
 
@@ -31,8 +30,6 @@ export interface IEditorPageReduxMapProps {
 } 
 
 export interface IEditorPageProps extends RouteComponentProps, IEditorPageReduxMapProps {};
-
-interface IEditorPageState {};
 
 const subdomainConfig = getSubdomainConfig();
 
@@ -75,37 +72,55 @@ const editorPageStyle = {
 */
 
 
-class EditorPage extends React.Component<IEditorPageProps, IEditorPageState> {
-    public render() {
-        document.title = subdomainConfig.tabName + " | Editor";
+function EditorPage(props: IEditorPageProps) {
+    const matchUrl = removeTrailingSlash(props.match.url);
 
-        const matchUrl = removeTrailingSlash(this.props.match.url);
+    const { isAuthenticated, authorId } = props;
 
-        return (
-            <div className="editor-page" style={editorPageStyle}>
-                <DefaultNavbar />
-                <Route path={matchUrl} exact={true} render={(props) => {
-                    const { isAuthenticated, authorId } = this.props; 
-                    if (isAuthenticated && authorId !== undefined) {
-                        // Show author's articles
-                        return (<EditorArticleListing {...props} authorId={authorId!}/>);
-                    } else {
-                        // Redirect to login
-                        return <Redirect to={`${matchUrl}/login`} />;
-                    }
-                }}/>
-                <Route path={`${matchUrl}/login`} component={EditorLoginFormContainer}/>
-                <Route path={`${matchUrl}/logout`} render={(props) => {
-                    postEditorLogout();
-                    authLogout();
+    return (
+        <div className="editor-page" style={editorPageStyle}>
+            <EditorPageHelmet
+                title={subdomainConfig.tabName + " | Editor"}
+            />
+
+            <DefaultNavbar />
+            <Route path={matchUrl} exact={true} render={(routeProps) => {
+                if (isAuthenticated && authorId !== undefined) {
+                    // Show author's articles
+                    return (<EditorArticleListing {...routeProps} authorId={authorId!}/>);
+                } else {
+                    // Redirect to login
                     return <Redirect to={`${matchUrl}/login`} />;
-                }}/>
-                <Route path={`${matchUrl}/new`} component={EditArticlePanel}/>
-                <Route path={`${matchUrl}/edit/:articleId`} component={EditArticlePanel} />
-            </div>
-        );
-    }
+                }
+            }}/>
+            <Route path={`${matchUrl}/login`} component={EditorLoginFormContainer}/>
+            <Route path={`${matchUrl}/logout`} render={(props) => {
+                postEditorLogout();
+                authLogout();
+                return <Redirect to={`${matchUrl}/login`} />;
+            }}/>
+            <Route path={`${matchUrl}/new`} component={EditArticlePanel}/>
+            <Route path={`${matchUrl}/edit/:articleId`} component={EditArticlePanel} />
+        </div>
+    );
 }
+
+/**
+ * Helmet: EditorPage
+ */
+
+interface IEditorPageHelmetProps {
+    title: string;
+}
+
+function EditorPageHelmet(props: IEditorPageHelmetProps) {
+    return (
+        <Helmet>
+            {mu.metaTitleTags(props.title)}
+        </Helmet>
+    )
+}
+
 
 function mapStateToProps(state: IReduxStoreState): IEditorPageReduxMapProps {
     const { isAuthenticated, user, sessionDataRetrieved, fetchingSessionData } = state.auth;
