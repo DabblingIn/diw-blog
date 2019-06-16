@@ -20,8 +20,6 @@ export interface IEditorArticleListingState {
 };
 
 
-// TODO: Add code here or in EditorPage for detecting the current signed in user and gathering only their articles
-
 export default class EditorArticleListing extends React.Component<IEditorArticleListingProps, IEditorArticleListingState> {
     constructor(props: IEditorArticleListingProps) {
         super(props);
@@ -63,11 +61,15 @@ export default class EditorArticleListing extends React.Component<IEditorArticle
         return (
             <div>
                 <div>
-                    <h1 className="editor-article-listing__header">Editor: Articles</h1>
-                    <h2 className="editor-article-listing__user-header">{this.state.username}</h2>
-                    <Link to="/editor/new">
-                        <button className="editor-article-listing__new-article-button">New Article</button>
-                    </Link>
+                    <div className="editor-article-listing__topbox">
+                        <h1 className="editor-article-listing__header">Editor: Articles</h1>
+                        <h2 className="editor-article-listing__user-header">{this.state.username}</h2>
+                    </div>
+                    <div className="editor-article-listing__topbox">
+                        <Link to="/editor/new">
+                            <button className="editor-article-listing__new-article-button">New Article</button>
+                        </Link>
+                    </div>
                 </div>
                 <section className="editor-article-listing">
                 {

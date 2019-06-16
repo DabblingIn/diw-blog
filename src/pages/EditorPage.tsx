@@ -85,7 +85,6 @@ class EditorPage extends React.Component<IEditorPageProps, IEditorPageState> {
             <div className="editor-page" style={editorPageStyle}>
                 <DefaultNavbar />
                 <Route path={matchUrl} exact={true} render={(props) => {
-                    // TODO: fix so that it doesn't redirect to login and then back to editor listing (from delayed realization of redux state update)
                     const { isAuthenticated, authorId } = this.props; 
                     if (isAuthenticated && authorId !== undefined) {
                         // Show author's articles
@@ -99,7 +98,6 @@ class EditorPage extends React.Component<IEditorPageProps, IEditorPageState> {
                 <Route path={`${matchUrl}/logout`} render={(props) => {
                     postEditorLogout();
                     authLogout();
-                    // TODO: max sure that EditorPage realizes the update of session data in redux and doesn't redirect to the editor listing
                     return <Redirect to={`${matchUrl}/login`} />;
                 }}/>
                 <Route path={`${matchUrl}/new`} component={EditArticlePanel}/>
