@@ -10,7 +10,6 @@ import './Article.css';
 
 export interface IArticleProps extends IGetArticleData {};
 
-const articleStyle = theme.itemBoxStyle;
 const titleStyle = theme.articleTitleStyle;
 
 
@@ -29,7 +28,7 @@ export default function Article(props: IArticleProps) {
             description={props.articleDescription}
         />
 
-        <article className="article" style={articleStyle}>
+        <article className="article item-box">
             <h2 className="article__title" style={titleStyle}>{props.articleTitle}</h2>
             <div className="article__name-date-line">
                 <span className="article__author-date-box">

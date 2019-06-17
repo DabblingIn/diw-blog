@@ -6,7 +6,6 @@ import { IEditorLoginFormReduxMapProps } from './EditorLoginFormContainer';
 import { validUsername, validPassword } from '../../util';
 import { postEditorLogin } from '../ApiCaller/ApiCaller';
 
-import { defaultTheme as theme } from '../../style/themes';
 import './EditorLoginForm.css';
 
 export interface IEditorLoginFormProps extends IEditorLoginFormReduxMapProps {};
@@ -163,7 +162,7 @@ export default class EditorLoginForm extends React.Component<IEditorLoginFormPro
         }
 
         return (
-            <form className="editor-loginform" style={theme.itemBoxStyle}>
+            <form className="editor-loginform item-box">
                 <h2 className="editor-loginform__title">Log In</h2>
 
                 <div className="editor-loginform__field">

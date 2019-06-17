@@ -26,10 +26,7 @@ import {
 
 import { getSubKey, isMegaSub } from '../../subdomains';
 
-import { defaultTheme as theme } from '../../style/themes';
 import "./EditArticlePanel.css";
-
-const editArticlePanelStyle = theme.itemBoxStyle;
 
 
 interface IEditArticlePanelProps {
@@ -348,7 +345,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         }
 
         return (
-            <div className="edit-article-panel" style={editArticlePanelStyle}>
+            <div className="edit-article-panel item-box">
                 <form>
                     <div>
                         <h1 className="edit-article-panel__header">{this.newArticle() ? 'New' : 'Edit'} Article</h1>
