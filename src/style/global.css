@@ -31,12 +31,13 @@ button {
     border-color: #777;
     border-radius: 2px;
     cursor: pointer;
+
+    box-shadow: 1px 1px black;
 }
 
 
 button:hover {
-    filter: drop-shadow(1px 1px #000)
-            brightness(95%);
+    filter: brightness(95%);
 }
 
 .item-box {

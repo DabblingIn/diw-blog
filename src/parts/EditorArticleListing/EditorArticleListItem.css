@@ -35,6 +35,7 @@
 .editor-article-list-item__delete-button {
     background-color: #c11;
     color: white;
+    margin-top: 6px;
 }
 
 /* Article List Item - Delete Popup */
