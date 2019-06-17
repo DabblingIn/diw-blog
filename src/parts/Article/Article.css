@@ -25,13 +25,13 @@
 .article__author {
     color: #003140;
     font-style: bold;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Lato', Helvetica, sans-serif;
     margin: auto 3px auto auto;
 }
 
 .article__created_date {
     color: #777;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Lato', Helvetica, sans-serif;
     margin: auto 3px;
 }
 
@@ -42,7 +42,7 @@
 
 .article__content {
     color: black;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Lato', Helvetica, sans-serif;
     margin: 10px auto;
 }
 
