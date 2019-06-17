@@ -62,7 +62,7 @@ export default class EditorArticleListing extends React.Component<IEditorArticle
             <div>
                 <div>
                     <div className="editor-article-listing__topbox">
-                        <h1 className="editor-article-listing__header">Editor: Articles</h1>
+                        <h1 className="editor-article-listing__header">Editor</h1>
                         <h2 className="editor-article-listing__user-header">{this.state.username}</h2>
                     </div>
                     <div className="editor-article-listing__topbox">
