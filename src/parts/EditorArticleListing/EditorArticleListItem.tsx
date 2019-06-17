@@ -32,7 +32,7 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
         const aSub = this.props.articleSub;
         const subHref = isMegaSub(aSub) ? 'http://dabblingin.com' : 'http://' + aSub + '.dabblingin.com';
         return (
-            <div className="editor-article-list-item" style={theme.itemBoxStyle}>
+            <div className="editor-article-list-item item-box">
                 <a className="editor-article-list-item__link" href={editorArticleLink(this.props.articleId)}>
                     <h3 className="editor-article-list-item__title" style={theme.articleTitleStyle}>{this.props.articleTitle}</h3>
                 </a>
@@ -112,7 +112,7 @@ class EditorArticleListItemDeletePopup extends React.Component<IEditorArticleLis
     public render() {
         const { articleTitle, articleUrlId } = this.props;
         return (
-            <div className="editor-article-list-item_delete-popup" style={theme.itemBoxStyle}>
+            <div className="editor-article-list-item_delete-popup item-box">
                 <h2>Are you sure you want to delete "{articleTitle}"
                     (<a href={util.articleLink(articleUrlId)}>{articleUrlId}</a>)?</h2>
                 <div>

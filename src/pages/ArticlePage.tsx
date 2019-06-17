@@ -100,7 +100,7 @@ function ArticleErrorPopup(props: IArticleErrorPopupProps) {
             <Helmet>
                 <title>Error</title>
             </Helmet>
-            <div className="article-page__error-popup" style={theme.itemBoxStyle}>
+            <div className="article-page__error-popup item-box">
                 <h1 className="article-page__error-popup__header">Error</h1>
                 <p className="article-page__error-popup__text">{props.message}</p>
             </div>
