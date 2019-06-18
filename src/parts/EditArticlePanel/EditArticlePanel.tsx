@@ -352,7 +352,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                     </div>
                     <h2 className="" style={{ fontFamily: "Lato, sans-serif", color: this.state.successfulSubmit ? "green": "red" }}>{this.state.submitError}</h2>
                     <div>
-                        <h3 className="edit-article-panel__form-label">URL ID (unique, hyphens instead of spaces</h3>
+                        <h3 className="edit-article-panel__form-label">URL ID (unique, hyphens instead of spaces)</h3>
                         <p className="edit-article-panel__field-error">{this.state.urlIdError}</p>
                         <input className="edit-article-panel__url-id edit-article-panel__input" type="text" onChange={this.changedUrlId} value={this.state.articleUrlId}/>
                     </div>
@@ -376,7 +376,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                     </div>
                     
                     <div>
-                        <h3 className="edit-article-panel__form-label">Content Preview (sanitized)</h3>
+                        <h3 className="edit-article-panel__form-label">Preview</h3>
                         <div className="edit-article-panel__content-preview" dangerouslySetInnerHTML={this.setPreviewHTML()}/>
                     </div>
                     <button onClick={this.clickSubmit} className="edit-article-panel__submit-button">
