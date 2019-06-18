@@ -54,6 +54,7 @@ interface IEditArticlePanelState {
     successfulSubmit: boolean;
 
     newArticleSuccess: boolean;
+    submitButtonRef: React.RefObject<HTMLButtonElement>;
 };
 
 
@@ -82,7 +83,9 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
 
             submitError: '',
             successfulSubmit: false,
-            newArticleSuccess: false
+            newArticleSuccess: false,
+
+            submitButtonRef: React.createRef()
         };
 
         this.newArticle = this.newArticle.bind(this);
@@ -93,6 +96,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         this.setPreviewHTML = this.setPreviewHTML.bind(this);
         this.clickSubmit = this.clickSubmit.bind(this);
         this.resetErrorMessages = this.resetErrorMessages.bind(this);
+        this.saveKeydown = this.saveKeydown.bind(this);
     }
 
     public componentDidMount() {
@@ -130,6 +134,14 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                     })
                 });
         }
+
+        // Save Hotkey Listener - SET
+        document.addEventListener("keydown", this.saveKeydown);
+    }
+
+    public componentWillUnmount() {
+        // Save Hotkey Listener - REMOVE
+        document.removeEventListener("keydown", this.saveKeydown);
     }
 
     public componentDidUpdate() {
@@ -338,6 +350,16 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         }
     }
 
+    private saveKeydown(e: KeyboardEvent) {
+        // Checks for Ctrl + S or Meta + S and saves
+        if ((e.ctrlKey || e.metaKey) && (e.key === 's')) {
+            e.preventDefault();
+            if (this.state.submitButtonRef.current) {
+                this.state.submitButtonRef.current.click();
+            }
+        }
+    }
+
     public render() {
         if (this.state.newArticleSuccess && this.state.articleId) {
             // If a new article has been created, it redirects to the Edit URL
@@ -379,7 +401,11 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                         <h3 className="edit-article-panel__form-label">Preview</h3>
                         <div className="edit-article-panel__content-preview" dangerouslySetInnerHTML={this.setPreviewHTML()}/>
                     </div>
-                    <button onClick={this.clickSubmit} className="edit-article-panel__submit-button">
+                    <button
+                        onClick={this.clickSubmit}
+                        className="edit-article-panel__submit-button"
+                        ref={this.state.submitButtonRef}
+                    >
                         {this.newArticle() ? 'CREATE' : 'UPDATE'}
                     </button>
                 </form>
