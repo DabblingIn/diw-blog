@@ -4,7 +4,8 @@
 }
 
 .editor-article-list-item:hover {
-    background-color: #f5fcff;
+    background-color: #eafaff;
+    border-color: black;
     cursor: pointer;
 }
 
