@@ -14,6 +14,11 @@
 .article-list-item__author {
     font-weight: bold;
     color: #222;
+    margin-right: 8px;
+}
+
+.article-list-item__sub {
+    color: #888;
 }
 
 .article-list-item__description {
