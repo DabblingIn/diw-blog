@@ -42,6 +42,7 @@ if (isLocalhost()) {
 const API_PATH = {
     articlesListing: apiPath('/article/listing'),
     newArticle: apiPath('/article/new'),
+    articleDataById: apiPath('/article/data'),
     articleData: apiPath('/article/data'),
     userData: apiPath('/user/data'),
     editorLogin: apiPath('/editor/login'),
@@ -213,7 +214,13 @@ export function getUserData(userId: string): Promise<IGetUserDataResponse> {
         return promise;
     } else {
         // api
-        const url = API_PATH.userData + '/' + userId;
+        const url = API_PATH.userData + '/id/' + userId;
         return axios.get(url, wCred());
     }
+}
+
+export function getUserDataByUsername(username: string): Promise<IGetUserDataResponse> {
+    // api
+    const url = API_PATH.userData + '/username/' + username;
+    return axios.get(url, wCred());
 }

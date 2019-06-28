@@ -19,7 +19,7 @@ export default function ArticleListItem(props: IArticleListItemProps) {
             <a className="article-list-item__link" href={util.articleLink(props.articleUrlId)}>
                 <h3 className="article-list-item__title" style={titleStyle}>{props.articleTitle}</h3>
             </a>
-            <a className="article-list-item__author" href={util.userLink(props.authorId)}>{props.authorName}</a>
+            <a className="article-list-item__author" href={util.userPageLink(props.authorUsername)}>{props.authorName}</a>
             <ArticleSub articleSub={props.articleSub} />
             <p className="article-list-item__description">{props.articleDescription}</p>
             <p className="article-list-item__date"><span style={{color:'#555'}}>Updated </span>{util.minDateString(props.articleUpdatedAt)}</p>

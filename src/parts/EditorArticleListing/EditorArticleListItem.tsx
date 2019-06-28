@@ -36,7 +36,7 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
                 <a className="editor-article-list-item__link" href={editorArticleLink(this.props.articleId)}>
                     <h3 className="editor-article-list-item__title" style={theme.articleTitleStyle}>{this.props.articleTitle}</h3>
                 </a>
-                <a className="editor-article-list-item__author" href={util.userLink(this.props.authorId)}>{this.props.authorName}</a>
+                <a className="editor-article-list-item__author" href={util.userPageLink(this.props.authorUsername)}>{this.props.authorName}</a>
                 <a className="editor-article-list-item__sub" href={subHref}>
                     {aSub}
                 </a>

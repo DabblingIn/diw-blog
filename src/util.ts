@@ -182,8 +182,8 @@ export function articleLink(articleUrlId: string) {
     return "/p/" + articleUrlId;
 }
 
-export function userLink(userId: string) {
-    return "/u/" + userId;
+export function userPageLink(username: string) {
+    return "/u/" + username;
 }
 
 export function arrayToMap(array: any[], keyField: any): object {
