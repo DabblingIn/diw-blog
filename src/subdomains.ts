@@ -43,6 +43,23 @@ const SUBDOMAIN_CONFIG: ISubdomainMetadataMap = {
     }
 };
 
+
+const _currentSubIsMega = (MEGA_SUBS.indexOf(getSubKey()) !== -1);
+/**
+ * Checks if the sub is a special 'mega' sub (root or dev default)
+ * If a key is fed in, it will check that sub. Otherwise, it will
+ * check the current sub.
+ */
+export function isMegaSub(subKey?: string): boolean {
+    if (typeof subKey !== "undefined") {
+        // If a key is fed in, it will check that sub
+        return (MEGA_SUBS.indexOf(subKey) !== -1);
+    } else {
+        // Otherwise, it will check the current sub
+        return _currentSubIsMega
+    }
+}
+
 function parseSubdomain(hostname: string): string {
     const splitted: string[] = hostname.split('.');
     if (splitted.length === 2) {
@@ -70,8 +87,4 @@ export function getSubdomainConfig(overrideSubName?: string): ISubdomainMetadata
     }
 
     return SUBDOMAIN_CONFIG[subKey];
-}
-
-export function isMegaSub(subKey: string) {
-    return (MEGA_SUBS.indexOf(subKey) !== -1);
 }
