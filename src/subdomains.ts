@@ -17,6 +17,17 @@ export const ROOT_SUB: string = "_root";
 
 export const MEGA_SUBS = [DEV_DEFAULT_SUB, ROOT_SUB];
 
+const HTTPS_PREFIX = "https://";
+const ROOT_DOMAIN = "dabblingin.com";
+const ROOT_DOT_DOMAIN = "." + ROOT_DOMAIN;
+const ROOT_SUB_ORIGIN = HTTPS_PREFIX + ROOT_DOMAIN;
+
+// Initializing current sub properties to avert unnecessary operations
+const _currentSubKey = getSubKey();
+const _currentSubIsMega = (MEGA_SUBS.indexOf(_currentSubKey) !== -1);
+const _currentSubOrigin = _currentSubIsMega ?
+                              ROOT_SUB_ORIGIN : _getSubOrigin(_currentSubKey);
+
 // config by subdomain
 const SUBDOMAIN_CONFIG: ISubdomainMetadataMap = {
     // fallback/localhost config
@@ -44,11 +55,10 @@ const SUBDOMAIN_CONFIG: ISubdomainMetadataMap = {
 };
 
 
-const _currentSubIsMega = (MEGA_SUBS.indexOf(getSubKey()) !== -1);
 /**
  * Checks if the sub is a special 'mega' sub (root or dev default)
- * If a key is fed in, it will check that sub. Otherwise, it will
- * check the current sub.
+ *  If a key is fed in, it will check that sub. Otherwise, it will
+ *  check the current sub.
  */
 export function isMegaSub(subKey?: string): boolean {
     if (typeof subKey !== "undefined") {
@@ -58,6 +68,31 @@ export function isMegaSub(subKey?: string): boolean {
         // Otherwise, it will check the current sub
         return _currentSubIsMega
     }
+}
+
+
+/**
+ * Gives the origin link (https://(yyy.)xxx.com) for the given sub.
+ *  If no key is ged in, gives the origin of the current sub
+ */
+export function getSubOriginLink(subKey?: string): string {
+    if (typeof subKey !== "undefined") {
+        return _getSubOrigin(subKey);
+    } else {
+        return _currentSubOrigin;
+    }
+}
+
+/**
+ * Base helper function for getSubOriginLink
+ */
+function _getSubOrigin(subKey: string): string {
+    return isMegaSub(subKey) ?
+              // https://dabblingin.com 
+              ROOT_SUB_ORIGIN
+                : 
+              // https://[subKey].dabblingin.com
+              HTTPS_PREFIX + subKey + ROOT_DOT_DOMAIN;
 }
 
 function parseSubdomain(hostname: string): string {
