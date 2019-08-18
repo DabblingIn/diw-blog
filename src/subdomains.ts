@@ -23,10 +23,10 @@ const ROOT_DOT_DOMAIN = "." + ROOT_DOMAIN;
 const ROOT_SUB_ORIGIN = HTTPS_PREFIX + ROOT_DOMAIN;
 
 // Initializing current sub properties to avert unnecessary operations
-const _currentSubKey = getSubKey();
-const _currentSubIsMega = (MEGA_SUBS.indexOf(_currentSubKey) !== -1);
-const _currentSubOrigin = _currentSubIsMega ?
-                              ROOT_SUB_ORIGIN : _getSubOrigin(_currentSubKey);
+export const CURRENT_SUBKEY = getSubKey();
+export const CURRENT_SUB_ISMEGA = (MEGA_SUBS.indexOf(CURRENT_SUBKEY) !== -1);
+export const CURRENT_SUB_ORIGIN = CURRENT_SUB_ISMEGA ?
+                              ROOT_SUB_ORIGIN : _getSubOrigin(CURRENT_SUBKEY);
 
 // config by subdomain
 const SUBDOMAIN_CONFIG: ISubdomainMetadataMap = {
@@ -66,7 +66,7 @@ export function isMegaSub(subKey?: string): boolean {
         return (MEGA_SUBS.indexOf(subKey) !== -1);
     } else {
         // Otherwise, it will check the current sub
-        return _currentSubIsMega
+        return CURRENT_SUB_ISMEGA
     }
 }
 
@@ -79,7 +79,7 @@ export function getSubOriginLink(subKey?: string): string {
     if (typeof subKey !== "undefined") {
         return _getSubOrigin(subKey);
     } else {
-        return _currentSubOrigin;
+        return CURRENT_SUB_ORIGIN;
     }
 }
 
