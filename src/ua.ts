@@ -38,6 +38,9 @@ interface IUA_VISITOR_Interface {
     }
 }
 
+/**
+ * Universal-analytics configs.
+ */
 export const UA_VISITOR: IUA_VISITOR_Interface = {
     master: {
         visitor: _masterVisitor,
@@ -49,14 +52,9 @@ export const UA_VISITOR: IUA_VISITOR_Interface = {
     }
 }
 
-/*type PageViewArgs = [
-    ua.PageviewParams | string,    // path
-    string?,                       // hostname
-    string?,                       // title
-    ua.PageviewParams?             // params
-];*/
-
-//type PageViewArgs = Parameters<typeof siteVisitor.pageview>;
+/**
+ * Runs pageview for the master tracking code as well as the current site tracking code.
+ */
 export function pageview(params: ua.PageviewParams, callback?: ua.Callback): void {
     if (true) { //(!isLocalhost()) {
         UA_VISITOR.master.visitor.pageview(Object.assign(
@@ -74,6 +72,10 @@ export function pageview(params: ua.PageviewParams, callback?: ua.Callback): voi
     }
 }
 
+/**
+ * Default callback for pageview: logs errors if any are present.  Otherwise,
+ *  does nothing.
+ */
 export function defaultPageViewLogCallback(logPrefix: string): ua.Callback {
   return (err, count) => {
     if (err !== null) {
