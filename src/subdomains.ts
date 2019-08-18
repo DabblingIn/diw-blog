@@ -12,10 +12,10 @@ interface ISubdomainMetadataMap {
 }
 
 // sub special keys
-export const DEV_SUB: string = "_dev";
+export const DEV_DEFAULT_SUB: string = "_dev";
 export const ROOT_SUB: string = "_root";
 
-export const MEGA_SUBS = [DEV_SUB, ROOT_SUB];
+export const MEGA_SUBS = [DEV_DEFAULT_SUB, ROOT_SUB];
 
 // config by subdomain
 const SUBDOMAIN_CONFIG: ISubdomainMetadataMap = {
@@ -55,7 +55,7 @@ function parseSubdomain(hostname: string): string {
 export function getSubKey() {
     if (isLocalhost()) {
         return process.env.REACT_APP_TESTSUB ?
-            process.env.REACT_APP_TESTSUB : DEV_SUB;
+            process.env.REACT_APP_TESTSUB : DEV_DEFAULT_SUB;
     } else {
         return parseSubdomain(window.location.hostname);
     }
