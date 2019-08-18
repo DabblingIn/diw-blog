@@ -2,9 +2,10 @@
 import { isLocalhost } from './util';
 
 export interface ISubdomainMetadata {
-    name: string;   // site name (e.g. Dabbling In Web)
-    tabName: string;
-    uaCode: string;
+    name: string;         // Site name (e.g. Dabbling In Web)
+    titlePrefix: string;  // Site title prefix
+    uaCode: string;       // Universal Analytics code
+    mega: boolean;        // Is a special 'mega' sub: displays articles from all subs
 }
 
 interface ISubdomainMetadataMap {
@@ -15,44 +16,46 @@ interface ISubdomainMetadataMap {
 export const DEV_DEFAULT_SUB: string = "_dev";
 export const ROOT_SUB: string = "_root";
 
-export const MEGA_SUBS = [DEV_DEFAULT_SUB, ROOT_SUB];
-
 const HTTPS_PREFIX = "https://";
 const ROOT_DOMAIN = "dabblingin.com";
 const ROOT_DOT_DOMAIN = "." + ROOT_DOMAIN;
 const ROOT_SUB_ORIGIN = HTTPS_PREFIX + ROOT_DOMAIN;
-
-// Initializing current sub properties to avert unnecessary operations
-export const CURRENT_SUBKEY = getSubKey();
-export const CURRENT_SUB_ISMEGA = (MEGA_SUBS.indexOf(CURRENT_SUBKEY) !== -1);
-export const CURRENT_SUB_ORIGIN = CURRENT_SUB_ISMEGA ?
-                              ROOT_SUB_ORIGIN : _getSubOrigin(CURRENT_SUBKEY);
 
 // config by subdomain
 const SUBDOMAIN_CONFIG: ISubdomainMetadataMap = {
     // fallback/localhost config
     _dev: {
         name: "Dabbling (Dev)",
-        tabName: "Dabbling (Dev)",
-        uaCode: "NaN"
+        titlePrefix: "Dabbling (Dev)",
+        uaCode: "NaN",
+        mega: true
     },
     // root domain
     _root: {
         name: "Dabbling In...",
-        tabName: "Dabbling In...",
-        uaCode: "UA-119556311-8"
+        titlePrefix: "Dabbling In...",
+        uaCode: "UA-119556311-8",
+        mega: true
     },
     web: {
         name: "Dabbling In Web",
-        tabName: "DIW",
-        uaCode: "UA-119556311-5"
+        titlePrefix: "DIW",
+        uaCode: "UA-119556311-5",
+        mega: false
     },
     articleSub00: {
         name: "Sub00",
-        tabName: "DIW:S0",
-        uaCode: "NaN"
+        titlePrefix: "DIW:S0",
+        uaCode: "NaN",
+        mega: false
     }
 };
+
+// Initializing current sub properties to avert unnecessary operations
+export const CURRENT_SUBKEY = getSubKey();
+export const CURRENT_SUB_ISMEGA = SUBDOMAIN_CONFIG[CURRENT_SUBKEY].mega;
+export const CURRENT_SUB_ORIGIN = CURRENT_SUB_ISMEGA ?
+                              ROOT_SUB_ORIGIN : _getSubOrigin(CURRENT_SUBKEY);
 
 
 /**
@@ -63,7 +66,7 @@ const SUBDOMAIN_CONFIG: ISubdomainMetadataMap = {
 export function isMegaSub(subKey?: string): boolean {
     if (typeof subKey !== "undefined") {
         // If a key is fed in, it will check that sub
-        return (MEGA_SUBS.indexOf(subKey) !== -1);
+        return SUBDOMAIN_CONFIG[subKey] ? SUBDOMAIN_CONFIG[subKey].mega : false;
     } else {
         // Otherwise, it will check the current sub
         return CURRENT_SUB_ISMEGA
