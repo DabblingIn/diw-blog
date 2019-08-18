@@ -19,7 +19,7 @@ export const ROOT_SUB: string = "_root";
 const HTTPS_PREFIX = "https://";
 const ROOT_DOMAIN = "dabblingin.com";
 const ROOT_DOT_DOMAIN = "." + ROOT_DOMAIN;
-const ROOT_SUB_ORIGIN = HTTPS_PREFIX + ROOT_DOMAIN;
+export const ROOT_SUB_ORIGIN = HTTPS_PREFIX + ROOT_DOMAIN;
 
 // config by subdomain
 const SUBDOMAIN_CONFIG: ISubdomainMetadataMap = {

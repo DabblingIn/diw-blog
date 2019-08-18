@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
+import { createBrowserHistory } from 'history';
 
 import DefaultPage from './pages/DefaultPage';
 import UserPage from './pages/UserPage';
@@ -20,13 +21,40 @@ import { IAuthReducerState } from './parts/Auth/AuthReducer';
 import { getEditorSessionData } from './parts/ApiCaller/ApiCaller';
 import { IEditorSessionUser } from './parts/ApiCaller/ApiCaller.d';
 import { getSubdomainConfig } from './subdomains';
+import { isLocalhost } from './util';
 import * as mu from './metaUtils';
+import { pageview, defaultPageViewLogCallback } from './ua';
 
 import { defaultTheme as theme } from './style/themes';
 import './App.css';
 import './style/global.css';
 
 const subdomainConfig = getSubdomainConfig();
+
+const history = createBrowserHistory();
+
+/**
+ * Google Analytics / Universal Analytics
+ */
+
+// Analytics: Sending on first load
+setTimeout(() => {
+  console.log('[first-load] sending pageview of pathname:', window.location.pathname);
+  if (!isLocalhost()) {
+    pageview(
+      { dp: window.location.pathname, dt: document.title}, 
+      defaultPageViewLogCallback('[first-load]'));
+  }
+}, 1000);
+
+// Analytics: sending on each history update (frontend routing)
+history.listen((location, action) => {
+  if (!isLocalhost()) {
+    return pageview(
+              {dp: location.pathname, dt: document.title }, 
+              defaultPageViewLogCallback('[history.listen]'));
+  }
+})
 
 const backgroundStyle = { 
   backgroundImage: theme.backgroundColor

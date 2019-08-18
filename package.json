@@ -13,6 +13,7 @@
     "@types/react-router-dom": "^4.3.3",
     "@types/redux": "^3.6.0",
     "@types/sanitize-html": "^1.18.3",
+    "@types/universal-analytics": "^0.4.2",
     "axios": "^0.19.0",
     "lodash": "^4.17.11",
     "react": "^16.8.6",
@@ -24,7 +25,8 @@
     "react-scripts": "3.0.1",
     "redux": "^4.0.1",
     "sanitize-html": "^1.20.1",
-    "typescript": "3.5.1"
+    "typescript": "3.5.1",
+    "universal-analytics": "^0.4.20"
   },
   "scripts": {
     "start": "react-scripts start",
