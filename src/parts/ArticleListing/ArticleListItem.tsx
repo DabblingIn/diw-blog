@@ -1,15 +1,13 @@
 import * as React from 'react';
 
 import * as util from '../../util';
-import { getSubKey } from '../../subdomains';
+import { CURRENT_SUBKEY, getSubOriginLink } from '../../subdomains';
 import { IGetArticleListData } from '../ApiCaller/ApiCaller.d';
 
 import { defaultTheme as theme } from '../../style/themes';
 import './ArticleListItem.css';
 
 const titleStyle = theme.articleTitleStyle;
-
-const currentSub = getSubKey();
 
 export interface IArticleListItemProps extends IGetArticleListData {}
 
@@ -32,10 +30,10 @@ interface IArticleSubProps {
 }
 
 function ArticleSub(props: IArticleSubProps) {
-    if (currentSub === props.articleSub) {
+    if (CURRENT_SUBKEY === props.articleSub) {
         return null;
     } else {
-        const subHref = 'http://' + props.articleSub + '.dabblingin.com';
+        const subHref = getSubOriginLink(props.articleSub);
         return (
             <a className="article-list-item__sub" href={subHref}>
                 {props.articleSub}
