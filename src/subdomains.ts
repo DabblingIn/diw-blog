@@ -4,6 +4,7 @@ import { isLocalhost } from './util';
 export interface ISubdomainMetadata {
     name: string;   // site name (e.g. Dabbling In Web)
     tabName: string;
+    uaCode: string;
 }
 
 interface ISubdomainMetadataMap {
@@ -11,37 +12,41 @@ interface ISubdomainMetadataMap {
 }
 
 // sub special keys
-export const DEFAULT_SUB: string = "_default";
-export const BASE_SUB: string = "_base";
+export const DEV_SUB: string = "_dev";
+export const ROOT_SUB: string = "_root";
 
-export const MEGA_SUBS = [DEFAULT_SUB, BASE_SUB];
+export const MEGA_SUBS = [DEV_SUB, ROOT_SUB];
 
 // config by subdomain
 const SUBDOMAIN_CONFIG: ISubdomainMetadataMap = {
     // fallback/localhost config
-    _default: {
+    _dev: {
         name: "Dabbling (Dev)",
-        tabName: "Dabbling (Dev)"
+        tabName: "Dabbling (Dev)",
+        uaCode: "NaN"
     },
     // root domain
-    _base: {
+    _root: {
         name: "Dabbling In...",
-        tabName: "Dabbling In..."
+        tabName: "Dabbling In...",
+        uaCode: "UA-119556311-8"
     },
     web: {
         name: "Dabbling In Web",
-        tabName: "DIW"
+        tabName: "DIW",
+        uaCode: "UA-119556311-5"
     },
     articleSub00: {
         name: "Sub00",
-        tabName: "DIW:S0"
+        tabName: "DIW:S0",
+        uaCode: "NaN"
     }
 };
 
 function parseSubdomain(hostname: string): string {
     const splitted: string[] = hostname.split('.');
     if (splitted.length === 2) {
-        return BASE_SUB;
+        return ROOT_SUB;
     } else {
         return splitted.slice(0, splitted.length-2).join('.');
     }
@@ -50,7 +55,7 @@ function parseSubdomain(hostname: string): string {
 export function getSubKey() {
     if (isLocalhost()) {
         return process.env.REACT_APP_TESTSUB ?
-            process.env.REACT_APP_TESTSUB : DEFAULT_SUB;
+            process.env.REACT_APP_TESTSUB : DEV_SUB;
     } else {
         return parseSubdomain(window.location.hostname);
     }
