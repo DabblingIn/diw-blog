@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as util from '../../util';
 import { deleteArticleById } from '../ApiCaller/ApiCaller';
 import { IGetArticleListData } from '../ApiCaller/ApiCaller.d';
-import { isMegaSub } from '../../subdomains';
+import { getSubOriginLink } from '../../subdomains';
 
 import { defaultTheme as theme } from '../../style/themes';
 import './EditorArticleListItem.css';
@@ -13,6 +13,7 @@ export interface IEditorArticleListItemProps extends IGetArticleListData {}
 
 export interface IEditorArticleListItemState {
     showDeletePopup: boolean;
+    subHref: string;
 }
 
 export default class EditorArticleListItem extends React.Component<IEditorArticleListItemProps, IEditorArticleListItemState> {
@@ -20,7 +21,8 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
         super(props);
 
         this.state = {
-            showDeletePopup: false
+            showDeletePopup: false,
+            subHref: getSubOriginLink(props.articleSub)
         }
 
         this.clickDelete = this.clickDelete.bind(this);
@@ -30,14 +32,13 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
 
     public render() {
         const aSub = this.props.articleSub;
-        const subHref = isMegaSub(aSub) ? 'http://dabblingin.com' : 'http://' + aSub + '.dabblingin.com';
         return (
             <div className="editor-article-list-item item-box">
                 <a className="editor-article-list-item__link" href={editorArticleLink(this.props.articleId)}>
                     <h3 className="editor-article-list-item__title" style={theme.articleTitleStyle}>{this.props.articleTitle}</h3>
                 </a>
                 <a className="editor-article-list-item__author" href={util.userPageLink(this.props.authorUsername)}>{this.props.authorName}</a>
-                <a className="editor-article-list-item__sub" href={subHref}>
+                <a className="editor-article-list-item__sub" href={this.state.subHref}>
                     {aSub}
                 </a>
                 <p className="editor-article-list-item__description">{this.props.articleDescription}</p>

@@ -80,7 +80,7 @@ function EditorPage(props: IEditorPageProps) {
     return (
         <div className="editor-page" style={editorPageStyle}>
             <EditorPageHelmet
-                title={subdomainConfig.tabName + " | Editor"}
+                title={subdomainConfig.titlePrefix + " | Editor"}
             />
 
             <DefaultNavbar />

@@ -9,8 +9,9 @@ import { IGetArticleListData } from './parts/ApiCaller/ApiCaller.d';
 const LOCALHOST = "localhost";
 const _DAY_IN_MS = 1000*60*60*24;
 
-export function isLocalhost() {
-    return (window.location.hostname === LOCALHOST);
+const _isLocalHost = (window.location.hostname === LOCALHOST);
+export function isLocalhost(): boolean {
+    return _isLocalHost;
 }
 
 export function removeTrailingSlash(url: string): string {
