@@ -241,3 +241,19 @@ export function loadTwitterWidgets() {
         }
     }
 }
+
+// Highlight
+declare let hljs: any;
+export function loadHighlightJs() {
+    try {
+        hljs.initHighlighting();
+    } catch(e) {
+        if (e instanceof ReferenceError) {
+            // tslint:disable-next-line:no-console
+            console.log("HighlightJs load issue!");
+            setTimeout(loadHighlightJs, 1000);
+        } else {
+            throw e;
+        }
+    }
+}

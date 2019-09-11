@@ -10,7 +10,8 @@ import {
     validArticleDescription,
     validArticleContent,
     sanitizeArticleContent,
-    loadTwitterWidgets
+    loadTwitterWidgets,
+    loadHighlightJs
 } from '../../util';
 
 import {
@@ -145,8 +146,8 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
     }
 
     public componentDidUpdate() {
-        // Twitter
         loadTwitterWidgets();
+        loadHighlightJs();
     }
 
     public newArticle(): boolean {

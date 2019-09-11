@@ -15,9 +15,9 @@ const titleStyle = theme.articleTitleStyle;
 
 export default function Article(props: IArticleProps) {
     React.useEffect(() => {
-        // Twitter
         util.loadTwitterWidgets();
-    })
+        util.loadHighlightJs();
+    });
 
     const articleCreatedAt = new Date(props.articleCreatedAt);
     return (
@@ -62,5 +62,5 @@ function ArticleHelmet(props: IArticleHelmetProps) {
             {mu.metaAuthorTag(author)}
             {mu.metaDescriptionTags(description)}
         </Helmet>
-    )
+    );
 }

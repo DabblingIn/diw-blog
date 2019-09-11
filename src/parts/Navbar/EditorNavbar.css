@@ -1,0 +1,25 @@
+.editor-navbar {
+
+}
+
+.editor-navbar__left-side_container {
+    float: right;
+    display: inline-block;
+    height: 100%;
+    width: 30%;
+}
+
+.editor-navarbar__logout-link {
+    appearance: button;
+}
+
+.editor-navbar__logout-button {
+    background-color: #000035;
+    color: white;
+
+    height: 60%;
+    width: 60px;
+
+    vertical-align: middle;
+    float: right;
+}
