@@ -26,7 +26,10 @@ p {
 }
 
 code {
-    font-size: 14px;
+    font-size: 15px;
+    color: #111;
+    font-family: 'PT Mono', monospace;
+
 }
 
 button {
