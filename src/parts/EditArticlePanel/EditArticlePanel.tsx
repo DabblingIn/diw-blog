@@ -9,7 +9,8 @@ import {
     validArticleTitle,
     validArticleDescription,
     validArticleContent,
-    sanitizeArticleContent,
+    convertToMarkdown,
+    convertArticleContentToHtml,
     loadTwitterWidgets,
     loadHighlightJs
 } from '../../util';
@@ -44,7 +45,7 @@ interface IEditArticlePanelState {
     articleUrlId: string;
     articleTitle: string;
     articleDescription: string;
-    articleContent: string;
+    articleContentMarkdown: string;
 
     urlIdError: string;
     titleError: string;
@@ -75,7 +76,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
             articleUrlId: '',
             articleTitle: '',
             articleDescription: '',
-            articleContent: '',
+            articleContentMarkdown: '',
 
             urlIdError: '',
             titleError: '',
@@ -93,7 +94,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         this.changedUrlId = this.changedUrlId.bind(this);
         this.changedTitle = this.changedTitle.bind(this);
         this.changedDescription = this.changedDescription.bind(this);
-        this.changedContent = this.changedContent.bind(this);
+        this.changedContentMarkdown = this.changedContentMarkdown.bind(this);
         this.setPreviewHTML = this.setPreviewHTML.bind(this);
         this.clickSubmit = this.clickSubmit.bind(this);
         this.resetErrorMessages = this.resetErrorMessages.bind(this);
@@ -116,7 +117,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                         articleUrlId: data.articleUrlId,
                         articleTitle: data.articleTitle,
                         articleDescription: data.articleDescription,
-                        articleContent: data.articleContent,
+                        articleContentMarkdown: convertToMarkdown(data.articleContent),
 
                         urlIdError: '',
                         titleError: '',
@@ -212,28 +213,17 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         }
     }
 
-    public changedContent(e: FormEvent<HTMLTextAreaElement>) {
-        const newContent: string = e.currentTarget.value;
-        const validation = validArticleContent(newContent);
+    public changedContentMarkdown(e: FormEvent<HTMLTextAreaElement>) {
+        const newContentMarkdown: string = e.currentTarget.value;
 
         this.setState({
-            articleContent: newContent
+            articleContentMarkdown: newContentMarkdown
         });
-
-        if (!validation.valid) {
-            this.setState({
-                contentError: validation.err
-            })
-        } else {
-            this.setState({
-                contentError: ""
-            })
-        }
     }
     
     public setPreviewHTML() {
         const title = sanitizeHtml(this.state.articleTitle, { allowedTags: [] });
-        const content = sanitizeArticleContent(this.state.articleContent);
+        const content = convertArticleContentToHtml(this.state.articleContentMarkdown);
 
         return { __html: `<h1 style="margin: 2px 0px;">${title}</h1><div>${content}</div>` }
     }
@@ -259,12 +249,12 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
            articleTitle,
            articleDescription
         } = this.state;
-        const rawArticleContent = this.state.articleContent;
+        const articleContent = convertArticleContentToHtml(this.state.articleContentMarkdown);
 
         const urlIdVal = validArticleUrlId(articleUrlId);
         const titleVal = validArticleTitle(articleTitle);
         const descriptionVal = validArticleDescription(articleDescription);
-        const contentVal = validArticleContent(rawArticleContent);
+        const contentVal = validArticleContent(articleContent);
 
         if (!(
             urlIdVal.valid &&
@@ -284,14 +274,13 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         } else {
             // Valid fields.  Attempting PUT or POST
             const articleSub = getSubKey();
-            const sanitizedArticleContent = sanitizeArticleContent(rawArticleContent);
             if(this.newArticle()) {
                 const newArticleData: IPostArticleDataQuery = {
                     articleSub,
                     articleUrlId,
                     articleTitle,
                     articleDescription,
-                    articleContent: sanitizedArticleContent
+                    articleContent
                 }
                 if (isMegaSub(articleSub)) {
                     // TODO: what to do if mega sub?
@@ -327,7 +316,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                     articleUrlId,
                     articleTitle,
                     articleDescription,
-                    articleContent: sanitizedArticleContent
+                    articleContent
                 }
                 updateArticleData(this.state.articleId!, updatedArticleData)
                     .then(({ data: resData }) => {
@@ -395,7 +384,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                     <div>
                         <h3 className="edit-article-panel__form-label">Content (Raw HTML)</h3>
                         <p className="edit-article-panel__field-error">{this.state.contentError}</p>
-                        <textarea className="edit-article-panel__content edit-article-panel__input edit-article-panel__textarea" onChange={this.changedContent} value={this.state.articleContent} />
+                        <textarea className="edit-article-panel__content edit-article-panel__input edit-article-panel__textarea" onChange={this.changedContentMarkdown} value={this.state.articleContentMarkdown} />
                     </div>
                     
                     <div>
