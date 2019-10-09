@@ -1,6 +1,11 @@
 import sanitizeHtml from 'sanitize-html';
+import showdown from 'showdown';
 
 import { IGetArticleListData } from './parts/ApiCaller/ApiCaller.d';
+
+// HTML <> Markdown Converter
+const htmlMdConverter = new showdown.Converter();
+htmlMdConverter.setFlavor('github');
 
 /*
     DabblingIn Utilities
@@ -223,6 +228,14 @@ export function sanitizeArticleContent(rawHtmlString: string): string {
         allowedAttributes: false,
         allowedIframeHostnames: ['www.youtube.com', 'twitter.com']
     });
+}
+
+export function convertToMarkdown(htmlString: string): string {
+    return htmlMdConverter.makeMarkdown(htmlString);
+}
+
+export function convertArticleContentToHtml(markdownString: string): string {
+    return sanitizeArticleContent(htmlMdConverter.makeHtml(markdownString));
 }
 
 
