@@ -43,7 +43,7 @@ export default class EditorArticleListing extends React.Component<IEditorArticle
                 const articlesListData = util.sortArticleListingByCreated(res.data.data);
                 // TODO: const articlesListErr: string = res.data.err;
                 this.setState({
-                    articlesListData
+                    articlesListData: articlesListData.reverse()
                 });
             })
             //.catch();
@@ -85,7 +85,7 @@ export default class EditorArticleListing extends React.Component<IEditorArticle
                 </div>
                 <section className="editor-article-listing">
                 {
-                    this.state.articlesListData.reverse().map((articleListData:  IGetArticleListData ) => {
+                    this.state.articlesListData.map((articleListData:  IGetArticleListData ) => {
                         const articleListItemProps: IEditorArticleListItemProps = articleListData;
                         return (<EditorArticleListItem key={util.articleLink(articleListData.articleId)} {...articleListItemProps}/>);
                     })
@@ -105,7 +105,6 @@ export default class EditorArticleListing extends React.Component<IEditorArticle
         this.setState({
             showNewArticlePopup: showPopup
         });
-        console.log('showPopup:', showPopup);
     }
 }
 
