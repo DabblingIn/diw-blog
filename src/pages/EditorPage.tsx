@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import DefaultNavbar from '../parts/Navbar/DefaultNavbar';
 import EditorLoginFormContainer from '../parts/EditorLoginForm/EditorLoginFormContainer';
-import EditArticlePanel from '../parts/EditArticlePanel/EditArticlePanel';
+import EditArticlePanel, { EditorModes } from '../parts/EditArticlePanel/EditArticlePanel';
 import EditorArticleListing from '../parts/EditorArticleListing/EditorArticleListing';
 
 import { IReduxStoreState } from '../reducers';
@@ -84,26 +84,41 @@ function EditorPage(props: IEditorPageProps) {
             />
 
             <DefaultNavbar />
+
             <Route path={matchUrl} exact={true} render={(routeProps) => {
                 if (isAuthenticated && authorId !== undefined) {
                     // Show author's articles
-                    return (<EditorArticleListing {...routeProps} authorId={authorId!}/>);
+                    return (<EditorArticleListing authorId={authorId!} {...routeProps}/>);
                 } else {
                     // Redirect to login
                     return <Redirect to={`${matchUrl}/login`} />;
                 }
             }}/>
+
             <Route path={`${matchUrl}/login`} component={EditorLoginFormContainer}/>
+
             <Route path={`${matchUrl}/logout`} render={(props) => {
                 postEditorLogout();
                 authLogout();
                 return <Redirect to={`${matchUrl}/login`} />;
             }}/>
-            <Route path={`${matchUrl}/new`} component={EditArticlePanel}/>
-            <Route path={`${matchUrl}/edit/:articleId`} component={EditArticlePanel} />
+
+            {/* Edit Article Routes - MD and HTML modes */}
+            <Route path={`${matchUrl}/new`} exact={true} component={EditArticlePanel}/>
+            <Route path={`${matchUrl}/new/html`} component={EditArticlePanel}/>
+            <Route path={`${matchUrl}/new/md`} render={(routeProps) =>
+                    <EditArticlePanel editorMode={EditorModes.MD} {...routeProps}/>
+            }/>
+
+            <Route path={`${matchUrl}/edit/:articleId`} exact={true} component={EditArticlePanel} />
+            <Route path={`${matchUrl}/edit/html/:articleId`} component={EditArticlePanel} />
+            <Route path={`${matchUrl}/edit/md/:articleId`} render={(routeProps) =>
+                    <EditArticlePanel editorMode={EditorModes.MD} {...routeProps}/>
+            }/>
         </div>
     );
 }
+
 
 /**
  * Helmet: EditorPage

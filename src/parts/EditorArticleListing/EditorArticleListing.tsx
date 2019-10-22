@@ -17,6 +17,7 @@ export interface IEditorArticleListingProps {
 export interface IEditorArticleListingState {
     articlesListData: IGetArticleListData[];
     username: string;
+    showNewArticlePopup: boolean;
 };
 
 
@@ -26,8 +27,12 @@ export default class EditorArticleListing extends React.Component<IEditorArticle
 
         this.state = {
             articlesListData: [],
-            username: ""
+            username: "",
+            showNewArticlePopup: false
         };
+
+        this.clickNewArticle = this.clickNewArticle.bind(this);
+        this.toggleNewArticlePopup = this.toggleNewArticlePopup.bind(this);
     }
 
     public componentDidMount() {
@@ -66,10 +71,17 @@ export default class EditorArticleListing extends React.Component<IEditorArticle
                         <h2 className="editor-article-listing__user-header">{this.state.username}</h2>
                     </div>
                     <div className="editor-article-listing__topbox">
-                        <Link to="/editor/new">
-                            <button className="editor-article-listing__new-article-button">New Article</button>
-                        </Link>
+                        <button
+                            className="editor-article-listing__new-article-button"
+                            onClick={this.clickNewArticle}
+                        >
+                            New Article
+                        </button>
                     </div>
+                </div>
+                <div className="editor-article-listing__new-article-popup-container"
+                     style={this.state.showNewArticlePopup ? undefined : { display: "none" }}>
+                    <NewArticlePopup/>
                 </div>
                 <section className="editor-article-listing">
                 {
@@ -82,4 +94,41 @@ export default class EditorArticleListing extends React.Component<IEditorArticle
             </div>
         );
     }
+
+    protected clickNewArticle(e: React.MouseEvent<HTMLButtonElement>): void {
+        e.preventDefault();
+
+        this.toggleNewArticlePopup(true);
+    }
+
+    protected toggleNewArticlePopup(showPopup: boolean): void {
+        this.setState({
+            showNewArticlePopup: showPopup
+        });
+        console.log('showPopup:', showPopup);
+    }
+}
+
+
+// 'New Article' Popup
+interface INewArticlePopupProps {}
+
+function NewArticlePopup(props: INewArticlePopupProps) {
+    return (
+        <div className="editor-article-listing__new-article-popup item-box">
+            <h2 className="editor-article-listing__new-article-popup__title">
+                Which Editor Would You Like?
+            </h2>
+            <Link to="/editor/new/md">
+                <button className="editor-article-listing__new-article-popup__button">
+                    Markdown
+                </button>
+            </Link>
+            <Link to="/editor/new/html">
+                <button className="editor-article-listing__new-article-popup__button">
+                    HTML
+                </button>
+            </Link>
+        </div>
+    )
 }

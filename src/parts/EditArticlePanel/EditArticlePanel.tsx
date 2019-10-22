@@ -9,6 +9,7 @@ import {
     validArticleTitle,
     validArticleDescription,
     validArticleContent,
+    sanitizeArticleContent,
     convertToMarkdown,
     convertArticleContentToHtml,
     loadTwitterWidgets,
@@ -30,22 +31,33 @@ import { getSubKey, isMegaSub } from '../../subdomains';
 
 import "./EditArticlePanel.css";
 
+export enum EditorModes {
+    MD,
+    HTML
+}
+
+
 
 interface IEditArticlePanelProps {
+    editorMode?: EditorModes;
     match: {
         params: {
             articleId: string | null;
         }
-    }
+    };
 };
 
 
 interface IEditArticlePanelState {
+    editorMode: EditorModes;
+
+    articleContentInputText: string;
+
     articleId: string | null;
     articleUrlId: string;
     articleTitle: string;
     articleDescription: string;
-    articleContentMarkdown: string;
+    articleContent: string;
 
     urlIdError: string;
     titleError: string;
@@ -64,19 +76,26 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
     constructor(props: IEditArticlePanelProps) {
         super(props);
 
+        let { editorMode } = props;
         let { articleId } = props.match.params;
         if (articleId === undefined) {
             // new article
             articleId = null;
         }
+        if (editorMode === undefined) {
+            editorMode = EditorModes.HTML;
+        }
 
         this.state = {
+            editorMode,
+            articleContentInputText: '',
+
             articleId,
 
             articleUrlId: '',
             articleTitle: '',
             articleDescription: '',
-            articleContentMarkdown: '',
+            articleContent: '',
 
             urlIdError: '',
             titleError: '',
@@ -94,11 +113,12 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         this.changedUrlId = this.changedUrlId.bind(this);
         this.changedTitle = this.changedTitle.bind(this);
         this.changedDescription = this.changedDescription.bind(this);
-        this.changedContentMarkdown = this.changedContentMarkdown.bind(this);
+        this.changedContentInput = this.changedContentInput.bind(this);
         this.setPreviewHTML = this.setPreviewHTML.bind(this);
         this.clickSubmit = this.clickSubmit.bind(this);
         this.resetErrorMessages = this.resetErrorMessages.bind(this);
         this.saveKeydown = this.saveKeydown.bind(this);
+        this.updateContent = this.updateContent.bind(this);
     }
 
     public componentDidMount() {
@@ -113,11 +133,22 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                         })
                         return;
                     }
+                    const { editorMode } = this.state;
+                    let articleContentInputText = '';
+                    if (editorMode === EditorModes.HTML) {
+                        articleContentInputText = data.articleContent;
+                    } else if (editorMode === EditorModes.MD) {
+                        articleContentInputText = convertToMarkdown(data.articleContent);
+                    }
                     this.setState({
+                        articleContentInputText: articleContentInputText
+                    })
+                    this.setState({
+
                         articleUrlId: data.articleUrlId,
                         articleTitle: data.articleTitle,
                         articleDescription: data.articleDescription,
-                        articleContentMarkdown: convertToMarkdown(data.articleContent),
+                        articleContent: data.articleContent,
 
                         urlIdError: '',
                         titleError: '',
@@ -213,18 +244,44 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         }
     }
 
-    public changedContentMarkdown(e: FormEvent<HTMLTextAreaElement>) {
-        const newContentMarkdown: string = e.currentTarget.value;
-
+    private updateContent(newArticleContentInputText: string): void {
+        const { editorMode } = this.state;
         this.setState({
-            articleContentMarkdown: newContentMarkdown
+            articleContentInputText: newArticleContentInputText
         });
+        if (editorMode === EditorModes.MD) {
+            this.setState({
+                // TODO: convert
+                articleContent: convertArticleContentToHtml(newArticleContentInputText)
+            });
+        } else if (editorMode === EditorModes.HTML) {
+            this.setState({
+                articleContent: newArticleContentInputText
+            })
+        }
+    }
+
+    public changedContentInput(e: FormEvent<HTMLTextAreaElement>) {
+        const newArticleContentInputText = e.currentTarget.value;
+        this.updateContent(newArticleContentInputText);
+        /*this.setState({
+            articleContentInputText: newArticleContentInputText
+        });
+        if (editorMode === EditorModes.MD) {
+            this.setState({
+                articleContent: newEditorContentBoxText
+            });
+        } else if (editorMode === EditorModes.HTML) {
+            this.setState({
+                articleContent: newArticleContentInputText
+            })
+        }*/
     }
     
     public setPreviewHTML() {
-        const title = sanitizeHtml(this.state.articleTitle, { allowedTags: [] });
-        const content = convertArticleContentToHtml(this.state.articleContentMarkdown);
-
+        const { articleContent, articleTitle } = this.state;
+        const title = sanitizeHtml(articleTitle, { allowedTags: [] });
+        const content = sanitizeArticleContent(articleContent);
         return { __html: `<h1 style="margin: 2px 0px;">${title}</h1><div>${content}</div>` }
     }
 
@@ -247,9 +304,9 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         const {
            articleUrlId,
            articleTitle,
-           articleDescription
+           articleDescription,
+           articleContent
         } = this.state;
-        const articleContent = convertArticleContentToHtml(this.state.articleContentMarkdown);
 
         const urlIdVal = validArticleUrlId(articleUrlId);
         const titleVal = validArticleTitle(articleTitle);
@@ -355,6 +412,13 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
             // If a new article has been created, it redirects to the Edit URL
             return <Redirect to={"/editor/edit/" + this.state.articleId} />
         }
+        const { editorMode } = this.state;
+        let contentInputSectionTitleSuffix;
+        if (editorMode === EditorModes.MD) {
+            contentInputSectionTitleSuffix = "(Markdown)";
+        } else if (editorMode === EditorModes.HTML) {
+            contentInputSectionTitleSuffix = "(Raw HTML)";
+        }
 
         return (
             <div className="edit-article-panel item-box">
@@ -382,14 +446,9 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                     </div>
                     
                     <div>
-                        <h3 className="edit-article-panel__form-label">Content (Raw HTML)</h3>
+                        <h3 className="edit-article-panel__form-label">Content {contentInputSectionTitleSuffix}</h3>
                         <p className="edit-article-panel__field-error">{this.state.contentError}</p>
-                        <textarea className="edit-article-panel__content edit-article-panel__input edit-article-panel__textarea" onChange={this.changedContentMarkdown} value={this.state.articleContentMarkdown} />
-                    </div>
-                    
-                    <div>
-                        <h3 className="edit-article-panel__form-label">Preview</h3>
-                        <div className="edit-article-panel__content-preview" dangerouslySetInnerHTML={this.setPreviewHTML()}/>
+                        <textarea className="edit-article-panel__content edit-article-panel__input edit-article-panel__textarea" onChange={this.changedContentInput} value={this.state.articleContentInputText} />
                     </div>
                     <button
                         onClick={this.clickSubmit}
@@ -398,6 +457,11 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                     >
                         {this.newArticle() ? 'CREATE' : 'UPDATE'}
                     </button>
+                    
+                    <div>
+                        <h3 className="edit-article-panel__form-label">Preview</h3>
+                        <div className="edit-article-panel__content-preview" dangerouslySetInnerHTML={this.setPreviewHTML()}/>
+                    </div>
                 </form>
             </div>
         );
