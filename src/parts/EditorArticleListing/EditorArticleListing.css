@@ -27,3 +27,13 @@
     padding: 3px;
     vertical-align: bottom;
 }
+
+.editor-article-listing__new-article-popup-container {
+    position: relative;
+}
+
+.editor-article-listing__new-article-popup {}
+
+.editor-article-listing__new-article-popup__button {
+    margin: 5px;
+}
