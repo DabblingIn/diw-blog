@@ -32,8 +32,18 @@
     position: relative;
 }
 
+/* New Article popup */
 .editor-article-listing__new-article-popup {}
 
 .editor-article-listing__new-article-popup__button {
     margin: 5px;
+}
+
+/* Switch Modes button & popup */
+.edit-article-panel__switch-modes-button {
+
+}
+
+.edit-article-panel__switch-modes-confirmation-popup {
+    display: none;
 }

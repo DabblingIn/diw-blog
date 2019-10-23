@@ -36,6 +36,27 @@ export enum EditorModes {
     HTML
 }
 
+// Constants: Editor Paths
+const EDITOR_BASE_PATH = "/editor";
+const EditorPath = {
+    EDIT: EDITOR_BASE_PATH + "/edit",
+    NEW: EDITOR_BASE_PATH + "/new",
+}
+const EditorPathModeSuffix = {
+    MD: "/md",
+    HTML: "/html"
+}
+
+export function editorPathHref(newArticle: boolean, editorMode?: EditorModes, articleId?: string) {
+    const modePathSuffix = (editorMode == EditorModes.MD) ?
+                                EditorPathModeSuffix.MD :
+                                EditorPathModeSuffix.HTML;
+    if (newArticle) {
+        return EditorPath.NEW + modePathSuffix;
+    } else {
+        return EditorPath.EDIT + modePathSuffix + "/" + articleId;
+    }
+}
 
 
 interface IEditArticlePanelProps {
@@ -119,6 +140,8 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         this.resetErrorMessages = this.resetErrorMessages.bind(this);
         this.saveKeydown = this.saveKeydown.bind(this);
         this.updateContent = this.updateContent.bind(this);
+        this.clickSwitchModesButton = this.clickSwitchModesButton.bind(this);
+        this._postArticle = this._postArticle.bind(this);
     }
 
     public componentDidMount() {
@@ -251,7 +274,6 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         });
         if (editorMode === EditorModes.MD) {
             this.setState({
-                // TODO: convert
                 articleContent: convertArticleContentToHtml(newArticleContentInputText)
             });
         } else if (editorMode === EditorModes.HTML) {
@@ -264,18 +286,6 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
     public changedContentInput(e: FormEvent<HTMLTextAreaElement>) {
         const newArticleContentInputText = e.currentTarget.value;
         this.updateContent(newArticleContentInputText);
-        /*this.setState({
-            articleContentInputText: newArticleContentInputText
-        });
-        if (editorMode === EditorModes.MD) {
-            this.setState({
-                articleContent: newEditorContentBoxText
-            });
-        } else if (editorMode === EditorModes.HTML) {
-            this.setState({
-                articleContent: newArticleContentInputText
-            })
-        }*/
     }
     
     public setPreviewHTML() {
@@ -300,7 +310,10 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
 
     public clickSubmit(e: MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
+        this._postArticle();
+    }
 
+    private _postArticle() {
         const {
            articleUrlId,
            articleTitle,
@@ -407,12 +420,31 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         }
     }
 
+    private clickSwitchModesButton(e: MouseEvent<HTMLButtonElement>) {
+        e.preventDefault();
+
+        const { editorMode, articleId } = this.state;
+        const newArticle = this.newArticle();
+
+        const newEditorMode = editorMode == EditorModes.MD ? 
+                                                EditorModes.HTML :
+                                                EditorModes.MD;
+        // Post article update before redirecting
+        this._postArticle();
+        window.location.href = newArticle ?
+                                    editorPathHref(newArticle, newEditorMode) :
+                                    editorPathHref(newArticle, newEditorMode, articleId!);
+    }
+
     public render() {
-        if (this.state.newArticleSuccess && this.state.articleId) {
+        const newArticle = this.newArticle();
+
+        const { articleId, editorMode, newArticleSuccess } = this.state;
+        if (newArticleSuccess && articleId) {
             // If a new article has been created, it redirects to the Edit URL
-            return <Redirect to={"/editor/edit/" + this.state.articleId} />
+            return <Redirect to={editorPathHref(false, editorMode, articleId)} />
         }
-        const { editorMode } = this.state;
+
         let contentInputSectionTitleSuffix;
         if (editorMode === EditorModes.MD) {
             contentInputSectionTitleSuffix = "(Markdown)";
@@ -425,6 +457,23 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                 <form>
                     <div>
                         <h1 className="edit-article-panel__header">{this.newArticle() ? 'New' : 'Edit'} Article</h1>
+                        {
+                            newArticle ? null : (
+                                <div>
+                                    <button
+                                    className="edit-article-panel__switch-modes-button"
+                                    onClick={this.clickSwitchModesButton}
+                                    >
+                                        Switch to {editorMode == EditorModes.MD ? "HTML" : "Markdown"}
+                                    </button>
+
+                                    <SwitchModesConfirmationPopup
+                                        currentEditorMode={editorMode}
+                                        articleId={articleId!}
+                                    />
+                                </div>
+                            )
+                        }
                     </div>
                     <h2 className="" style={{ fontFamily: "Lato, sans-serif", color: this.state.successfulSubmit ? "green": "red" }}>{this.state.submitError}</h2>
                     <div>
@@ -455,7 +504,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                         className="edit-article-panel__submit-button"
                         ref={this.state.submitButtonRef}
                     >
-                        {this.newArticle() ? 'CREATE' : 'UPDATE'}
+                        {newArticle ? 'CREATE' : 'UPDATE'}
                     </button>
                     
                     <div>
@@ -466,4 +515,20 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
             </div>
         );
     }
+}
+
+interface ISwitchModesConfirmationPopupProps {
+    currentEditorMode: EditorModes;
+    articleId: string;
+}
+
+function SwitchModesConfirmationPopup(props: ISwitchModesConfirmationPopupProps) {
+
+    return (
+        <div className="edit-article-panel__switch-modes-confirmation-popup">
+            Switching to Markdown can remove some styling like color.  OK?
+            <button>Yes</button>
+            <button>No</button>
+        </div>
+    )
 }
