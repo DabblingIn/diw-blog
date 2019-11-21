@@ -32,7 +32,7 @@ export default function Article(props: IArticleProps) {
             </h1>
             <div className="article__name-date-line">
                 <span className="article__author-date-box">
-                    <a className="article__author" href={props.authorSite}>{props.authorName} (<b>{props.authorUsername}</b>)</a>
+                    <a className="article__author" href={util.userPageLink(props.authorUsername)}>{props.authorName} (<b>{props.authorUsername}</b>)</a>
                     <span className="article__created_date">{util.minDateString(articleCreatedAt)}</span>
                     <span className="article__weekday">{util.getWeekdayString(articleCreatedAt)}</span>
                 </span>
