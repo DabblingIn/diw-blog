@@ -10,8 +10,6 @@ import './Article.css';
 
 export interface IArticleProps extends IGetArticleData {};
 
-const titleStyle = theme.articleTitleStyle;
-
 
 export default function Article(props: IArticleProps) {
     React.useEffect(() => {
@@ -29,7 +27,9 @@ export default function Article(props: IArticleProps) {
         />
 
         <article className="article item-box">
-            <h1 className="article__title" style={titleStyle}>{props.articleTitle}</h1>
+            <h1 className="article__title" style={theme.articleTitleStyle}>
+                {props.articleTitle}
+            </h1>
             <div className="article__name-date-line">
                 <span className="article__author-date-box">
                     <a className="article__author" href={props.authorSite}>{props.authorName} (<b>{props.authorUsername}</b>)</a>
