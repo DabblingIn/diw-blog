@@ -99,13 +99,13 @@ const ARTICLE_XYZ_LISTDATA: IGetArticleListData = {
 
 const ARTICLE_ABC_DATA: IGetArticleData = Object.assign({}, 
     ARTICLE_ABC_LISTDATA,  
-    { articleContent: "<h2>This is Article ABC</h2><p>Enjoy.</p>", articleTags: ARTICLE1_TAGS, articleCreatedAt: ARTICLE1_DATE });
+    { articleContent: "<h1>This is Article ABC</h1><p>Enjoy.</p>", articleTags: ARTICLE1_TAGS, articleCreatedAt: ARTICLE1_DATE });
 const ARTICLE_DEF_DATA: IGetArticleData = Object.assign({}, 
     ARTICLE_DEF_LISTDATA,  
-    { articleContent: "<h2>This is Article DEF</h2><p>Like it?</p>", articleTags: ARTICLE2_TAGS, articleCreatedAt: ARTICLE2_DATE });
+    { articleContent: "<h1>This is Article DEF</h1><p>Like it?</p>", articleTags: ARTICLE2_TAGS, articleCreatedAt: ARTICLE2_DATE });
 const ARTICLE_XYZ_DATA: IGetArticleData = Object.assign({}, 
     ARTICLE_XYZ_LISTDATA,  
-    { articleContent: "<h2>This is Article XYZ</h2><p>Pretty neat!</p>", articleTags: ARTICLE3_TAGS, articleCreatedAt: ARTICLE3_DATE });
+    { articleContent: "<h1>This is Article XYZ</h1><p>Pretty neat!</p>", articleTags: ARTICLE3_TAGS, articleCreatedAt: ARTICLE3_DATE });
 
 export const MOCK_ARTICLES_LISTDATA: IGetArticleListData[] = [
     ARTICLE_ABC_LISTDATA,

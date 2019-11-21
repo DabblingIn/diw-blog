@@ -11,6 +11,8 @@ import { metaTitleTags, metaDescriptionTags, metaKeywordsTag} from '../metaUtils
 
 import { defaultTheme as theme } from '../style/themes';
 
+import './UserPage.css';
+
 const defaultPageStyle = {
   marginTop: theme.navbarHeight + theme.topBottomMargin,
   marginBottom: theme.topBottomMargin
@@ -28,6 +30,7 @@ export default function UserPage(props: IUserPageProps) {
     const { username } = props.match.params;
     const [articles, setArticles] = useState([] as IGetArticleListData[]);
     const [userDisplayName, setUserDisplayName] = useState("");
+    const [userWebsite, setUserWebsite] = useState("");
     const [errMessage, setErrMessage] = useState("");
 
     // Article Listing
@@ -54,7 +57,7 @@ export default function UserPage(props: IUserPageProps) {
                     return setErrMessage("getUserDataByUsername:" + err);
                 }
                 setUserDisplayName(userData.userDisplayName);
-                //setUserDisplayName(userData.)
+                setUserWebsite(userData.userWebsite);
             })
             .catch(err => setErrMessage("getUserDataByUsername:" + err.message));
     }, [username]);
@@ -68,6 +71,10 @@ export default function UserPage(props: IUserPageProps) {
     );
 
     function userPageRender(body: any) {
+        let websiteLine = null;
+        if (userWebsite !== "" && userWebsite !== null) {
+            websiteLine = websiteLineRender(userWebsite);
+        }
         return (
             <div className="user-page" style={defaultPageStyle}>
                 {helmet}
@@ -76,9 +83,21 @@ export default function UserPage(props: IUserPageProps) {
                 <h1 className="user-page__title" style={theme.articleTitleStyle}>
                     {userDisplayName}
                 </h1>
+                {websiteLine}
                 {body}
             </div>
         )
+    }
+
+    function websiteLineRender(website: string) {
+        const cleanSiteLink = userWebsite.replace(/(^\w+:|^)\/\//, '');
+        return (
+           <div className="user-page__user-website-box">
+               <p className="user-page__user-website-line">
+                 <span className="user-page__user-website-line_h1">website&nbsp;</span>&nbsp;
+                 <a className="user-page__user-website-link" href={userWebsite}>{cleanSiteLink}</a>
+               </p>
+           </div>)
     }
 
     // NO ARTICLES (yet)
