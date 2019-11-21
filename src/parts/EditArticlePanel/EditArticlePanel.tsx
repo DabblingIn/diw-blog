@@ -2,8 +2,6 @@ import * as React from 'react';
 import { MouseEvent, FormEvent } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import sanitizeHtml from 'sanitize-html';
-
 import {
     validArticleUrlId,
     validArticleTitle,
@@ -29,6 +27,7 @@ import {
 
 import { getSubKey, isMegaSub } from '../../subdomains';
 
+import { defaultTheme as theme } from '../../style/themes';
 import "./EditArticlePanel.css";
 
 export enum EditorModes {
@@ -289,10 +288,8 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
     }
     
     public setPreviewHTML() {
-        const { articleContent, articleTitle } = this.state;
-        const title = sanitizeHtml(articleTitle, { allowedTags: [] });
-        const content = sanitizeArticleContent(articleContent);
-        return { __html: `<h1 style="margin: 2px 0px;">${title}</h1><div>${content}</div>` }
+        const content = sanitizeArticleContent(this.state.articleContent);
+        return { __html: `<div>${content}</div>` }
     }
 
     public resetErrorMessages(resetTime=3000) {
@@ -439,7 +436,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
     public render() {
         const newArticle = this.newArticle();
 
-        const { articleId, editorMode, newArticleSuccess } = this.state;
+        const { articleId, editorMode, newArticleSuccess, articleTitle } = this.state;
         if (newArticleSuccess && articleId) {
             // If a new article has been created, it redirects to the Edit URL
             return <Redirect to={editorPathHref(false, editorMode, articleId)} />
@@ -509,7 +506,10 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                     
                     <div>
                         <h3 className="edit-article-panel__form-label">Preview</h3>
-                        <div className="edit-article-panel__content-preview" dangerouslySetInnerHTML={this.setPreviewHTML()}/>
+                        <div className="edit-article-panel__content-preview">
+                            <h1 className="article__title" style={theme.articleTitleStyle}>{articleTitle}</h1>
+                            <div dangerouslySetInnerHTML={this.setPreviewHTML()}/>
+                        </div>
                     </div>
                 </form>
             </div>
