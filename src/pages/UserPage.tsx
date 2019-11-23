@@ -40,11 +40,11 @@ export default function UserPage(props: IUserPageProps) {
                 let articleListData = sortArticleListingByCreated(resData.data);
                 let err = resData.err;
                 if (err) {
-                    return setErrMessage("getArticlesListing:" + err);
+                    return setErrMessage("Articles Data Error: " + err);
                 }
                 setArticles(articleListData);
             })
-            .catch(err => setErrMessage("getArticlesListing:" + err.message));
+            .catch(err => setErrMessage("Articles Data Error: " + err.message));
     }, [username]);
 
     // User Data
@@ -54,12 +54,14 @@ export default function UserPage(props: IUserPageProps) {
                 const userData = resData.data;
                 const err = resData.err;
                 if (err) {
-                    return setErrMessage("getUserDataByUsername:" + err);
+                    return setErrMessage("User Data Error: " + err);
+                } else if (typeof userData === "undefined" || userData === null) {
+                    return setErrMessage("User " + username + " not found.");
                 }
                 setUserDisplayName(userData.userDisplayName);
                 setUserWebsite(userData.userWebsite);
             })
-            .catch(err => setErrMessage("getUserDataByUsername:" + err.message));
+            .catch(err => setErrMessage("User Data Error:" + err.message));
     }, [username]);
 
     const helmet = (
@@ -71,6 +73,14 @@ export default function UserPage(props: IUserPageProps) {
     );
 
     function userPageRender(body: any) {
+        if (errMessage !== "") {
+            return (
+                <div className="user-page" style={defaultPageStyle}>
+                    <DefaultNavbar />
+                    <UserPageErrorPopup message={errMessage}/>
+                </div>
+            )
+        }
         let websiteLine = null;
         if (userWebsite !== "" && userWebsite !== null) {
             websiteLine = websiteLineRender(userWebsite);
@@ -79,7 +89,6 @@ export default function UserPage(props: IUserPageProps) {
             <div className="user-page" style={defaultPageStyle}>
                 {helmet}
                 <DefaultNavbar />
-                <p>{errMessage}</p>
                 <h1 className="user-page__title" style={theme.articleTitleStyle}>
                     {userDisplayName}
                 </h1>
@@ -111,4 +120,23 @@ export default function UserPage(props: IUserPageProps) {
     return userPageRender((
         <ArticleListing articlesListData={articles} />
     ))
+}
+
+
+interface IUserPageErrorPopupProps {
+    message: string;
+}
+
+function UserPageErrorPopup(props: IUserPageErrorPopupProps) {
+    return (
+        <div>
+            <Helmet>
+                <title>Error</title>
+            </Helmet>
+            <div className="user-page__error-popup item-box">
+                <h1 className="user-page__error-popup__header">Error</h1>
+                <p className="user-page__error-popup__text">{props.message}</p>
+            </div>
+        </div>
+    )
 }
