@@ -81,10 +81,7 @@ function EditorPage(props: IEditorPageProps) {
       // No Editor allowed on root domain
       return (
         <div className="editor-page" style={editorPageStyle}>
-            <EditorPageHelmet
-                title={subdomainConfig.titlePrefix + " | Editor"}
-            />
-
+            <EditorPageHelmet title={"No Editor"} />
             <DefaultNavbar />
             <h1 style={theme.articleTitleStyle}>No Editor on root domain.</h1>
         </div>
