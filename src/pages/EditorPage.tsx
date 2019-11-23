@@ -14,7 +14,7 @@ import { IReduxStoreState } from '../reducers';
 import { logout as authLogout } from '../parts/Auth/AuthActions';
 import { postEditorLogout } from '../parts/ApiCaller/ApiCaller';
 
-import { getSubdomainConfig } from '../subdomains';
+import { getSubdomainConfig, isMegaSub } from '../subdomains';
 import { removeTrailingSlash } from '../util';
 import * as mu from '../metaUtils';
 
@@ -76,6 +76,17 @@ function EditorPage(props: IEditorPageProps) {
     const matchUrl = removeTrailingSlash(props.match.url);
 
     const { isAuthenticated, authorId } = props;
+
+    if (isMegaSub()) {
+      // No Editor allowed on root domain
+      return (
+        <div className="editor-page" style={editorPageStyle}>
+            <EditorPageHelmet title={"No Editor"} />
+            <DefaultNavbar />
+            <h1 style={theme.articleTitleStyle}>No Editor on root domain.</h1>
+        </div>
+      );
+    }
 
     return (
         <div className="editor-page" style={editorPageStyle}>
