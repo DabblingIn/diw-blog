@@ -24,3 +24,13 @@
     border-right: 1px solid black;
     height: 100%;
 }
+
+/* User Pge - Error Popup */
+.user-page__error-popup__header {
+    color: #c11;
+}
+
+.user-page__error-popup__text {
+    font-weight: bold;
+    font-size: 20px;
+}
