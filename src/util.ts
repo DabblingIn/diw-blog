@@ -3,6 +3,8 @@ import showdown from 'showdown';
 
 import { IGetArticleListData } from './parts/ApiCaller/ApiCaller.d';
 
+const { location } = window;
+
 // HTML <> Markdown Converter
 const htmlMdConverter = new showdown.Converter();
 htmlMdConverter.setFlavor('github');
@@ -14,7 +16,7 @@ htmlMdConverter.setFlavor('github');
 const LOCALHOST = "localhost";
 const _DAY_IN_MS = 1000*60*60*24;
 
-const _isLocalHost = (window.location.hostname === LOCALHOST);
+const _isLocalHost = (location.hostname === LOCALHOST);
 export function isLocalhost(): boolean {
     return _isLocalHost;
 }
@@ -184,8 +186,13 @@ export function getWeekdayString(comparedDate: Date) {
 
 // Links
 
-export function articleLink(articleUrlId: string) {
-    return "/p/" + articleUrlId;
+export function articleLink(articleUrlId: string, subOverride?: string) {
+    const path = "/p/" + articleUrlId
+    if (typeof subOverride !== "undefined" && !isLocalhost()) {
+        return location.protocol + "//" + subOverride + "." +location.host + path;
+    } else {
+        return path;
+    }
 }
 
 export function userPageLink(username: string) {

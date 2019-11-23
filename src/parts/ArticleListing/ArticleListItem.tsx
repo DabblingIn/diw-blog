@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import * as util from '../../util';
-import { CURRENT_SUBKEY, getSubOriginLink } from '../../subdomains';
+import { CURRENT_SUBKEY, getSubOriginLink, isMegaSub } from '../../subdomains';
 import { IGetArticleListData } from '../ApiCaller/ApiCaller.d';
 
 import { defaultTheme as theme } from '../../style/themes';
@@ -9,12 +9,17 @@ import './ArticleListItem.css';
 
 const titleStyle = theme.articleTitleStyle;
 
-export interface IArticleListItemProps extends IGetArticleListData {}
+const megaSub = isMegaSub();
+
+export interface IArticleListItemProps extends IGetArticleListData {
+    key?: string;
+}
 
 export default function ArticleListItem(props: IArticleListItemProps) {
+    const articleUrl = megaSub ? util.articleLink(props.articleUrlId, props.articleSub) : util.articleLink(props.articleUrlId);
     return (
         <div className="article-list-item item-box">
-            <a className="article-list-item__link" href={util.articleLink(props.articleUrlId)}>
+            <a className="article-list-item__link" href={articleUrl}>
                 <h3 className="article-list-item__title" style={titleStyle}>{props.articleTitle}</h3>
             </a>
             <a className="article-list-item__author" href={util.userPageLink(props.authorUsername)}>{props.authorName}</a>

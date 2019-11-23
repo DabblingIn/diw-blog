@@ -5,8 +5,6 @@ import { IArticleListItemProps } from './ArticleListItem';
 
 import { IGetArticleListData } from '../ApiCaller/ApiCaller.d';
 
-import * as util from '../../util';
-
 import './ArticleListing.css';
 
 export interface IArticleListingProps {
@@ -20,7 +18,7 @@ export default class ArticleListing extends React.PureComponent<IArticleListingP
                 {
                     this.props.articlesListData.reverse().map((articleListData:  IGetArticleListData ) => {
                         const articleListItemProps: IArticleListItemProps = articleListData;
-                        return (<ArticleListItem key={util.articleLink(articleListData.articleUrlId)} {...articleListItemProps}/>);
+                        return (<ArticleListItem key={articleListData.articleUrlId} {...articleListItemProps}/>);
                     })
                 }
             </section>
