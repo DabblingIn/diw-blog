@@ -89,10 +89,12 @@ export default function UserPage(props: IUserPageProps) {
             <div className="user-page" style={defaultPageStyle}>
                 {helmet}
                 <DefaultNavbar />
-                <h1 className="user-page__title" style={theme.articleTitleStyle}>
-                    {userDisplayName}
-                </h1>
-                {websiteLine}
+                <section>
+                    <h1 className="user-page__title" style={theme.articleTitleStyle}>
+                        {userDisplayName}
+                    </h1>
+                    {websiteLine}
+                </section>
                 {body}
             </div>
         )

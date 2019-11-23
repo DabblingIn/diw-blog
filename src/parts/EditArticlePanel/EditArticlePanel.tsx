@@ -47,7 +47,7 @@ const EditorPathModeSuffix = {
 }
 
 export function editorPathHref(newArticle: boolean, editorMode?: EditorModes, articleId?: string) {
-    const modePathSuffix = (editorMode == EditorModes.MD) ?
+    const modePathSuffix = (editorMode === EditorModes.MD) ?
                                 EditorPathModeSuffix.MD :
                                 EditorPathModeSuffix.HTML;
     if (newArticle) {
@@ -423,7 +423,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         const { editorMode, articleId } = this.state;
         const newArticle = this.newArticle();
 
-        const newEditorMode = editorMode == EditorModes.MD ? 
+        const newEditorMode = editorMode === EditorModes.MD ?
                                                 EditorModes.HTML :
                                                 EditorModes.MD;
         // Post article update before redirecting
@@ -461,7 +461,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                                     className="edit-article-panel__switch-modes-button"
                                     onClick={this.clickSwitchModesButton}
                                     >
-                                        Switch to {editorMode == EditorModes.MD ? "HTML" : "Markdown"}
+                                        Switch to {editorMode === EditorModes.MD ? "HTML" : "Markdown"}
                                     </button>
 
                                     <SwitchModesConfirmationPopup
