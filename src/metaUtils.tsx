@@ -15,7 +15,7 @@ import * as React from 'react';
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="http://dabblingin.com">
+    <meta property="og:url" content="https://dabbling.in">
     <meta property="og:title" content="Dabbling In...">
     <meta property="og:description" content="Blog platform for devs, by devs.">
     <meta property="og:image" content="imageUrl.png">
@@ -23,7 +23,7 @@ import * as React from 'react';
 
     <!-- Twitter -->
     <meta property="twitter:card" content="twitterImageUrl.png">
-    <meta property="twitter:url" content="http://dabblingin.com">
+    <meta property="twitter:url" content="https://dabbling.in">
     <meta property="twitter:title" content="Dabbling In...">
     <meta property="twitter:description" content="Blog platform for devs, by devs.">
     <meta property="twitter:image" content="imageUrl.png">

@@ -17,8 +17,8 @@ export const DEV_DEFAULT_SUB: string = "_dev";
 export const ROOT_SUB: string = "_root";
 
 const HTTPS_PREFIX = "https://";
-const ROOT_DOMAIN = "dabblingin.com";
-const ROOT_DOT_DOMAIN = "." + ROOT_DOMAIN;
+const ROOT_DOMAIN = "dabbling.in";
+const DOT_ROOT_DOMAIN = "." + ROOT_DOMAIN;
 export const ROOT_SUB_ORIGIN = HTTPS_PREFIX + ROOT_DOMAIN;
 
 // config by subdomain
@@ -75,8 +75,8 @@ export function isMegaSub(subKey?: string): boolean {
 
 
 /**
- * Gives the origin link (https://(yyy.)xxx.com) for the given sub.
- *  If no key is ged in, gives the origin of the current sub
+ * Gives the origin link (https://(yyy.)xxx.in) for the given sub.
+ *  If no key is fed in, gives the origin of the current sub
  */
 export function getSubOriginLink(subKey?: string): string {
     if (typeof subKey !== "undefined") {
@@ -91,11 +91,11 @@ export function getSubOriginLink(subKey?: string): string {
  */
 function _getSubOrigin(subKey: string): string {
     return isMegaSub(subKey) ?
-              // https://dabblingin.com 
+              // https://dabbling.in
               ROOT_SUB_ORIGIN
                 : 
-              // https://[subKey].dabblingin.com
-              HTTPS_PREFIX + subKey + ROOT_DOT_DOMAIN;
+              // https://[subKey].dabbling.in
+              HTTPS_PREFIX + subKey + DOT_ROOT_DOMAIN;
 }
 
 function parseSubdomain(hostname: string): string {
