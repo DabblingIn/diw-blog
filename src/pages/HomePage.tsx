@@ -12,13 +12,13 @@ import { sortArticleListingByCreated } from '../util';
 import { getSubKey } from '../subdomains';
 
 import { defaultTheme as theme } from '../style/themes';
-import './DefaultPage.css';
+import './HomePage.css';
 
-interface IDefaultPageState {
+interface IHomePageState {
     articlesListData: IGetArticleListData[];
 };
 
-interface IDefaultPageProps {};
+interface IHomePageProps {};
 
 
 const defaultPageStyle = {
@@ -27,8 +27,8 @@ const defaultPageStyle = {
 };
 
 
-export default class DefaultPage extends React.PureComponent<IDefaultPageProps, IDefaultPageState> {
-    constructor(props: IDefaultPageProps) {
+export default class HomePage extends React.PureComponent<IHomePageProps, IHomePageState> {
+    constructor(props: IHomePageProps) {
         super(props);
 
         this.state = {
@@ -52,7 +52,7 @@ export default class DefaultPage extends React.PureComponent<IDefaultPageProps, 
 
     public render() {
         return (
-            <div className="default-page" style={defaultPageStyle}>
+            <div className="home-page" style={defaultPageStyle}>
                 <DefaultNavbar />
 
                 <div>
