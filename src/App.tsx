@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { createBrowserHistory } from 'history';
 
-import DefaultPage from './pages/DefaultPage';
+import HomePage from './pages/HomePage';
 import UserPage from './pages/UserPage';
 import ArticlePage from './pages/ArticlePage';
 import EditorPage from './pages/EditorPage';
@@ -153,7 +153,7 @@ class App extends React.Component<IAppProps, IAppState> {
         />
         <div className="app">
             <div className="app__background" style={backgroundStyle}/>
-            <Route exact={true} path="/" component={DefaultPage} />
+            <Route exact={true} path="/" component={HomePage} />
             <Route exact={true} path="/u/:username" component={UserPage} />
             <Route path="/p/:articleUrlId" component={ArticlePage} />
             <Route path="/editor" component={EditorPage} isAuthenticated={false} authorId=""/>
