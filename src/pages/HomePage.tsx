@@ -58,6 +58,11 @@ export default class HomePage extends React.PureComponent<IHomePageProps, IHomeP
                 <div>
                     <ArticleListing articlesListData={this.state.articlesListData} />
                 </div>
+                <div className="home-page__contact-footer">
+                    <p className="home-page__contact-line">Interested in writing?
+                        <a className="home-page__contact-link" href="mailto:info@dabbling.in"><button>Email Us.</button></a>
+                    </p>
+                </div>
             </div>
         );
     }
