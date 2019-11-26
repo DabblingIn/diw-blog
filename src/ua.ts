@@ -2,7 +2,7 @@ import ua from 'universal-analytics';
 import { isLocalhost } from './util';
 import { getSubdomainConfig, ROOT_SUB_ORIGIN } from './subdomains';
 
-const { uaCode } = getSubdomainConfig();
+const { uaAccountId } = getSubdomainConfig();
 
 /**
  * Master *Analytics* GAnalytics Property config - not to be confused with the root 
@@ -11,19 +11,35 @@ const { uaCode } = getSubdomainConfig();
  *  just tracks activity in root.
  */
 const _MASTER_ANALYTICS_INFO = {
-    trackingId: 'UA-119556311-7',
+    uaAccountId: 'UA-119556311-7',
     hostname: ROOT_SUB_ORIGIN
 }
 
 const _MASTER_ANALYTICS_DEFAULT_PARAMS = {
-    dh: _MASTER_ANALYTICS_INFO.trackingId
+    dh: _MASTER_ANALYTICS_INFO.uaAccountId
 }
 
 /**
  * Initializing visitors
  */
-const _masterVisitor = ua(_MASTER_ANALYTICS_INFO.trackingId);
-const _siteVisitor = ua(uaCode);
+/*
+interface VisitorOptions {
+    hostname?: string;
+    path?: string;
+    https?: boolean;
+    enableBatching?: boolean;
+    batchSize?: number;
+    tid?: string;
+    cid?: string;
+    uid?: string;
+    debug?: boolean;
+    strictCidFormat?: boolean;
+    requestOptions?: { [key: string]: any };
+    headers?: { [key: string]: string };
+}
+*/
+const _masterVisitor = ua(_MASTER_ANALYTICS_INFO.uaAccountId);
+const _siteVisitor = ua(uaAccountId);
 const _siteDefaultParams = {
     dh: document.location.origin
 }

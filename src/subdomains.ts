@@ -4,7 +4,7 @@ import { isLocalhost } from './util';
 export interface ISubdomainMetadata {
     name: string;         // Site name (e.g. Dabbling In Web)
     titlePrefix: string;  // Site title prefix
-    uaCode: string;       // Universal Analytics code
+    uaAccountId: string;       // Universal Analytics code
     mega: boolean;        // Is a special 'mega' sub: displays articles from all subs
 }
 
@@ -27,26 +27,26 @@ const SUBDOMAIN_CONFIG: ISubdomainMetadataMap = {
     _dev: {
         name: "Dabbling (Dev)",
         titlePrefix: "Dabbling (Dev)",
-        uaCode: "NaN",
+        uaAccountId: "NaN",
         mega: true
     },
     // root domain
     _root: {
         name: "Dabbling In...",
         titlePrefix: "Dabbling In...",
-        uaCode: "UA-119556311-8",
+        uaAccountId: "UA-119556311-8",
         mega: true
     },
     web: {
         name: "Dabbling In Web",
         titlePrefix: "DIW",
-        uaCode: "UA-119556311-5",
+        uaAccountId: "UA-119556311-5",
         mega: false
     },
     articleSub00: {
         name: "Sub00",
         titlePrefix: "DIW:S0",
-        uaCode: "NaN",
+        uaAccountId: "NaN",
         mega: false
     }
 };
