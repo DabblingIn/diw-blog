@@ -74,7 +74,7 @@ export const UA_VISITOR: IUA_VISITOR_Interface = {
  * Runs pageview for the master tracking code as well as the current site tracking code.
  */
 export function pageview(params: ua.PageviewParams, callback?: ua.Callback): void {
-    if (onLocalhost) {
+    if (!onLocalhost) {
         UA_VISITOR.master.visitor.pageview(Object.assign(
                                         {},
                                         UA_VISITOR.master.defaultParams,
