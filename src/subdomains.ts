@@ -17,7 +17,7 @@ export const DEV_DEFAULT_SUB: string = "_dev";
 export const ROOT_SUB: string = "_root";
 
 const HTTPS_PREFIX = "https://";
-const ROOT_DOMAIN = "dabbling.in";
+export const ROOT_DOMAIN = "dabbling.in";
 const DOT_ROOT_DOMAIN = "." + ROOT_DOMAIN;
 export const ROOT_SUB_ORIGIN = HTTPS_PREFIX + ROOT_DOMAIN;
 
