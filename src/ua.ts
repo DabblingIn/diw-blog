@@ -1,8 +1,8 @@
 import ua from 'universal-analytics';
 import { isLocalhost } from './util';
-import { getSubdomainConfig, ROOT_SUB_ORIGIN } from './subdomains';
+import { getSubdomainConfig, ROOT_DOMAIN } from './subdomains';
 
-const { uaCode } = getSubdomainConfig();
+const { uaAccountId } = getSubdomainConfig();
 
 /**
  * Master *Analytics* GAnalytics Property config - not to be confused with the root 
@@ -10,26 +10,40 @@ const { uaCode } = getSubdomainConfig();
  *  GAnalytics property is used to track all root and sub traffic, while the other 
  *  just tracks activity in root.
  */
-const _MASTER_ANALYTICS_INFO = {
-    trackingId: 'UA-119556311-7',
-    hostname: ROOT_SUB_ORIGIN
-}
-
-const _MASTER_ANALYTICS_DEFAULT_PARAMS = {
-    dh: _MASTER_ANALYTICS_INFO.trackingId
+const MASTER_ANALYTICS_INFO = {
+    uaAccountId: 'UA-119556311-7',
+    hostname: ROOT_DOMAIN
 }
 
 /**
  * Initializing visitors
  */
-const _masterVisitor = ua(_MASTER_ANALYTICS_INFO.trackingId);
-const _siteVisitor = ua(uaCode);
-const _siteDefaultParams = {
-    dh: document.location.origin
+/*
+interface VisitorOptions {
+    hostname?: string;
+    path?: string;
+    https?: boolean;
+    enableBatching?: boolean;
+    batchSize?: number;
+    tid?: string;
+    cid?: string;
+    uid?: string;
+    debug?: boolean;
+    strictCidFormat?: boolean;
+    requestOptions?: { [key: string]: any };
+    headers?: { [key: string]: string };
 }
-if (isLocalhost()) {
-    _siteVisitor.debug();
+*/
+
+// HTTPS unless testing on localhost
+const onLocalhost = isLocalhost();
+const DEFAULT_CONSTRUCTOR_PARAMS: ua.VisitorOptions = {
+    https: onLocalhost ? false : true,
+    debug: !onLocalhost
 }
+
+const _MASTER_VISITOR = ua(MASTER_ANALYTICS_INFO.uaAccountId, DEFAULT_CONSTRUCTOR_PARAMS);
+const _SITE_VISITOR = ua(uaAccountId, DEFAULT_CONSTRUCTOR_PARAMS);
 
 interface IUA_VISITOR_Interface {
     [visitorKey: string]: {
@@ -43,12 +57,16 @@ interface IUA_VISITOR_Interface {
  */
 export const UA_VISITOR: IUA_VISITOR_Interface = {
     master: {
-        visitor: _masterVisitor,
-        defaultParams: _siteDefaultParams
+        visitor: _MASTER_VISITOR,
+        defaultParams: {
+            dh: document.location.hostname
+        }
     },
     site: {
-        visitor: _siteVisitor,
-        defaultParams: _MASTER_ANALYTICS_DEFAULT_PARAMS
+        visitor: _SITE_VISITOR,
+        defaultParams: {
+            dh: MASTER_ANALYTICS_INFO.hostname
+        }
     }
 }
 
@@ -56,7 +74,7 @@ export const UA_VISITOR: IUA_VISITOR_Interface = {
  * Runs pageview for the master tracking code as well as the current site tracking code.
  */
 export function pageview(params: ua.PageviewParams, callback?: ua.Callback): void {
-    if (true) { //(!isLocalhost()) {
+    if (onLocalhost) {
         UA_VISITOR.master.visitor.pageview(Object.assign(
                                         {},
                                         UA_VISITOR.master.defaultParams,

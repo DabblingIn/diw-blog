@@ -4,7 +4,7 @@ import { isLocalhost } from './util';
 export interface ISubdomainMetadata {
     name: string;         // Site name (e.g. Dabbling In Web)
     titlePrefix: string;  // Site title prefix
-    uaCode: string;       // Universal Analytics code
+    uaAccountId: string;       // Universal Analytics code
     mega: boolean;        // Is a special 'mega' sub: displays articles from all subs
 }
 
@@ -17,7 +17,7 @@ export const DEV_DEFAULT_SUB: string = "_dev";
 export const ROOT_SUB: string = "_root";
 
 const HTTPS_PREFIX = "https://";
-const ROOT_DOMAIN = "dabbling.in";
+export const ROOT_DOMAIN = "dabbling.in";
 const DOT_ROOT_DOMAIN = "." + ROOT_DOMAIN;
 export const ROOT_SUB_ORIGIN = HTTPS_PREFIX + ROOT_DOMAIN;
 
@@ -27,26 +27,26 @@ const SUBDOMAIN_CONFIG: ISubdomainMetadataMap = {
     _dev: {
         name: "Dabbling (Dev)",
         titlePrefix: "Dabbling (Dev)",
-        uaCode: "NaN",
+        uaAccountId: "NaN",
         mega: true
     },
     // root domain
     _root: {
         name: "Dabbling In...",
         titlePrefix: "Dabbling In...",
-        uaCode: "UA-119556311-8",
+        uaAccountId: "UA-119556311-8",
         mega: true
     },
     web: {
         name: "Dabbling In Web",
         titlePrefix: "DIW",
-        uaCode: "UA-119556311-5",
+        uaAccountId: "UA-119556311-5",
         mega: false
     },
     articleSub00: {
         name: "Sub00",
         titlePrefix: "DIW:S0",
-        uaCode: "NaN",
+        uaAccountId: "NaN",
         mega: false
     }
 };
