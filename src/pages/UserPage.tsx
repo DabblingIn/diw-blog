@@ -3,6 +3,7 @@ import { RouteComponentProps } from 'react-router';
 import Helmet from 'react-helmet';
 import DefaultNavbar from '../parts/Navbar/DefaultNavbar';
 import ArticleListing from '../parts/ArticleListing/ArticleListing';
+import ItemBox from '../parts/ItemBox/ItemBox';
 
 import { getArticlesListing, getUserDataByUsername } from '../parts/ApiCaller/ApiCaller';
 import { IGetArticleListData } from '../parts/ApiCaller/ApiCaller.d';
@@ -90,10 +91,12 @@ export default function UserPage(props: IUserPageProps) {
                 {helmet}
                 <DefaultNavbar />
                 <section>
-                    <h1 className="user-page__title" style={theme.articleTitleStyle}>
-                        {userDisplayName}
-                    </h1>
+                    <ItemBox styleOverride={{ maxWidth: 400}}>
+                        <h1 className="user-page__title" style={theme.articleTitleStyle}>
+                            {userDisplayName}
+                        </h1>
                     {websiteLine}
+                    </ItemBox>
                 </section>
                 {body}
             </div>
@@ -135,10 +138,10 @@ function UserPageErrorPopup(props: IUserPageErrorPopupProps) {
             <Helmet>
                 <title>Error</title>
             </Helmet>
-            <div className="user-page__error-popup item-box">
+            <ItemBox>
                 <h1 className="user-page__error-popup__header">Error</h1>
                 <p className="user-page__error-popup__text">{props.message}</p>
-            </div>
+            </ItemBox>
         </div>
     )
 }

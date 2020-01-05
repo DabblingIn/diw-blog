@@ -25,6 +25,8 @@ import {
     IUpdateArticleDataQuery
 } from '../ApiCaller/ApiCaller.d';
 
+import ItemBox from '../ItemBox/ItemBox';
+
 import { getSubKey, isMegaSub } from '../../subdomains';
 
 import { defaultTheme as theme } from '../../style/themes';
@@ -450,7 +452,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
         }
 
         return (
-            <div className="edit-article-panel item-box">
+            <ItemBox classNames="edit-article-panel">
                 <form>
                     <div>
                         <h1 className="edit-article-panel__header">{this.newArticle() ? 'New' : 'Edit'} Article</h1>
@@ -512,7 +514,7 @@ export default class EditArticlePanel extends React.Component<IEditArticlePanelP
                         </div>
                     </div>
                 </form>
-            </div>
+            </ItemBox>
         );
     }
 }

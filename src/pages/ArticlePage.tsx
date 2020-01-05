@@ -7,6 +7,7 @@ import Article, { IArticleProps } from '../parts/Article/Article';
 
 import * as ApiCaller from '../parts/ApiCaller/ApiCaller';
 import { IGetArticleDataResponse, IGetArticleData } from '../parts/ApiCaller/ApiCaller.d';
+import ItemBox from '../parts/ItemBox/ItemBox';
 
 import { defaultTheme as theme } from '../style/themes';
 import './ArticlePage.css';
@@ -100,10 +101,10 @@ function ArticleErrorPopup(props: IArticleErrorPopupProps) {
             <Helmet>
                 <title>Error</title>
             </Helmet>
-            <div className="article-page__error-popup item-box">
+            <ItemBox classNames="article-page__error-popup">
                 <h1 className="article-page__error-popup__header">Error</h1>
                 <p className="article-page__error-popup__text">{props.message}</p>
-            </div>
+            </ItemBox>
         </div>
     )
 }

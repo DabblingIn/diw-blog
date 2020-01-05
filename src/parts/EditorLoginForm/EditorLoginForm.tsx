@@ -5,6 +5,7 @@ import { IEditorLoginFormReduxMapProps } from './EditorLoginFormContainer';
 
 import { validUsername, validPassword } from '../../util';
 import { postEditorLogin } from '../ApiCaller/ApiCaller';
+import ItemBox from '../ItemBox/ItemBox';
 
 import './EditorLoginForm.css';
 
@@ -162,7 +163,8 @@ export default class EditorLoginForm extends React.Component<IEditorLoginFormPro
         }
 
         return (
-            <form className="editor-loginform item-box">
+            <ItemBox>
+            <form className="editor-loginform">
                 <h2 className="editor-loginform__title">Log In</h2>
 
                 <div className="editor-loginform__field">
@@ -182,6 +184,7 @@ export default class EditorLoginForm extends React.Component<IEditorLoginFormPro
                     <button onClick={this.clickSubmit} disabled={!this.state.submitEnabled} className="editor-loginform__submitbutton">Log In</button>
                 </div>
             </form>
+            </ItemBox>
         );
     }
 }

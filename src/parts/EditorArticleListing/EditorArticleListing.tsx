@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import EditorArticleListItem, { IEditorArticleListItemProps } from './EditorArticleListItem';
 import * as ApiCaller from '../ApiCaller/ApiCaller';
 import { IGetArticlesListingResponse, IGetArticleListData } from '../ApiCaller/ApiCaller.d';
+import ItemBox from '../ItemBox/ItemBox';
 import * as util from '../../util';
 import { getSubKey } from '../../subdomains';
 
@@ -114,7 +115,7 @@ interface INewArticlePopupProps {}
 
 function NewArticlePopup(props: INewArticlePopupProps) {
     return (
-        <div className="editor-article-listing__new-article-popup item-box">
+        <ItemBox classNames="editor-article-listing__new-article-popup">
             <h2 className="editor-article-listing__new-article-popup__title">
                 Which Editor Would You Like?
             </h2>
@@ -128,6 +129,6 @@ function NewArticlePopup(props: INewArticlePopupProps) {
                     HTML
                 </button>
             </Link>
-        </div>
+        </ItemBox>
     )
 }
