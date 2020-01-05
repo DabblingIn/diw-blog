@@ -8,3 +8,10 @@
     padding: 15px 23px;
     margin: 12px 2px;
 }
+
+/* Optional class */
+.item-box-hover-effect:hover {
+    background-color: #eafaff;
+    border-color: black;
+    cursor: pointer;
+}
