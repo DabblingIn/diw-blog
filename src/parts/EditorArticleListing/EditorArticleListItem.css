@@ -3,12 +3,6 @@
     position: relative;
 }
 
-.editor-article-list-item:hover {
-    background-color: #eafaff;
-    border-color: black;
-    cursor: pointer;
-}
-
 .editor-article-list-item__title {
     color: #222;
     font-size: 30px;

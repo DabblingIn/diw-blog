@@ -20,7 +20,7 @@ export interface IArticleListItemProps extends IGetArticleListData {
 export default function ArticleListItem(props: IArticleListItemProps) {
     const articleUrl = megaSub ? util.articleLink(props.articleUrlId, props.articleSub) : util.articleLink(props.articleUrlId);
     return (
-        <ItemBox classNames="article-list-item">
+        <ItemBox classNames="article-list-item" hoverEffect={true}>
             <a className="article-list-item__link" href={articleUrl}>
                 <h3 className="article-list-item__title" style={titleStyle}>{props.articleTitle}</h3>
             </a>

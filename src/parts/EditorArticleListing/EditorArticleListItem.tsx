@@ -34,7 +34,7 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
     public render() {
         const aSub = this.props.articleSub;
         return (
-            <ItemBox classNames="editor-article-list-item">
+            <ItemBox classNames="editor-article-list-item" hoverEffect={true}>
                 <a className="editor-article-list-item__link" href={editorArticleLink(this.props.articleId)}>
                     <h3 className="editor-article-list-item__title" style={theme.articleTitleStyle}>{this.props.articleTitle}</h3>
                 </a>
