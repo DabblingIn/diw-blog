@@ -3,6 +3,7 @@ import Helmet from 'react-helmet';
 import * as mu from '../../metaUtils';
 
 import * as util from '../../util';
+import ItemBox from '../ItemBox/ItemBox';
 import { IGetArticleData } from '../ApiCaller/ApiCaller.d';
 
 import { defaultTheme as theme } from '../../style/themes';
@@ -26,7 +27,8 @@ export default function Article(props: IArticleProps) {
             description={props.articleDescription}
         />
 
-        <article className="article item-box">
+        <ItemBox>
+        <article className="article">
             <h1 className="article__title" style={theme.articleTitleStyle}>
                 {props.articleTitle}
             </h1>
@@ -40,6 +42,7 @@ export default function Article(props: IArticleProps) {
             <div className="article__content" 
                 dangerouslySetInnerHTML={{ __html: props.articleContent }} />
         </article>
+        </ItemBox>
         </div>
     );
 }

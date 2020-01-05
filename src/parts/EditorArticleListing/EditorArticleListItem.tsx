@@ -3,6 +3,7 @@ import * as React from 'react';
 import * as util from '../../util';
 import { deleteArticleById } from '../ApiCaller/ApiCaller';
 import { IGetArticleListData } from '../ApiCaller/ApiCaller.d';
+import ItemBox from '../ItemBox/ItemBox';
 import { getSubOriginLink } from '../../subdomains';
 
 import { defaultTheme as theme } from '../../style/themes';
@@ -33,7 +34,7 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
     public render() {
         const aSub = this.props.articleSub;
         return (
-            <div className="editor-article-list-item item-box">
+            <ItemBox classNames="editor-article-list-item">
                 <a className="editor-article-list-item__link" href={editorArticleLink(this.props.articleId)}>
                     <h3 className="editor-article-list-item__title" style={theme.articleTitleStyle}>{this.props.articleTitle}</h3>
                 </a>
@@ -58,7 +59,7 @@ export default class EditorArticleListItem extends React.Component<IEditorArticl
                         togglePopup={this.toggleDeletePopup}
                     />
                 </div>
-            </div>
+            </ItemBox>
         );
     }
 
@@ -113,7 +114,7 @@ class EditorArticleListItemDeletePopup extends React.Component<IEditorArticleLis
     public render() {
         const { articleTitle, articleUrlId } = this.props;
         return (
-            <div className="editor-article-list-item_delete-popup item-box">
+            <ItemBox classNames="editor-article-list-item_delete-popup">
                 <h2>Are you sure you want to delete "{articleTitle}"
                     (<a href={util.articleLink(articleUrlId)}>{articleUrlId}</a>)?</h2>
                 <div>
@@ -129,7 +130,7 @@ class EditorArticleListItemDeletePopup extends React.Component<IEditorArticleLis
                         No
                     </button>
                 </div>
-            </div>
+            </ItemBox>
         )
     }
 
