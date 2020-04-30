@@ -1,5 +1,3 @@
-.user-page__title {}
-
 .user-page__user-website-link {
     color: #44a;
 }
@@ -25,7 +23,30 @@
     height: 100%;
 }
 
-/* User Pge - Error Popup */
+/* User Info Card */
+.user-info-card {
+    position: relative;
+    max-height: 200px;
+}
+
+.user-info-box__display-name {
+    top: 5px;
+}
+
+.user-info-card__photo-box {
+    width: 150px;
+    height: 150px;
+    display: inline-block;
+}
+.user-info-card__photo-box__photo {
+    width: inherit;
+    height: inherit;
+}
+
+.user-info-card__info-box {}
+
+
+/* User Page - Error Popup */
 .user-page__error-popup__header {
     color: #c11;
 }
