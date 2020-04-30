@@ -139,7 +139,7 @@ const UserInfoCard: SFC<UserInfoCardProps> = ({ website, displayName, picture })
     const websiteLine = websiteLineRender(website);
 
     return (
-        <ItemBox classNames="user-info-card" styleOverride={{ maxWidth: 400 }}>
+        <ItemBox classNames="user-info-card" styleOverride={{ maxWidth: 600 }}>
             { picture &&
                 <div className="user-info-card__photo-box">
                     <img className="user-info-card__photo-box__photo" src={picture} alt={displayName}></img>
