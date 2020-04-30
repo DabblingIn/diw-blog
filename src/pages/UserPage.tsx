@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { SFC, useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import Helmet from 'react-helmet';
 import DefaultNavbar from '../parts/Navbar/DefaultNavbar';
@@ -27,11 +27,16 @@ interface IUserPageMatchParams {
 
 interface IUserPageProps extends RouteComponentProps<IUserPageMatchParams> {}
 
+/**
+ * User Profile Page
+ */
+
 export default function UserPage(props: IUserPageProps) {
     const { username } = props.match.params;
     const [articles, setArticles] = useState([] as IGetArticleListData[]);
     const [userDisplayName, setUserDisplayName] = useState("");
     const [userWebsite, setUserWebsite] = useState("");
+    const [userPicture, setUserPicture] = useState<string>();
     const [errMessage, setErrMessage] = useState("");
 
     // Article Listing
@@ -61,6 +66,7 @@ export default function UserPage(props: IUserPageProps) {
                 }
                 setUserDisplayName(userData.userDisplayName);
                 setUserWebsite(userData.userWebsite);
+                setUserPicture(userData.userPictureUrl);
             })
             .catch(err => setErrMessage("User Data Error:" + err.message));
     }, [username]);
@@ -82,36 +88,16 @@ export default function UserPage(props: IUserPageProps) {
                 </div>
             )
         }
-        let websiteLine = null;
-        if (userWebsite !== "" && userWebsite !== null) {
-            websiteLine = websiteLineRender(userWebsite);
-        }
         return (
             <div className="user-page" style={defaultPageStyle}>
                 {helmet}
                 <DefaultNavbar />
                 <section>
-                    <ItemBox styleOverride={{ maxWidth: 400}}>
-                        <h1 className="user-page__title" style={theme.articleTitleStyle}>
-                            {userDisplayName}
-                        </h1>
-                    {websiteLine}
-                    </ItemBox>
+                    <UserInfoCard displayName={userDisplayName} website={userWebsite} picture={userPicture} />
                 </section>
                 {body}
             </div>
         )
-    }
-
-    function websiteLineRender(website: string) {
-        const cleanSiteLink = userWebsite.replace(/(^\w+:|^)\/\//, '');
-        return (
-           <div className="user-page__user-website-box">
-               <p className="user-page__user-website-line">
-                 <span className="user-page__user-website-line_h1">website&nbsp;</span>&nbsp;
-                 <a className="user-page__user-website-link" href={userWebsite}>{cleanSiteLink}</a>
-               </p>
-           </div>)
     }
 
     // NO ARTICLES (yet)
@@ -128,6 +114,53 @@ export default function UserPage(props: IUserPageProps) {
 }
 
 
+/**
+ * User Profile Info Card
+ */
+
+interface UserInfoCardProps {
+    displayName: string;
+    website: string;
+    picture?: string;
+}
+
+const UserInfoCard: SFC<UserInfoCardProps> = ({ website, displayName, picture }) => {
+    function websiteLineRender(website?: string) {
+        const cleanSiteLink = website ? website.replace(/(^\w+:|^)\/\//, '') : '';
+        return website && (
+           <div className="user-page__user-website-box">
+                <p className="user-page__user-website-line">
+                    <span className="user-page__user-website-line_h1">website&nbsp;</span>&nbsp;
+                    <a className="user-page__user-website-link" href={website}>{cleanSiteLink}</a>
+                </p>
+           </div>);
+    }
+
+    const websiteLine = websiteLineRender(website);
+
+    return (
+        <ItemBox classNames="user-info-card" styleOverride={{ maxWidth: 400 }}>
+            { picture &&
+                <div className="user-info-card__photo-box">
+                    <img className="user-info-card__photo-box__photo" src={picture} alt={displayName}></img>
+                </div>
+            }
+            <div className="user-info-card__info-box" style={{ float: picture ? 'right' : undefined }}>
+                <h1 className="user-info-box__display-name" style={theme.articleTitleStyle}>
+                    {displayName}
+                </h1>
+                {websiteLine}
+            </div>
+        </ItemBox>
+    );
+}
+
+
+
+
+/**
+ * UserPage Error Popup
+ */
 interface IUserPageErrorPopupProps {
     message: string;
 }
