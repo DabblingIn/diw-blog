@@ -43,7 +43,11 @@
     height: inherit;
 }
 
-.user-info-card__info-box {}
+.user-info-card__info-box {
+    display: inline-block;
+    margin: 8px;
+    vertical-align: top;
+}
 
 
 /* User Page - Error Popup */

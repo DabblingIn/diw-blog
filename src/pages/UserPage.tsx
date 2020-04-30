@@ -145,7 +145,7 @@ const UserInfoCard: SFC<UserInfoCardProps> = ({ website, displayName, picture })
                     <img className="user-info-card__photo-box__photo" src={picture} alt={displayName}></img>
                 </div>
             }
-            <div className="user-info-card__info-box" style={{ float: picture ? 'right' : undefined }}>
+            <div className="user-info-card__info-box">
                 <h1 className="user-info-box__display-name" style={theme.articleTitleStyle}>
                     {displayName}
                 </h1>
