@@ -24,12 +24,15 @@
 }
 
 /* User Info Card */
-.user-info-card {
-    position: relative;
-    max-height: 200px;
+/* { maxWidth: 600 } */
+.user_page__user-info-card {
+    text-align: center;
+    margin: auto;
+    width: 95%;
+    max-width: 300px;
 }
 
-.user-info-box__display-name {
+.user-info-card__user-info-box__display-name {
     top: 5px;
 }
 

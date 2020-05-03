@@ -126,12 +126,13 @@ interface UserInfoCardProps {
 
 const UserInfoCard: SFC<UserInfoCardProps> = ({ website, displayName, picture }) => {
     function websiteLineRender(website?: string) {
-        const cleanSiteLink = website ? website.replace(/(^\w+:|^)\/\//, '') : '';
+        const tmpAnchor = document.createElement('a');
+        tmpAnchor.href = website ? website : '';
         return website && (
            <div className="user-page__user-website-box">
                 <p className="user-page__user-website-line">
                     <span className="user-page__user-website-line_h1">website&nbsp;</span>&nbsp;
-                    <a className="user-page__user-website-link" href={website}>{cleanSiteLink}</a>
+                    <a className="user-page__user-website-link" href={website}>{tmpAnchor.hostname}</a>
                 </p>
            </div>);
     }
@@ -139,17 +140,19 @@ const UserInfoCard: SFC<UserInfoCardProps> = ({ website, displayName, picture })
     const websiteLine = websiteLineRender(website);
 
     return (
-        <ItemBox classNames="user-info-card" styleOverride={{ maxWidth: 600 }}>
-            { picture &&
-                <div className="user-info-card__photo-box">
-                    <img className="user-info-card__photo-box__photo" src={picture} alt={displayName}></img>
+        <ItemBox classNames="user_page__user-info-card">
+            <div className="">
+                { picture &&
+                    <div className="user-info-card__photo-box">
+                        <img className="user-info-card__photo-box__photo" src={picture} alt={displayName}></img>
+                    </div>
+                }
+                <div className="user-info-card__info-box">
+                    <h1 className="user-info-card__user-info-box__display-name" style={theme.articleTitleStyle}>
+                        {displayName}
+                    </h1>
+                    {websiteLine}
                 </div>
-            }
-            <div className="user-info-card__info-box">
-                <h1 className="user-info-box__display-name" style={theme.articleTitleStyle}>
-                    {displayName}
-                </h1>
-                {websiteLine}
             </div>
         </ItemBox>
     );
