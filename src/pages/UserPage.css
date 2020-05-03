@@ -44,6 +44,7 @@
 .user-info-card__photo-box__photo {
     width: inherit;
     height: inherit;
+    box-shadow: 1px 1px 15px;
 }
 
 .user-info-card__info-box {
