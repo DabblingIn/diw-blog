@@ -27,7 +27,7 @@
     "react-router-dom": "^5.0.0",
     "react-scripts": "^3.3.0",
     "redux": "^4.0.1",
-    "sanitize-html": "^1.20.1",
+    "sanitize-html": "^2.3.2",
     "showdown": "^1.9.1",
     "typescript": "3.5.1",
     "universal-analytics": "^0.4.20"
